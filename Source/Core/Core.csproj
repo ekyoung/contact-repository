@@ -44,7 +44,14 @@
     <Reference Include="FluentMigrator.Runner">
       <HintPath>..\packages\FluentMigrator.Tools.1.1.1.0\tools\AnyCPU\40\FluentMigrator.Runner.dll</HintPath>
     </Reference>
+    <Reference Include="IBatisNet.Common">
+      <HintPath>..\..\ExternalAssemblies\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper">
+      <HintPath>..\..\ExternalAssemblies\IBatisNet.DataMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,17 +63,35 @@
     <Compile Include="Bootstrapping\BootstrappingService.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration001.cs" />
     <Compile Include="Bootstrapping\Migrations\Migrator.cs" />
+    <Compile Include="Contacts\Contact.cs" />
+    <Compile Include="Contacts\ContactService.cs" />
+    <Compile Include="Contacts\IContactRepository.cs" />
     <Compile Include="DependencyInstaller.cs" />
     <Compile Include="DependencyRegistry.cs" />
     <Compile Include="EmailAddress.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="IValueObject.cs" />
     <Compile Include="Name.cs" />
+    <Compile Include="Persistence\Contacts\IContactQueryExecutor.cs" />
+    <Compile Include="Persistence\Contacts\ContactQueryExecutor.cs" />
+    <Compile Include="Persistence\Contacts\ContactRepository.cs" />
+    <Compile Include="Persistence\PersistenceInstaller.cs" />
+    <Compile Include="Persistence\QueryExecutor.cs" />
+    <Compile Include="Persistence\SqlMapperFactory.cs" />
+    <Compile Include="Persistence\TypeHandlerCallbacks\EmailAddressTypeHandlerCallback.cs" />
+    <Compile Include="Persistence\TypeHandlerCallbacks\PhoneNumberTypeHandlerCallback.cs" />
     <Compile Include="PhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <EmbeddedResource Include="Persistence\providers.config" />
+    <EmbeddedResource Include="Persistence\sqlMap.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Persistence\Contacts\Contact.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

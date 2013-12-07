@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="Contact" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="Contact" type="EthanYoung.ContactRepository.Contacts.Contact, EthanYoung.ContactRepository"/>
+    <typeAlias alias="Name" type="EthanYoung.ContactRepository.Name, EthanYoung.ContactRepository"/>
+  </alias>
+  
+  <typeHandlers>
+  </typeHandlers>
+
+  <resultMaps>
+    <resultMap id="NameRM" class="Name">
+      <constructor>
+        <argument argumentName="first" column="FirstName"/>
+        <argument argumentName="last" column="LastName"/>
+      </constructor>
+    </resultMap>
+    <resultMap id="ContactRM" class="Contact">
+      <result property="Id" column="ContactId"/>
+      <result property="Identifier" column="ContactIdentifier"/>
+      <result property="Name"  resultMapping="Contact.NameRM"/>
+    </resultMap>
+  </resultMaps>
+
+  <parameterMaps>
+    <parameterMap id="ContactPM" class="Contact">
+      <parameter property="Identifier" column="ContactIdentifier" />
+      <parameter property="Name.First" column="FirstName"/>
+      <parameter property="Name.Last" column="LastName"/>
+    </parameterMap>
+    <parameterMap id="UpdateContactPM" class="Contact" extends="ContactPM">
+      <parameter property="Id" column="ContactId"/>
+    </parameterMap>
+  </parameterMaps>
+
+  <statements>
+    <insert id="InsertContact" parameterMap="ContactPM">
+      <generate table="Contacts" />
+      <selectKey resultClass="long" type="post" property="Id">
+        SELECT @@IDENTITY as value
+      </selectKey>
+    </insert>
+
+    <update id="UpdateContact" parameterMap="UpdateContactPM">
+      <generate table="Contacts" by="ContactId" />
+    </update>
+
+    <select id="SelectContactByIdentifier" resultMap="ContactRM" parameterClass="guid">
+      SELECT *
+      FROM Contacts (NOLOCK)
+      WHERE ContactIdentifier = #value#
+    </select>
+  </statements>
+</sqlMap>

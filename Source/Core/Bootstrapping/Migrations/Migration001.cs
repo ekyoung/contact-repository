@@ -8,7 +8,7 @@ namespace EthanYoung.ContactRepository.Bootstrapping.Migrations
         public override void Up()
         {
             Create.Table("Contacts")
-                  .WithColumn("ContactId").AsInt64().NotNullable().PrimaryKey()
+                  .WithColumn("ContactId").AsInt64().Identity().PrimaryKey()
                   .WithColumn("ContactIdentifier").AsGuid().NotNullable().Unique()
                   .WithColumn("FirstName").AsCustom("varchar(100)").NotNullable()
                   .WithColumn("LastName").AsCustom("varchar(100)").NotNullable();
