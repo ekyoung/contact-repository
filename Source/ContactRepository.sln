@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{AACDCB36-454F-4200-BBB1-46D5A97B5B16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{A812C404-0302-4035-978D-BABBADDD4C28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{644D7421-167D-4A61-BE79-9401B82ED10F}"
+	ProjectSection(SolutionItems) = preProject
+		Build.proj = Build.proj
+		.build\MSBuild.Community.Tasks.dll = .build\MSBuild.Community.Tasks.dll
+		.build\MSBuild.Community.Tasks.targets = .build\MSBuild.Community.Tasks.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D53217CD-E15A-44CE-8D9C-17BC46441D1D}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AACDCB36-454F-4200-BBB1-46D5A97B5B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AACDCB36-454F-4200-BBB1-46D5A97B5B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AACDCB36-454F-4200-BBB1-46D5A97B5B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AACDCB36-454F-4200-BBB1-46D5A97B5B16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A812C404-0302-4035-978D-BABBADDD4C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A812C404-0302-4035-978D-BABBADDD4C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A812C404-0302-4035-978D-BABBADDD4C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A812C404-0302-4035-978D-BABBADDD4C28}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
