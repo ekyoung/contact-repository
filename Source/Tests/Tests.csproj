@@ -42,18 +42,34 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TechTalk.SpecFlow">
+      <HintPath>..\packages\SpecFlow.1.9.0\lib\net35\TechTalk.SpecFlow.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcceptanceTests\Bootstrapping\BootstrappingServiceCanCreateTheSchemaInABlankDatabase.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BootstrappingServiceCanCreateTheSchemaInABlankDatabase.feature</DependentUpon>
+    </Compile>
+    <Compile Include="AcceptanceTests\Bootstrapping\BootstrappingServiceSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTests\EmailAddressTests.cs" />
     <Compile Include="UnitTests\NameTests.cs" />
     <Compile Include="UnitTests\PhoneNumberTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AcceptanceTests\Bootstrapping\BootstrappingServiceCanCreateTheSchemaInABlankDatabase.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BootstrappingServiceCanCreateTheSchemaInABlankDatabase.feature.cs</LastGenOutput>
+    </None>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AcceptanceTests\" />
+    <Content Include="AcceptanceTests\Bootstrapping\CreateBlankDb.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
