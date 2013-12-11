@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace EthanYoung.ContactRepository.Contacts
 {
@@ -16,6 +17,11 @@ namespace EthanYoung.ContactRepository.Contacts
             _contactRepository.Save(contact);
         }
 
+        public List<IContact> FindAll()
+        {
+            return _contactRepository.FindAll();
+        }
+
         public IContact FindByIdentifier(Guid identifier)
         {
             return _contactRepository.FindByIdentifier(identifier);
@@ -26,5 +32,6 @@ namespace EthanYoung.ContactRepository.Contacts
     {
         void Save(IContact contact);
         IContact FindByIdentifier(Guid identifier);
+        List<IContact> FindAll();
     }
 }

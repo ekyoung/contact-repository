@@ -45,6 +45,11 @@
       <generate table="Contacts" by="ContactId" />
     </update>
 
+    <select id="SelectAllContacts" resultMap="ContactRM" parameterClass="guid">
+      SELECT *
+      FROM Contacts (NOLOCK)
+    </select>
+    
     <select id="SelectContactByIdentifier" resultMap="ContactRM" parameterClass="guid">
       SELECT *
       FROM Contacts (NOLOCK)

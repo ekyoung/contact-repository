@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using EthanYoung.ContactRepository.Contacts;
 
 namespace EthanYoung.ContactRepository.Persistence.Contacts
@@ -22,6 +23,11 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
             {
                 _queryExecutor.Update(contact);
             }
+        }
+
+        public List<IContact> FindAll()
+        {
+            return _queryExecutor.SelectAll();
         }
 
         public IContact FindByIdentifier(Guid identifier)

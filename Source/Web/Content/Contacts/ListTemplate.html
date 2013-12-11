@@ -1,0 +1,21 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        Contacts
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Identifier</th>
+                <th>First</th>
+                <th>Last</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="contact in contacts">
+                <td>{{contact.Identifier}}</td>
+                <td>{{contact.FirstName}}</td>
+                <td>{{contact.LastName}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
