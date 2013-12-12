@@ -164,10 +164,10 @@
     <Content Include="Content\bootstrap-3.0.2\js\bootstrap.js" />
     <Content Include="Content\bootstrap-3.0.2\js\bootstrap.min.js" />
     <Content Include="Content\Common\Main.css" />
-    <Content Include="Content\Contacts\ListTemplate.html" />
+    <Content Include="Content\Contacts\ListContacts.html" />
     <Content Include="Content\Contacts\ContactsApp.js" />
     <Content Include="Content\Contacts\ContactsControllers.js" />
-    <Content Include="Content\Contacts\ContactTemplate.html" />
+    <Content Include="Content\Contacts\EditContact.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\bootstrap-3.0.2\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-3.0.2\fonts\glyphicons-halflings-regular.ttf" />

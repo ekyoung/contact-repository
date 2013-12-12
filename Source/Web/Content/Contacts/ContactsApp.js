@@ -6,19 +6,25 @@
 contactsApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
-            when('/contacts/:contactIdentifier', {
-                templateUrl: '/Content/Contacts/ContactTemplate.html',
-                controller: 'contactController'
+            when('/edit/:contactIdentifier', {
+                templateUrl: '/Content/Contacts/EditContact.html',
+                controller: 'editController'
+            }).
+            when('/delete/:contactIdentifier', {
+                templateUrl: '/Content/Contacts/DeleteContact.html',
+                controller: 'deleteController'
             }).
             otherwise({
-                templateUrl: '/Content/Contacts/ListTemplate.html',
+                templateUrl: '/Content/Contacts/ListContacts.html',
                 controller: 'listController'
             });
     }]);
 
 contactsApp.service('contactsData', function () {
     var contacts = [];
+    var alerts = [];
     return {
-        contacts: contacts
+        contacts: contacts,
+        alerts: alerts
     };
 });
