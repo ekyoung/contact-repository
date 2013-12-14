@@ -1,6 +1,6 @@
 ﻿var contactsControllers = angular.module('contactsControllers', []);
 
-contactsControllers.controller('listController', ['$http', '$scope', 'alerts', function slideController($http, $scope, alerts) {
+contactsControllers.controller('listController', ['$http', '$scope', 'alerts', function ($http, $scope, alerts) {
     $http.get('/api/contacts')
         .success(function(data) {
             $scope.contacts = data;
@@ -9,7 +9,27 @@ contactsControllers.controller('listController', ['$http', '$scope', 'alerts', f
     alerts.displayAlerts($scope);
 }]);
 
-contactsControllers.controller('editController', ['$http', '$scope', '$routeParams', '$location', 'alerts', function slideController($http, $scope, $routeParams, $location, alerts) {
+contactsControllers.controller('createController', ['$http', '$scope', '$location', 'alerts', function ($http, $scope, $location, alerts) {
+    $scope.contact = {
+        FirstName: null,
+        LastName: null
+    };
+    
+    $scope.save = function() {
+        $http.post('/api/contacts', angular.toJson($scope.contact))
+            .success(function(data) {
+                alerts.addSuccess('A new contact has been created.');
+                $location.path('/');
+            });
+    };
+
+    $scope.cancel = function () {
+        alerts.addInfo('Creation of a new contact has been cancelled.');
+        $location.path('/');
+    };
+}]);
+
+contactsControllers.controller('editController', ['$http', '$scope', '$routeParams', '$location', 'alerts', function ($http, $scope, $routeParams, $location, alerts) {
     $http.get('/api/contacts/' + $routeParams.contactIdentifier)
         .success(function(data) {
             $scope.contact = data;

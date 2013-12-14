@@ -6,6 +6,10 @@
 contactsApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
+            when('/create', {
+                templateUrl: '/Content/Contacts/CreateContact.html',
+                controller: 'createController'
+            }).
             when('/edit/:contactIdentifier', {
                 templateUrl: '/Content/Contacts/EditContact.html',
                 controller: 'editController'

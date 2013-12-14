@@ -1,7 +1,8 @@
 ﻿describe('Contacts Controllers', function () {
     beforeEach(module('contactsApp'));
 
-    var alerts;
+    var alerts,
+        apiRoot = '/api';
 
     beforeEach(function() {
         alerts = {
@@ -13,8 +14,6 @@
 
     describe('listController', function () {
         var $httpBackend, $scope, createController;
-
-        var apiRoot = '/api';
         
         beforeEach(inject(function ($injector) {
             // Set up the mock http service responses
@@ -49,15 +48,98 @@
         });
     });
 
+    describe('createController', function() {
+        var $httpBackend, $scope, $location, createController;
+
+        beforeEach(inject(function($injector) {
+            $httpBackend = $injector.get('$httpBackend');
+
+            $scope = $injector.get('$rootScope');
+
+            $location = $injector.get('$location');
+            $location.path('/create');
+
+            var $controller = $injector.get('$controller');
+
+            createController = function () {
+                return $controller('createController', { $scope: $scope, $location: $location, alerts: alerts });
+            };
+        }));
+
+        afterEach(function () {
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+
+        it('should set an empty contact on the scope in all cases', function() {
+            var controller = createController();
+
+            expect($scope.contact.FirstName).toBe(null);
+            expect($scope.contact.LastName).toBe(null);
+        });
+
+        it('should post json for the contact to the server when save is clicked', function () {
+            var contact = {
+                FirstName: 'Joe',
+                LastName: 'Contact'
+            };
+            
+            var controller = createController();
+            $scope.contact = contact;
+
+            $httpBackend.expectPOST(apiRoot + '/contacts', angular.toJson(contact)).respond(201, '');
+
+            $scope.save();
+
+            $httpBackend.flush();
+        });
+        
+        it('should redirect to the list view when save is clicked and the operation is successful', function () {
+            var controller = createController();
+
+            $scope.save();
+
+            $httpBackend.when('POST', apiRoot + '/contacts').respond(201, '');
+            $httpBackend.flush();
+
+            expect($location.path()).toBe('/');
+        });
+
+        it('should set an alert on the contacts data when save is clicked and the operation is successful', function () {
+            var controller = createController();
+
+            $scope.save();
+
+            $httpBackend.when('POST', apiRoot + '/contacts').respond(201, '');
+            $httpBackend.flush();
+
+            expect(alerts.addSuccess).toHaveBeenCalledWith('A new contact has been created.');
+        });
+
+        it('should redirect to the list view when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect($location.path()).toBe('/');
+        });
+
+        it('should set an alert on the contacts data when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect(alerts.addInfo).toHaveBeenCalledWith('Creation of a new contact has been cancelled.');
+        });
+    });
+    
     describe('editController', function () {
         var $httpBackend, $scope, $routeParams, $location, createController;
 
-        var apiRoot = '/api';
         var contactIdentifier = 'id1';
         var contact = { Identifier: contactIdentifier, FirstName: 'Joe', LastName: 'One' };
 
         beforeEach(inject(function ($injector) {
-            // Set up the mock http service responses
             $httpBackend = $injector.get('$httpBackend');
             $httpBackend.when('GET', apiRoot + '/contacts/' + contactIdentifier).respond(contact);
 
@@ -69,7 +151,6 @@
             $location = $injector.get('$location');
             $location.path('/edit/' + contactIdentifier);
 
-            // The $controller service is used to create instances of controllers
             var $controller = $injector.get('$controller');
 
             createController = function () {
@@ -107,7 +188,7 @@
             expect(alerts.addInfo).toHaveBeenCalledWith('Changes to the contact have been cancelled.');
         });
 
-        it('should put some data to the server when save is clicked', function() {
+        it('should put json for the contact to the server when save is clicked', function() {
             var controller = createController();
             $httpBackend.flush();
 
