@@ -2,8 +2,8 @@
 
 namespace EthanYoung.ContactRepository.Bootstrapping.Migrations
 {
-    [Migration(1)]
-    public class Migration001 : Migration
+    [Migration(201312071339)]
+    public class Migration201312071339_CreateContactsTable : Migration
     {
         public override void Up()
         {

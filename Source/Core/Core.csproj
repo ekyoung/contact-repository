@@ -61,9 +61,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapping\BootstrappingService.cs" />
-    <Compile Include="Bootstrapping\Migrations\Migration001.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201312141425_CreateContactEmailAddressesTable.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201312071339_CreateContactsTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migrator.cs" />
     <Compile Include="Contacts\Contact.cs" />
+    <Compile Include="Contacts\ContactEmailAddress.cs" />
     <Compile Include="Contacts\ContactService.cs" />
     <Compile Include="Contacts\IContactRepository.cs" />
     <Compile Include="DependencyInstaller.cs" />
@@ -73,9 +75,12 @@
     <Compile Include="IService.cs" />
     <Compile Include="IValueObject.cs" />
     <Compile Include="Name.cs" />
+    <Compile Include="Persistence\Contacts\ContactEmailAddressQueryExecutor.cs" />
+    <Compile Include="Persistence\Contacts\IContactEmailAddressQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\IContactQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\ContactQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\ContactRepository.cs" />
+    <Compile Include="Persistence\Contacts\PersistedContact.cs" />
     <Compile Include="Persistence\PersistenceInstaller.cs" />
     <Compile Include="Persistence\QueryExecutor.cs" />
     <Compile Include="Persistence\SqlMapperFactory.cs" />
@@ -99,7 +104,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Persistence\Contacts\Contact.xml" />
   </ItemGroup>

@@ -6,38 +6,46 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
 {
     public class ContactRepository : IContactRepository
     {
-        private readonly IContactQueryExecutor _queryExecutor;
+        private readonly IContactQueryExecutor _contactQueryExecutor;
+        private readonly IContactEmailAddressQueryExecutor _contactEmailAddressQueryExecutor;
 
-        public ContactRepository(IContactQueryExecutor queryExecutor)
+        public ContactRepository(IContactQueryExecutor contactQueryExecutor, IContactEmailAddressQueryExecutor contactEmailAddressQueryExecutor)
         {
-            _queryExecutor = queryExecutor;
+            _contactQueryExecutor = contactQueryExecutor;
+            _contactEmailAddressQueryExecutor = contactEmailAddressQueryExecutor;
         }
 
         public void Save(IContact contact)
         {
             if (contact.Id == null)
             {
-                _queryExecutor.Insert(contact);
+                _contactQueryExecutor.Insert(contact);
             }
             else
             {
-                _queryExecutor.Update(contact);
+                _contactQueryExecutor.Update(contact);
+                _contactEmailAddressQueryExecutor.DeleteByContactId(contact.Id.Value);
+            }
+
+            foreach (var contactEmailAddress in contact.EmailAddresses)
+            {
+                _contactEmailAddressQueryExecutor.Insert(contact.Id.Value, contactEmailAddress);
             }
         }
 
         public List<IContact> FindAll()
         {
-            return _queryExecutor.SelectAll();
+            return _contactQueryExecutor.SelectAll();
         }
 
         public IContact FindByIdentifier(Guid identifier)
         {
-            return _queryExecutor.SelectByIdentifier(identifier);
+            return _contactQueryExecutor.SelectByIdentifier(identifier);
         }
 
         public void DeleteByIdentifier(Guid identifier)
         {
-            _queryExecutor.DeleteByIdentifier(identifier);
+            _contactQueryExecutor.DeleteByIdentifier(identifier);
         }
     }
 }

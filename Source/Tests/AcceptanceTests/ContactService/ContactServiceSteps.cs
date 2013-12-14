@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using EthanYoung.ContactRepository.Contacts;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -10,62 +11,128 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
     {
         private readonly IContactService _service = DependencyRegistry.Resolve<IContactService>();
 
-        private IContact _savedContact;
+        private IContact _contact;
         private IContact _retrievedContact;
 
         [BeforeScenario]
         public void BeforeScenario()
         {
-            _savedContact = null;
+            _contact = null;
             _retrievedContact = null;
         }
 
-        [Given(@"I save a new contact")]
-        public void GivenISaveANewContact()
+        [Given(@"I create a contact")]
+        public void GivenICreateAContact()
         {
-            _savedContact = new Contact
+            _contact = new Contact
             {
                 Identifier = Guid.NewGuid(),
                 Name = new Name("Joe", "Contact")
             };
-
-            _service.Save(_savedContact);
         }
 
-        [Given(@"I change the name of the saved contact")]
-        public void GivenIChangeTheNameOfTheSavedContact()
+        [Given(@"I set email address (.*\.com) on the contact")]
+        public void GivenISetEmailAddressOnTheContact(EmailAddress emailAddress)
         {
-            _savedContact.Name = new Name("Joe", "Updated");
+            _contact.SetEmailAddress(emailAddress, null);
+        }
+
+        [Given(@"I set email address (.*\.com) with nickname (.*) on the contact")]
+        public void GivenISetEmailAddressWithNicknameOnTheContact(EmailAddress emailAddress, string nickname)
+        {
+            _contact.SetEmailAddress(emailAddress, nickname);
+        }
+
+        [Given(@"I set email address (.*\.com) as the primary email address of the contact")]
+        public void GivenISetEmailAddressAsThePrimaryEmailAddressOfTheContact(EmailAddress emailAddress)
+        {
+            _contact.PrimaryEmailAddress = emailAddress;
+        }
+
+        [Given(@"I save the contact")]
+        public void GivenISaveTheContact()
+        {
+            _service.Save(_contact);
+        }
+
+        [Given(@"I change the name of the contact")]
+        public void GivenIChangeTheNameOfTheContact()
+        {
+            _contact.Name = new Name("Joe", "Updated");
         }
 
         [Given(@"I save the contact again")]
         public void GivenISaveTheContactAgain()
         {
-            _service.Save(_savedContact);
+            _service.Save(_contact);
         }
 
         [Given(@"I delete the contact")]
         public void GivenIDeleteTheContact()
         {
-            _service.DeleteByIdentifier(_savedContact.Identifier);
+            _service.DeleteByIdentifier(_contact.Identifier);
         }
 
         [When(@"I retrieve the contact")]
         public void WhenIRetrieveTheContact()
         {
-            _retrievedContact = _service.FindByIdentifier(_savedContact.Identifier);
-        }
-        
-        [Then(@"the name of the retrieved contact is equal to the name of the contact I saved")]
-        public void ThenTheNameOfTheRetrievedContactIsEqualToTheNameOfTheContactISaved()
-        {
-            Assert.AreEqual(_savedContact.Name, _retrievedContact.Name);
+            _retrievedContact = _service.FindByIdentifier(_contact.Identifier);
         }
 
         [Then(@"the retrieved contact is null")]
         public void ThenTheRetrievedContactIsNull()
         {
             Assert.IsNull(_retrievedContact);
+        }
+
+        [Then(@"the name of the retrieved contact is equal to the name of the contact")]
+        public void ThenTheNameOfTheRetrievedContactIsEqualToTheNameOfTheContact()
+        {
+            Assert.AreEqual(_contact.Name, _retrievedContact.Name);
+        }
+
+        [Then(@"the contact has (.*) email address")]
+        [Then(@"the contact has (.*) email addresses")]
+        public void ThenTheContactHasCountEmailAddress(int count)
+        {
+            Assert.AreEqual(count, _contact.EmailAddresses.Count);
+        }
+
+        [Then(@"the contact has email address (.*\.com) with nickname (.*)")]
+        public void ThenTheContactHasEmailAddressWithNickname(EmailAddress emailAddress, string nickname)
+        {
+            AssertContactHasEmailAddressWithNickname(_contact, emailAddress, nickname);
+        }
+
+        [Then(@"the contact has email address (.*\.com) with null nickname")]
+        public void ThenTheContactHasEmailAddressWithNullNickname(EmailAddress emailAddress)
+        {
+            AssertContactHasEmailAddressWithNickname(_contact, emailAddress, null);
+        }
+
+        [Then(@"the retrieved contact has email address (.*\.com) with nickname (.*)")]
+        public void ThenTheRetrievedContactHasEmailAddressWithNickname(EmailAddress emailAddress, string nickname)
+        {
+            AssertContactHasEmailAddressWithNickname(_retrievedContact, emailAddress, nickname);
+        }
+
+        private void AssertContactHasEmailAddressWithNickname(IContact contact, EmailAddress emailAddress, string nickname)
+        {
+            var contactEmailAddress = contact.EmailAddresses.FirstOrDefault(x => x.EmailAddress == emailAddress);
+            Assert.IsNotNull(contactEmailAddress);
+            Assert.AreEqual(nickname, contactEmailAddress.Nickname);
+        }
+
+        [Then(@"the primary email address of the contact is (.*\.com)")]
+        public void ThenThePrimaryEmailAddressOfTheContactIs(EmailAddress emailAddress)
+        {
+            Assert.AreEqual(emailAddress, _contact.PrimaryEmailAddress);
+        }
+
+        [Then(@"the primary email address of the retrieved contact is (.*\.com)")]
+        public void ThenThePrimaryEmailAddressOfTheRetrievedContactIs(EmailAddress emailAddress)
+        {
+            Assert.AreEqual(emailAddress, _retrievedContact.PrimaryEmailAddress);
         }
     }
 }

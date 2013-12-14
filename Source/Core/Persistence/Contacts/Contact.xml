@@ -2,7 +2,9 @@
 <sqlMap namespace="Contact" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="Contact" type="EthanYoung.ContactRepository.Contacts.Contact, EthanYoung.ContactRepository"/>
+    <typeAlias alias="PersistedContact" type="EthanYoung.ContactRepository.Persistence.Contacts.PersistedContact, EthanYoung.ContactRepository"/>
     <typeAlias alias="Name" type="EthanYoung.ContactRepository.Name, EthanYoung.ContactRepository"/>
+    <typeAlias alias="ContactEmailAddress" type="EthanYoung.ContactRepository.Contacts.ContactEmailAddress, EthanYoung.ContactRepository"/>
   </alias>
   
   <typeHandlers>
@@ -15,10 +17,16 @@
         <argument argumentName="last" column="LastName"/>
       </constructor>
     </resultMap>
-    <resultMap id="ContactRM" class="Contact">
+    <resultMap id="ContactRM" class="PersistedContact">
       <result property="Id" column="ContactId"/>
       <result property="Identifier" column="ContactIdentifier"/>
-      <result property="Name"  resultMapping="Contact.NameRM"/>
+      <result property="Name" resultMapping="Contact.NameRM"/>
+      <result property="PersistedEmailAddresses" column="ContactId" select="SelectContactEmailAddressesByContactId" />
+    </resultMap>
+    <resultMap id="ContactEmailAddressRM" class="ContactEmailAddress">
+      <result property="EmailAddress" column="EmailAddress"/>
+      <result property="Nickname" column="Nickname"/>
+      <result property="IsPrimary" column="IsPrimary"/>
     </resultMap>
   </resultMaps>
 
@@ -34,6 +42,7 @@
   </parameterMaps>
 
   <statements>
+    <!-- Contacts -->
     <insert id="InsertContact" parameterMap="ContactPM">
       <generate table="Contacts" />
       <selectKey resultClass="long" type="post" property="Id">
@@ -59,6 +68,23 @@
     <delete id="DeleteContactByIdentifier" parameterClass="guid">
       DELETE FROM Contacts
       WHERE ContactIdentifier = #value#
+    </delete>
+  
+    <!-- Contact Email Addresses-->
+    <insert id="InsertContactEmailAddress" parameterClass="hashmap">
+      INSERT INTO ContactEmailAddresses (ContactId, EmailAddress, Nickname, IsPrimary)
+      VALUES (#ContactId#, #EmailAddress#, #Nickname#, #IsPrimary#)
+    </insert>
+    
+    <select id="SelectContactEmailAddressesByContactId" resultMap="ContactEmailAddressRM" parameterClass="long">
+      SELECT *
+      FROM ContactEmailAddresses
+      WHERE ContactId = #value#
+    </select>
+    
+    <delete id="DeleteContactEmailAddressesByContactId" parameterclass="long">
+      DELETE FROM ContactEmailAddresses
+      WHERE ContactId = #value#
     </delete>
   </statements>
 </sqlMap>
