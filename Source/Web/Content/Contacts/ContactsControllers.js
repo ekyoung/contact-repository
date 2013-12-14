@@ -7,7 +7,7 @@ contactsControllers.controller('listController', ['$http', '$scope', 'contactsDa
         });
 
     $scope.alerts = contactsData.alerts;
-    contactsData.alerts = [];
+    contactsData.clearAlerts();
 }]);
 
 contactsControllers.controller('editController', ['$http', '$scope', '$routeParams', '$location', 'contactsData', function slideController($http, $scope, $routeParams, $location, contactsData) {
@@ -16,12 +16,16 @@ contactsControllers.controller('editController', ['$http', '$scope', '$routePara
             $scope.contact = data;
         });
 
-    $scope.save = function() {
-
+    $scope.save = function () {
+        $http.put('/api/contacts/' + $routeParams.contactIdentifier, angular.toJson($scope.contact))
+            .success(function(data) {
+                contactsData.addAlert('Changes to the contact have been saved.', 'success');
+                $location.path('/');
+            });
     };
 
     $scope.cancel = function () {
-        contactsData.alerts.push({ text: 'Changes to the contact have been cancelled.', type: 'info' });
+        contactsData.addAlert('Changes to the contact have been cancelled.', 'info');
         $location.path('/');
     };
 }]);

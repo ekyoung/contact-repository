@@ -29,6 +29,24 @@ namespace Web.Controllers
             return ToModel(_service.FindByIdentifier(identifier));
         }
 
+        //// POST api/contacts
+        //public void Post([FromBody]ContactModel contactModel)
+        //{
+        //}
+
+        // PUT api/contacts/{guid}
+        public void Put(Guid identifier, [FromBody]ContactModel contactModel)
+        {
+            IContact contact = _service.FindByIdentifier(contactModel.Identifier);
+            MapFromModel(contact, contactModel);
+            _service.Save(contact);
+        }
+
+        //// DELETE api/contacts/{guid}
+        //public void Delete(Guid identifier)
+        //{
+        //}
+
         private ContactModel ToModel(IContact contact)
         {
             return new ContactModel
@@ -38,19 +56,10 @@ namespace Web.Controllers
                 LastName = contact.Name.Last
             };
         }
-        //// POST api/values
-        //public void Post([FromBody]string value)
-        //{
-        //}
 
-        //// PUT api/values/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE api/values/5
-        //public void Delete(int id)
-        //{
-        //}
+        private void MapFromModel(IContact contact, ContactModel contactModel)
+        {
+            contact.Name = new Name(contactModel.FirstName, contactModel.LastName);
+        }
     }
 }

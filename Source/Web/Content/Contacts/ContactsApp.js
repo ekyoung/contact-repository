@@ -25,6 +25,12 @@ contactsApp.service('contactsData', function () {
     var alerts = [];
     return {
         contacts: contacts,
-        alerts: alerts
+        alerts: alerts,
+        addAlert: function(text, type) {
+            this.alerts.push({ text: text, type: type });
+        },
+        clearAlerts: function() {
+            this.alerts = [];
+        }
     };
 });

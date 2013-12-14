@@ -12,8 +12,18 @@
 
             $scope = $injector.get('$rootScope');
 
-            contactsData = {};
-            
+            //TODO: Figure out how to make a real alert thingy
+            var alerts = [];
+            contactsData = {
+                alerts: alerts,
+                addAlert: function (text, type) {
+                    this.alerts.push({ text: text, type: type });
+                },
+                clearAlerts: function () {
+                    this.alerts = [];
+                }
+            };
+
             // The $controller service is used to create instances of controllers
             var $controller = $injector.get('$controller');
 
@@ -41,7 +51,7 @@
         });
 
         it('should clear the alerts in all cases', function () {
-            contactsData.alerts = [{ text: 'The alert text', type: 'info' }];
+            contactsData.addAlert('The alert text', 'info');
 
             var controller = createController();
 
@@ -54,10 +64,12 @@
 
         var apiRoot = '/api';
         var contactIdentifier = 'id1';
+        var contact = { Identifier: contactIdentifier, FirstName: 'Joe', LastName: 'One' };
 
         beforeEach(inject(function ($injector) {
             // Set up the mock http service responses
             $httpBackend = $injector.get('$httpBackend');
+            $httpBackend.when('GET', apiRoot + '/contacts/' + contactIdentifier).respond(contact);
 
             $scope = $injector.get('$rootScope');
 
@@ -66,8 +78,18 @@
 
             $location = $injector.get('$location');
             $location.path('/edit/' + contactIdentifier);
-            
-            contactsData = {alerts: []};
+
+            //TODO: Figure out how to make a real alert thingy
+            var alerts = [];
+            contactsData = {
+                alerts: alerts,
+                addAlert: function (text, type) {
+                    this.alerts.push({ text: text, type: type });
+                },
+                clearAlerts: function() {
+                    this.alerts = [];
+                }
+            };
 
             // The $controller service is used to create instances of controllers
             var $controller = $injector.get('$controller');
@@ -76,11 +98,13 @@
                 return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location, contactsData: contactsData });
             };
         }));
-
+        
+        afterEach(function() {
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+        
         it('should set a contact on the scope when given a contact', function () {
-            var contact = { Identifier: contactIdentifier, FirstName: 'Joe', LastName: 'One' };
-            $httpBackend.when('GET', apiRoot + '/contacts/' + contactIdentifier).respond(contact);
-            
             var controller = createController();
             $httpBackend.flush();
 
@@ -89,6 +113,8 @@
 
         it('should redirect to the list view when cancel is clicked', function () {
             var controller = createController();
+            $httpBackend.flush();
+
             $scope.cancel();
 
             expect($location.path()).toBe('/');
@@ -96,9 +122,46 @@
 
         it('should set an alert on the contacts data when cancel is clicked', function () {
             var controller = createController();
+            $httpBackend.flush();
+
             $scope.cancel();
 
-            expect(contactsData.alerts.length).toBe(1);
+            expect(contactsData.alerts[0].text).toBe('Changes to the contact have been cancelled.');
+        });
+
+        it('should put some data to the server when save is clicked', function() {
+            var controller = createController();
+            $httpBackend.flush();
+
+            $httpBackend.expectPUT(apiRoot + '/contacts/' + contactIdentifier, angular.toJson(contact)).respond(202, '');
+
+            $scope.save();
+
+            $httpBackend.flush();
+        });
+        
+        it('should redirect to the list view when save is clicked and the operation is successful', function () {
+            var controller = createController();
+            $httpBackend.flush();
+
+            $scope.save();
+
+            $httpBackend.when('PUT', apiRoot + '/contacts/' + contactIdentifier).respond(202, '');
+            $httpBackend.flush();
+            
+            expect($location.path()).toBe('/');
+        });
+
+        it('should set an alert on the contacts data when save is clicked and the operation is successful', function () {
+            var controller = createController();
+            $httpBackend.flush();
+            
+            $scope.save();
+
+            $httpBackend.when('PUT', apiRoot + '/contacts/' + contactIdentifier).respond(202, '');
+            $httpBackend.flush();
+
+            expect(contactsData.alerts[0].text).toBe('Changes to the contact have been saved.');
         });
     });
 
