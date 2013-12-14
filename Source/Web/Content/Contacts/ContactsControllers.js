@@ -33,6 +33,7 @@ contactsControllers.controller('editController', ['$http', '$scope', '$routePara
     $http.get('/api/contacts/' + $routeParams.contactIdentifier)
         .success(function(data) {
             $scope.contact = data;
+            $scope.originalName = data.FirstName + ' ' + data.LastName;
         });
 
     $scope.save = function () {
@@ -50,7 +51,12 @@ contactsControllers.controller('editController', ['$http', '$scope', '$routePara
 }]);
 
 contactsControllers.controller('deleteController', ['$http', '$scope', '$routeParams', '$location', 'alerts', function ($http, $scope, $routeParams, $location, alerts) {
-    $scope.continue = function() {
+    $http.get('/api/contacts/' + $routeParams.contactIdentifier)
+        .success(function (data) {
+            $scope.contact = data;
+        });
+
+    $scope.continue = function () {
         $http.delete('/api/contacts/' + $routeParams.contactIdentifier)
             .success(function (data) {
                 alerts.addSuccess('The contact has been deleted.');

@@ -169,6 +169,13 @@
 
             expect($scope.contact).toBe(contact);
         });
+        
+        it('should set the original name on the scope when given a contact', function () {
+            var controller = createController();
+            $httpBackend.flush();
+
+            expect($scope.originalName).toBe(contact.FirstName + ' ' + contact.LastName);
+        });
 
         it('should redirect to the list view when cancel is clicked', function () {
             var controller = createController();
@@ -228,9 +235,11 @@
         var $httpBackend, $scope, $routeParams, $location, createController;
 
         var contactIdentifier = 'id1';
+        var contact = { Identifier: contactIdentifier, FirstName: 'Joe', LastName: 'One' };
 
         beforeEach(inject(function ($injector) {
             $httpBackend = $injector.get('$httpBackend');
+            $httpBackend.when('GET', apiRoot + '/contacts/' + contactIdentifier).respond(contact);
 
             $scope = $injector.get('$rootScope');
 
@@ -252,8 +261,16 @@
             $httpBackend.verifyNoOutstandingRequest();
         });
 
+        it('should set a contact on the scope when given a contact', function () {
+            var controller = createController();
+            $httpBackend.flush();
+
+            expect($scope.contact).toBe(contact);
+        });
+
         it('should send a delete message to the server when continue is clicked', function () {
             var controller = createController();
+            $httpBackend.flush();
 
             $httpBackend.expectDELETE(apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
 
@@ -264,6 +281,7 @@
 
         it('should redirect to the list view when continue is clicked and the operation is successful', function () {
             var controller = createController();
+            $httpBackend.flush();
 
             $scope.continue();
 
@@ -275,6 +293,7 @@
 
         it('should add a success alert when continue is clicked and the operation is successful', function () {
             var controller = createController();
+            $httpBackend.flush();
 
             $scope.continue();
 
@@ -286,6 +305,7 @@
 
         it('should redirect to the list view when cancel is clicked', function () {
             var controller = createController();
+            $httpBackend.flush();
 
             $scope.cancel();
 
@@ -294,6 +314,7 @@
 
         it('should add an info alert when cancel is clicked', function () {
             var controller = createController();
+            $httpBackend.flush();
 
             $scope.cancel();
 
