@@ -19,20 +19,20 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Contact Service Can Save And Retrieve Contacts")]
-    public partial class ContactServiceCanSaveAndRetrieveContactsFeature
+    [NUnit.Framework.DescriptionAttribute("Contact Service Can Perform CRUD Operations")]
+    public partial class ContactServiceCanPerformCRUDOperationsFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "ContactServiceCanSaveAndRetrieveContacts.feature"
+#line 1 "ContactServiceCanPerformCRUDOperations.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Contact Service Can Save And Retrieve Contacts", "In order to remember my contacts\r\nAs a user\r\nI want to be able to save and retrie" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Contact Service Can Perform CRUD Operations", "In order to remember my contacts\r\nAs a user\r\nI want to be able to save and retrie" +
                     "ve a contact", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -77,7 +77,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
- testRunner.Then("the name of the retrieved contact should equal the name of the contact I saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the name of the retrieved contact is equal to the name of the contact I saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -98,7 +98,26 @@ this.ScenarioSetup(scenarioInfo);
 #line 15
  testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 16
- testRunner.Then("the name of the retrieved contact should equal the name of the contact I saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the name of the retrieved contact is equal to the name of the contact I saved", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Insert and Delete")]
+        public virtual void InsertAndDelete()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Insert and Delete", ((string[])(null)));
+#line 18
+this.ScenarioSetup(scenarioInfo);
+#line 19
+ testRunner.Given("I save a new contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 20
+ testRunner.And("I delete the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 21
+ testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 22
+ testRunner.Then("the retrieved contact is null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

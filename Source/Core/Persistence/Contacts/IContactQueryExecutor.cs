@@ -10,5 +10,6 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
         void Update(IContact contact);
         List<IContact> SelectAll();
         IContact SelectByIdentifier(Guid identifier);
+        void DeleteByIdentifier(Guid identifier);
     }
 }

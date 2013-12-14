@@ -48,3 +48,18 @@ contactsControllers.controller('editController', ['$http', '$scope', '$routePara
         $location.path('/');
     };
 }]);
+
+contactsControllers.controller('deleteController', ['$http', '$scope', '$routeParams', '$location', 'alerts', function ($http, $scope, $routeParams, $location, alerts) {
+    $scope.continue = function() {
+        $http.delete('/api/contacts/' + $routeParams.contactIdentifier)
+            .success(function (data) {
+                alerts.addSuccess('The contact has been deleted.');
+                $location.path('/');
+            });
+    };
+    
+    $scope.cancel = function () {
+        alerts.addInfo('Deletion of the contact has been cancelled.');
+        $location.path('/');
+    };
+}]);

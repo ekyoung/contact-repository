@@ -8,5 +8,6 @@ namespace EthanYoung.ContactRepository.Contacts
         void Save(IContact contact);
         List<IContact> FindAll();
         IContact FindByIdentifier(Guid identifier);
+        void DeleteByIdentifier(Guid identifier);
     }
 }

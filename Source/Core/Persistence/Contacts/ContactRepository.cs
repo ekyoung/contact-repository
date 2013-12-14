@@ -34,5 +34,10 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
         {
             return _queryExecutor.SelectByIdentifier(identifier);
         }
+
+        public void DeleteByIdentifier(Guid identifier)
+        {
+            _queryExecutor.DeleteByIdentifier(identifier);
+        }
     }
 }

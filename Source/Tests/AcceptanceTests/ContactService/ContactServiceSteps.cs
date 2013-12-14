@@ -44,16 +44,28 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
             _service.Save(_savedContact);
         }
 
+        [Given(@"I delete the contact")]
+        public void GivenIDeleteTheContact()
+        {
+            _service.DeleteByIdentifier(_savedContact.Identifier);
+        }
+
         [When(@"I retrieve the contact")]
         public void WhenIRetrieveTheContact()
         {
             _retrievedContact = _service.FindByIdentifier(_savedContact.Identifier);
         }
         
-        [Then(@"the name of the retrieved contact should equal the name of the contact I saved")]
-        public void ThenTheNameOfTheRetrievedContactShouldEqualTheNameOfTheContactISaved()
+        [Then(@"the name of the retrieved contact is equal to the name of the contact I saved")]
+        public void ThenTheNameOfTheRetrievedContactIsEqualToTheNameOfTheContactISaved()
         {
             Assert.AreEqual(_savedContact.Name, _retrievedContact.Name);
+        }
+
+        [Then(@"the retrieved contact is null")]
+        public void ThenTheRetrievedContactIsNull()
+        {
+            Assert.IsNull(_retrievedContact);
         }
     }
 }

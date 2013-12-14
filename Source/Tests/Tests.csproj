@@ -53,10 +53,10 @@
       <DependentUpon>BootstrappingServiceCanCreateTheSchemaInABlankDatabase.feature</DependentUpon>
     </Compile>
     <Compile Include="AcceptanceTests\Bootstrapping\BootstrappingServiceSteps.cs" />
-    <Compile Include="AcceptanceTests\ContactService\ContactServiceCanSaveAndRetrieveContacts.feature.cs">
+    <Compile Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperations.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ContactServiceCanSaveAndRetrieveContacts.feature</DependentUpon>
+      <DependentUpon>ContactServiceCanPerformCRUDOperations.feature</DependentUpon>
     </Compile>
     <Compile Include="AcceptanceTests\ContactService\ContactServiceSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,9 +69,9 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BootstrappingServiceCanCreateTheSchemaInABlankDatabase.feature.cs</LastGenOutput>
     </None>
-    <None Include="AcceptanceTests\ContactService\ContactServiceCanSaveAndRetrieveContacts.feature">
+    <None Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperations.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ContactServiceCanSaveAndRetrieveContacts.feature.cs</LastGenOutput>
+      <LastGenOutput>ContactServiceCanPerformCRUDOperations.feature.cs</LastGenOutput>
     </None>
     <None Include="App.config">
       <SubType>Designer</SubType>

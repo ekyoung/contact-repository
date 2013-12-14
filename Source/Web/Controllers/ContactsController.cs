@@ -48,10 +48,11 @@ namespace Web.Controllers
             _service.Save(contact);
         }
 
-        //// DELETE api/contacts/{guid}
-        //public void Delete(Guid identifier)
-        //{
-        //}
+        // DELETE api/contacts/{guid}
+        public void Delete(Guid identifier)
+        {
+            _service.DeleteByIdentifier(identifier);
+        }
 
         private ContactModel ToModel(IContact contact)
         {

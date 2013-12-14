@@ -26,6 +26,11 @@ namespace EthanYoung.ContactRepository.Contacts
         {
             return _contactRepository.FindByIdentifier(identifier);
         }
+
+        public void DeleteByIdentifier(Guid identifier)
+        {
+            _contactRepository.DeleteByIdentifier(identifier);
+        }
     }
 
     public interface IContactService : IService
@@ -33,5 +38,6 @@ namespace EthanYoung.ContactRepository.Contacts
         void Save(IContact contact);
         IContact FindByIdentifier(Guid identifier);
         List<IContact> FindAll();
+        void DeleteByIdentifier(Guid identifier);
     }
 }

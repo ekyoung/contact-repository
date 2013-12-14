@@ -87,7 +87,7 @@
             var controller = createController();
             $scope.contact = contact;
 
-            $httpBackend.expectPOST(apiRoot + '/contacts', angular.toJson(contact)).respond(201, '');
+            $httpBackend.expectPOST(apiRoot + '/contacts', angular.toJson(contact)).respond(204, '');
 
             $scope.save();
 
@@ -99,18 +99,18 @@
 
             $scope.save();
 
-            $httpBackend.when('POST', apiRoot + '/contacts').respond(201, '');
+            $httpBackend.when('POST', apiRoot + '/contacts').respond(204, '');
             $httpBackend.flush();
 
             expect($location.path()).toBe('/');
         });
 
-        it('should set an alert on the contacts data when save is clicked and the operation is successful', function () {
+        it('should add a success alert when save is clicked and the operation is successful', function () {
             var controller = createController();
 
             $scope.save();
 
-            $httpBackend.when('POST', apiRoot + '/contacts').respond(201, '');
+            $httpBackend.when('POST', apiRoot + '/contacts').respond(204, '');
             $httpBackend.flush();
 
             expect(alerts.addSuccess).toHaveBeenCalledWith('A new contact has been created.');
@@ -124,7 +124,7 @@
             expect($location.path()).toBe('/');
         });
 
-        it('should set an alert on the contacts data when cancel is clicked', function () {
+        it('should add an info alert when cancel is clicked', function () {
             var controller = createController();
 
             $scope.cancel();
@@ -179,7 +179,7 @@
             expect($location.path()).toBe('/');
         });
 
-        it('should set an alert on the contacts data when cancel is clicked', function () {
+        it('should add an info alert when cancel is clicked', function () {
             var controller = createController();
             $httpBackend.flush();
 
@@ -192,7 +192,7 @@
             var controller = createController();
             $httpBackend.flush();
 
-            $httpBackend.expectPUT(apiRoot + '/contacts/' + contactIdentifier, angular.toJson(contact)).respond(202, '');
+            $httpBackend.expectPUT(apiRoot + '/contacts/' + contactIdentifier, angular.toJson(contact)).respond(204, '');
 
             $scope.save();
 
@@ -205,23 +205,100 @@
 
             $scope.save();
 
-            $httpBackend.when('PUT', apiRoot + '/contacts/' + contactIdentifier).respond(202, '');
+            $httpBackend.when('PUT', apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
             $httpBackend.flush();
             
             expect($location.path()).toBe('/');
         });
 
-        it('should set an alert on the contacts data when save is clicked and the operation is successful', function () {
+        it('should add a success alert when save is clicked and the operation is successful', function () {
             var controller = createController();
             $httpBackend.flush();
             
             $scope.save();
 
-            $httpBackend.when('PUT', apiRoot + '/contacts/' + contactIdentifier).respond(202, '');
+            $httpBackend.when('PUT', apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
             $httpBackend.flush();
 
             expect(alerts.addSuccess).toHaveBeenCalledWith('Changes to the contact have been saved.');
         });
     });
 
+    describe('deleteController', function() {
+        var $httpBackend, $scope, $routeParams, $location, createController;
+
+        var contactIdentifier = 'id1';
+
+        beforeEach(inject(function ($injector) {
+            $httpBackend = $injector.get('$httpBackend');
+
+            $scope = $injector.get('$rootScope');
+
+            $routeParams = $injector.get('$routeParams');
+            $routeParams.contactIdentifier = contactIdentifier;
+
+            $location = $injector.get('$location');
+            $location.path('/delete/' + contactIdentifier);
+
+            var $controller = $injector.get('$controller');
+
+            createController = function () {
+                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts });
+            };
+        }));
+
+        afterEach(function () {
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        });
+
+        it('should send a delete message to the server when continue is clicked', function () {
+            var controller = createController();
+
+            $httpBackend.expectDELETE(apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
+
+            $scope.continue();
+
+            $httpBackend.flush();
+        });
+
+        it('should redirect to the list view when continue is clicked and the operation is successful', function () {
+            var controller = createController();
+
+            $scope.continue();
+
+            $httpBackend.when('DELETE', apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
+            $httpBackend.flush();
+
+            expect($location.path()).toBe('/');
+        });
+
+        it('should add a success alert when continue is clicked and the operation is successful', function () {
+            var controller = createController();
+
+            $scope.continue();
+
+            $httpBackend.when('DELETE', apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
+            $httpBackend.flush();
+
+            expect(alerts.addSuccess).toHaveBeenCalledWith('The contact has been deleted.');
+        });
+
+        it('should redirect to the list view when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect($location.path()).toBe('/');
+        });
+
+        it('should add an info alert when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect(alerts.addInfo).toHaveBeenCalledWith('Deletion of the contact has been cancelled.');
+        });
+
+    });
 });

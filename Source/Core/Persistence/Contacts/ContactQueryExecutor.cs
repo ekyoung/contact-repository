@@ -25,5 +25,10 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
         {
             return SqlMapper.QueryForObject<IContact>("SelectContactByIdentifier", identifier);
         }
+
+        public void DeleteByIdentifier(Guid identifier)
+        {
+            SqlMapper.Delete("DeleteContactByIdentifier", identifier);
+        }
     }
 }

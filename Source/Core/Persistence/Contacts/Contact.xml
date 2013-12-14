@@ -55,5 +55,10 @@
       FROM Contacts (NOLOCK)
       WHERE ContactIdentifier = #value#
     </select>
+  
+    <delete id="DeleteContactByIdentifier" parameterClass="guid">
+      DELETE FROM Contacts
+      WHERE ContactIdentifier = #value#
+    </delete>
   </statements>
 </sqlMap>
