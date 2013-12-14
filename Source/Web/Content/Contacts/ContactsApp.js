@@ -20,17 +20,30 @@ contactsApp.config(['$routeProvider',
             });
     }]);
 
-contactsApp.service('contactsData', function () {
-    var contacts = [];
+contactsApp.service('alerts', function () {
     var alerts = [];
     return {
-        contacts: contacts,
-        alerts: alerts,
-        addAlert: function(text, type) {
-            this.alerts.push({ text: text, type: type });
+        readAlerts: function() {
+            return alerts.slice(0);
         },
-        clearAlerts: function() {
-            this.alerts = [];
+        addAlert: function(text, type) {
+            alerts.push({ text: text, type: type });
+        },
+        addSuccess: function(text) {
+            this.addAlert(text, 'success');
+        },
+        addInfo: function(text) {
+            this.addAlert(text, 'info');
+        },
+        addWarning: function(text) {
+            this.addAlert(text, 'warning');
+        },
+        addDanger: function(text) {
+            this.addAlert(text, 'danger');
+        },
+        displayAlerts: function(scope) {
+            scope.alerts = alerts;
+            alerts = [];
         }
     };
 });

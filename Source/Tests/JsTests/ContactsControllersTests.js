@@ -1,8 +1,18 @@
 ﻿describe('Contacts Controllers', function () {
     beforeEach(module('contactsApp'));
 
+    var alerts;
+
+    beforeEach(function() {
+        alerts = {
+            addSuccess: jasmine.createSpy(),
+            addInfo: jasmine.createSpy(),
+            displayAlerts: jasmine.createSpy()
+        };
+    });
+
     describe('listController', function () {
-        var $httpBackend, $scope, contactsData, createController;
+        var $httpBackend, $scope, createController;
 
         var apiRoot = '/api';
         
@@ -12,23 +22,11 @@
 
             $scope = $injector.get('$rootScope');
 
-            //TODO: Figure out how to make a real alert thingy
-            var alerts = [];
-            contactsData = {
-                alerts: alerts,
-                addAlert: function (text, type) {
-                    this.alerts.push({ text: text, type: type });
-                },
-                clearAlerts: function () {
-                    this.alerts = [];
-                }
-            };
-
             // The $controller service is used to create instances of controllers
             var $controller = $injector.get('$controller');
 
             createController = function() {
-                return $controller('listController', { $scope: $scope, contactsData: contactsData });
+                return $controller('listController', { $scope: $scope, alerts: alerts });
             };
         }));
 
@@ -41,26 +39,18 @@
             expect($scope.contacts).toBe(contacts);
         });
 
-        it('should set the alerts on the scope in all cases', function () {
-            var alerts = [{ text: 'The alert text', type: 'info' }];
-            contactsData.alerts = alerts;
+        it('should display alerts in all cases', function () {
+            var alertsArray = [{ text: 'The alert text', type: 'info' }];
+            alerts.alerts = alertsArray;
 
             var controller = createController();
 
-            expect($scope.alerts).toBe(alerts);
-        });
-
-        it('should clear the alerts in all cases', function () {
-            contactsData.addAlert('The alert text', 'info');
-
-            var controller = createController();
-
-            expect(contactsData.alerts.length).toBe(0);
+            expect(alerts.displayAlerts).toHaveBeenCalledWith($scope);
         });
     });
 
     describe('editController', function () {
-        var $httpBackend, $scope, $routeParams, $location, contactsData, createController;
+        var $httpBackend, $scope, $routeParams, $location, createController;
 
         var apiRoot = '/api';
         var contactIdentifier = 'id1';
@@ -79,23 +69,11 @@
             $location = $injector.get('$location');
             $location.path('/edit/' + contactIdentifier);
 
-            //TODO: Figure out how to make a real alert thingy
-            var alerts = [];
-            contactsData = {
-                alerts: alerts,
-                addAlert: function (text, type) {
-                    this.alerts.push({ text: text, type: type });
-                },
-                clearAlerts: function() {
-                    this.alerts = [];
-                }
-            };
-
             // The $controller service is used to create instances of controllers
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location, contactsData: contactsData });
+                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts });
             };
         }));
         
@@ -126,7 +104,7 @@
 
             $scope.cancel();
 
-            expect(contactsData.alerts[0].text).toBe('Changes to the contact have been cancelled.');
+            expect(alerts.addInfo).toHaveBeenCalledWith('Changes to the contact have been cancelled.');
         });
 
         it('should put some data to the server when save is clicked', function() {
@@ -161,7 +139,7 @@
             $httpBackend.when('PUT', apiRoot + '/contacts/' + contactIdentifier).respond(202, '');
             $httpBackend.flush();
 
-            expect(contactsData.alerts[0].text).toBe('Changes to the contact have been saved.');
+            expect(alerts.addSuccess).toHaveBeenCalledWith('Changes to the contact have been saved.');
         });
     });
 
