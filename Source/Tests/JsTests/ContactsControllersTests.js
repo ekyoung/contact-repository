@@ -8,6 +8,8 @@
         alerts = {
             addSuccess: jasmine.createSpy(),
             addInfo: jasmine.createSpy(),
+            addWarning: jasmine.createSpy(),
+            addDanger: jasmine.createSpy(),
             displayAlerts: jasmine.createSpy()
         };
     });
@@ -38,6 +40,27 @@
             expect($scope.contacts).toBe(contacts);
         });
 
+        it('should add a danger alert when given a 404 error', function() {
+            $httpBackend.when('GET', apiRoot + '/contacts').respond(404);
+            var controller = createController();
+            $httpBackend.flush();
+
+            expect(alerts.addDanger).toHaveBeenCalledWith('The server returned 404.');
+            expect(alerts.displayAlerts).toHaveBeenCalledWith($scope);
+            expect(alerts.displayAlerts.callCount).toBe(2);
+        });
+
+        it('should add a danger alert when given a 500 error', function () {
+            var exceptionMessage = "Some exception";
+            $httpBackend.when('GET', apiRoot + '/contacts').respond(500, {ExceptionMessage: exceptionMessage});
+            var controller = createController();
+            $httpBackend.flush();
+
+            expect(alerts.addDanger).toHaveBeenCalledWith('The server returned the following error message: ' + exceptionMessage);
+            expect(alerts.displayAlerts).toHaveBeenCalledWith($scope);
+            expect(alerts.displayAlerts.callCount).toBe(2);
+        });
+        
         it('should display alerts in all cases', function () {
             var alertsArray = [{ text: 'The alert text', type: 'info' }];
             alerts.alerts = alertsArray;
