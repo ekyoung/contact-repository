@@ -25,7 +25,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function() {
-                return $controller('listController', { $scope: $scope, alerts: alerts });
+                return $controller('listController', { $scope: $scope, alerts: alerts, apiRootUrl: apiRoot });
             };
         }));
 
@@ -62,7 +62,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('createController', { $scope: $scope, $location: $location, alerts: alerts });
+                return $controller('createController', { $scope: $scope, $location: $location, alerts: alerts, apiRootUrl: apiRoot });
             };
         }));
 
@@ -154,7 +154,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts });
+                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, apiRootUrl: apiRoot });
             };
         }));
         
@@ -252,7 +252,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts });
+                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, apiRootUrl: apiRoot });
             };
         }));
 
