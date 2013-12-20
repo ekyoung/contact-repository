@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using AutoMapper;
 using EthanYoung.ContactRepository;
 using EthanYoung.ContactRepository.Contacts;
 using Web.Models;
@@ -20,23 +21,24 @@ namespace Web.Controllers
         // GET api/contacts
         public IEnumerable<ContactModel> Get()
         {
-            return _service.FindAll().Select(ToModel);
+            return _service.FindAll().Select(Mapper.Map<IContact, ContactModel>);
         }
 
         // GET api/contacts/{guid}
         public ContactModel Get(Guid identifier)
         {
-            return ToModel(_service.FindByIdentifier(identifier));
+            return Mapper.Map<IContact, ContactModel>(_service.FindByIdentifier(identifier));
         }
 
         // POST api/contacts
         public void Post([FromBody]ContactModel contactModel)
         {
-            var contact = new Contact
+            var contact = Mapper.Map<ContactModel, Contact>(contactModel);
+            if (contact.Identifier == Guid.Empty)
             {
-                Identifier = contactModel.Identifier == Guid.Empty ? Guid.NewGuid() : contactModel.Identifier
-            };
-            MapFromModel(contact, contactModel);
+                contact.Identifier = Guid.NewGuid();
+            }
+
             _service.Save(contact);
         }
 
@@ -44,7 +46,7 @@ namespace Web.Controllers
         public void Put(Guid identifier, [FromBody]ContactModel contactModel)
         {
             IContact contact = _service.FindByIdentifier(contactModel.Identifier);
-            MapFromModel(contact, contactModel);
+            Mapper.Map(contactModel, (Contact)contact);
             _service.Save(contact);
         }
 
@@ -52,21 +54,6 @@ namespace Web.Controllers
         public void Delete(Guid identifier)
         {
             _service.DeleteByIdentifier(identifier);
-        }
-
-        private ContactModel ToModel(IContact contact)
-        {
-            return new ContactModel
-            {
-                Identifier = contact.Identifier,
-                FirstName = contact.Name.First,
-                LastName = contact.Name.Last
-            };
-        }
-
-        private void MapFromModel(IContact contact, ContactModel contactModel)
-        {
-            contact.Name = new Name(contactModel.FirstName, contactModel.LastName);
         }
     }
 }

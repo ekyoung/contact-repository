@@ -32,16 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="TechTalk.SpecFlow">
       <HintPath>..\packages\SpecFlow.1.9.0\lib\net35\TechTalk.SpecFlow.dll</HintPath>
     </Reference>
@@ -66,6 +67,7 @@
     <Compile Include="AcceptanceTests\ContactService\ContactServiceSteps.cs" />
     <Compile Include="AcceptanceTests\StepArgumentTransformations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\AutoMapperConfigurationTests.cs" />
     <Compile Include="UnitTests\EmailAddressTests.cs" />
     <Compile Include="UnitTests\NameTests.cs" />
     <Compile Include="UnitTests\PhoneNumberTests.cs" />
@@ -373,6 +375,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{AACDCB36-454F-4200-BBB1-46D5A97B5B16}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Web\Web.csproj">
+      <Project>{3f29bb9f-6197-458e-ace1-d711b548b3eb}</Project>
+      <Name>Web</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
