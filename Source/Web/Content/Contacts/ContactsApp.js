@@ -51,3 +51,44 @@ contactsApp.service('alerts', function () {
         }
     };
 });
+
+contactsApp.factory('contactRepository', ['$http', 'apiRootUrl', function($http, apiRootUrl) {
+    return {
+        getContacts: function () {
+            var success = function(response) {
+                return response.data;
+            };
+
+            var error = function (response) {
+                if (response.status == 404) {
+                    return 'The server returned 404.';
+                } else {
+                    var exceptionMessage = '[Couldn\'t find a message]';
+                    if (response.data && response.data.ExceptionMessage) {
+                        exceptionMessage = response.data.ExceptionMessage;
+                    }
+                    return 'The server returned the following error message: ' + exceptionMessage;
+                }
+            };
+            
+            return $http.get(apiRootUrl + '/contacts')
+                .then(success, error);
+        },
+        
+        getContact: function(contactIdentifier) {
+            return $http.get(apiRootUrl + '/contacts/' + contactIdentifier);
+        },
+        
+        insertContact: function(contact) {
+            return $http.post(apiRootUrl + '/contacts', angular.toJson(contact));
+        },
+        
+        updateContact: function(contact) {
+            return $http.put(apiRootUrl + '/contacts/' + contact.Identifier, angular.toJson(contact));
+        },
+        
+        deleteContact: function (contactIdentifier) {
+            return $http.delete(apiRootUrl + '/contacts/' + contactIdentifier);
+        }
+    };
+}]);

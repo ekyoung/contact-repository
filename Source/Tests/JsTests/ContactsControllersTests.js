@@ -1,7 +1,7 @@
 ﻿describe('Contacts Controllers', function () {
     beforeEach(module('contactsApp'));
 
-    var alerts,
+    var alerts, mockContactRepository, q, deferred,
         apiRoot = '/api';
 
     beforeEach(function() {
@@ -14,32 +14,42 @@
         };
     });
 
+    beforeEach(function() {
+        mockContactRepository = {
+            getContacts: function() {
+                deferred = q.defer();
+                // Place the fake return object here
+                return deferred.promise;
+            }
+        };
+        spyOn(mockContactRepository, 'getContacts').andCallThrough();
+    });
+    
     describe('listController', function () {
-        var $httpBackend, $scope, createController;
+        var $scope, createController;
         
         beforeEach(inject(function ($injector) {
-            // Set up the mock http service responses
-            $httpBackend = $injector.get('$httpBackend');
-
             $scope = $injector.get('$rootScope');
 
-            // The $controller service is used to create instances of controllers
+            q = $injector.get('$q');
+
             var $controller = $injector.get('$controller');
 
             createController = function() {
-                return $controller('listController', { $scope: $scope, alerts: alerts, apiRootUrl: apiRoot });
+                return $controller('listController', { $scope: $scope, alerts: alerts, contactRepository: mockContactRepository });
             };
         }));
 
         it('should set an array of contacts on the scope when given an array of contacts', function () {
             var contacts = [{ FirstName: 'Joe', LastName: 'One' }, { FirstName: 'Frank', LastName: 'Two' }];
-            $httpBackend.when('GET', apiRoot + '/contacts').respond(contacts);
+
             var controller = createController();
-            $httpBackend.flush();
-            
+            deferred.resolve(contacts);
+
+            $scope.$apply();
             expect($scope.contacts).toBe(contacts);
         });
-
+        /*
         it('should add a danger alert when given a 404 error', function() {
             $httpBackend.when('GET', apiRoot + '/contacts').respond(404);
             var controller = createController();
@@ -60,7 +70,7 @@
             expect(alerts.displayAlerts).toHaveBeenCalledWith($scope);
             expect(alerts.displayAlerts.callCount).toBe(2);
         });
-        
+        */
         it('should display alerts in all cases', function () {
             var alertsArray = [{ text: 'The alert text', type: 'info' }];
             alerts.alerts = alertsArray;

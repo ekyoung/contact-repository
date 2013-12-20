@@ -1,22 +1,14 @@
 ﻿var contactsControllers = angular.module('contactsControllers', []);
 
-contactsControllers.controller('listController', ['$http', '$scope', 'alerts', 'apiRootUrl', function($http, $scope, alerts, apiRootUrl) {
-    $http.get(apiRootUrl + '/contacts').
-        success(function(data) {
-            $scope.contacts = data;
-        }).
-        error(function (data, status) {
-            if (status == 404) {
-                alerts.addDanger('The server returned 404.');
-            } else {
-                var exceptionMessage = '[Couldn\'t find a message]';
-                if (data && data.ExceptionMessage) {
-                    exceptionMessage = data.ExceptionMessage;
-                }
-                alerts.addDanger('The server returned the following error message: ' + exceptionMessage);
-            }
+contactsControllers.controller('listController', ['$scope', 'alerts', 'contactRepository', function($scope, alerts, contactRepository) {
+    contactRepository.getContacts().then(function (result) {
+        if (typeof result === 'string') {
+            alerts.addDanger(result);
             alerts.displayAlerts($scope);
-        });
+        } else {
+            $scope.contacts = result;
+        }
+    });
 
     alerts.displayAlerts($scope);
 }]);
