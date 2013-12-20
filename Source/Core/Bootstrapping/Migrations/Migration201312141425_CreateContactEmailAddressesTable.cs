@@ -20,7 +20,6 @@ namespace EthanYoung.ContactRepository.Bootstrapping.Migrations
 
         public override void Down()
         {
-            Delete.ForeignKey("FK_ContactEmailAddresses_Contacts");
             Delete.Table("ContactEmailAddresses");
         }
     }
