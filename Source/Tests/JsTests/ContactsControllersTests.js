@@ -18,16 +18,33 @@
         mockContactRepository = {
             getContacts: function() {
                 deferred = q.defer();
-                // Place the fake return object here
+                return deferred.promise;
+            },
+            getContact: function(contactIdentifier) {
+                deferred = q.defer();
+                return deferred.promise;
+            },
+            insertContact: function(contact) {
+                deferred = q.defer();
+                return deferred.promise;
+            },
+            updateContact: function(contact) {
+                deferred = q.defer();
+                return deferred.promise;
+            },
+            deleteContact: function(contactIdentifier) {
+                deferred = q.defer();
                 return deferred.promise;
             }
         };
-        spyOn(mockContactRepository, 'getContacts').andCallThrough();
+        spyOn(mockContactRepository, 'insertContact').andCallThrough();
+        spyOn(mockContactRepository, 'updateContact').andCallThrough();
+        spyOn(mockContactRepository, 'deleteContact').andCallThrough();
     });
-    
+
     describe('listController', function () {
         var $scope, createController;
-        
+
         beforeEach(inject(function ($injector) {
             $scope = $injector.get('$rootScope');
 
@@ -35,7 +52,7 @@
 
             var $controller = $injector.get('$controller');
 
-            createController = function() {
+            createController = function () {
                 return $controller('listController', { $scope: $scope, alerts: alerts, contactRepository: mockContactRepository });
             };
         }));
@@ -82,12 +99,12 @@
     });
 
     describe('createController', function() {
-        var $httpBackend, $scope, $location, createController;
+        var $scope, $location, createController;
 
         beforeEach(inject(function($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-
             $scope = $injector.get('$rootScope');
+
+            q = $injector.get('$q');
 
             $location = $injector.get('$location');
             $location.path('/create');
@@ -95,14 +112,9 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('createController', { $scope: $scope, $location: $location, alerts: alerts, apiRootUrl: apiRoot });
+                return $controller('createController', { $scope: $scope, $location: $location, alerts: alerts, contactRepository: mockContactRepository });
             };
         }));
-
-        afterEach(function () {
-            $httpBackend.verifyNoOutstandingExpectation();
-            $httpBackend.verifyNoOutstandingRequest();
-        });
 
         it('should set an empty contact on the scope in all cases', function() {
             var controller = createController();
@@ -111,7 +123,7 @@
             expect($scope.contact.LastName).toBe(null);
         });
 
-        it('should post json for the contact to the server when save is clicked', function () {
+        it('should insert a contact when save is clicked', function () {
             var contact = {
                 FirstName: 'Joe',
                 LastName: 'Contact'
@@ -119,21 +131,20 @@
             
             var controller = createController();
             $scope.contact = contact;
-
-            $httpBackend.expectPOST(apiRoot + '/contacts', angular.toJson(contact)).respond(204, '');
-
+            
             $scope.save();
+            deferred.resolve();
+            $scope.$apply();
 
-            $httpBackend.flush();
+            expect(mockContactRepository.insertContact).toHaveBeenCalledWith(contact);
         });
         
         it('should redirect to the list view when save is clicked and the operation is successful', function () {
             var controller = createController();
 
             $scope.save();
-
-            $httpBackend.when('POST', apiRoot + '/contacts').respond(204, '');
-            $httpBackend.flush();
+            deferred.resolve();
+            $scope.$apply();
 
             expect($location.path()).toBe('/');
         });
@@ -142,9 +153,8 @@
             var controller = createController();
 
             $scope.save();
-
-            $httpBackend.when('POST', apiRoot + '/contacts').respond(204, '');
-            $httpBackend.flush();
+            deferred.resolve();
+            $scope.$apply();
 
             expect(alerts.addSuccess).toHaveBeenCalledWith('A new contact has been created.');
         });
@@ -167,16 +177,15 @@
     });
     
     describe('editController', function () {
-        var $httpBackend, $scope, $routeParams, $location, createController;
+        var $scope, $routeParams, $location, createController;
 
         var contactIdentifier = 'id1';
         var contact = { Identifier: contactIdentifier, FirstName: 'Joe', LastName: 'One' };
 
         beforeEach(inject(function ($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-            $httpBackend.when('GET', apiRoot + '/contacts/' + contactIdentifier).respond(contact);
-
             $scope = $injector.get('$rootScope');
+
+            q = $injector.get('$q');
 
             $routeParams = $injector.get('$routeParams');
             $routeParams.contactIdentifier = contactIdentifier;
@@ -187,32 +196,28 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, apiRootUrl: apiRoot });
+                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, contactRepository: mockContactRepository });
             };
         }));
         
-        afterEach(function() {
-            $httpBackend.verifyNoOutstandingExpectation();
-            $httpBackend.verifyNoOutstandingRequest();
-        });
-        
         it('should set a contact on the scope when given a contact', function () {
             var controller = createController();
-            $httpBackend.flush();
+            deferred.resolve(contact);
+            $scope.$apply();
 
             expect($scope.contact).toBe(contact);
         });
         
         it('should set the original name on the scope when given a contact', function () {
             var controller = createController();
-            $httpBackend.flush();
+            deferred.resolve(contact);
+            $scope.$apply();
 
             expect($scope.originalName).toBe(contact.FirstName + ' ' + contact.LastName);
         });
 
         it('should redirect to the list view when cancel is clicked', function () {
             var controller = createController();
-            $httpBackend.flush();
 
             $scope.cancel();
 
@@ -221,60 +226,59 @@
 
         it('should add an info alert when cancel is clicked', function () {
             var controller = createController();
-            $httpBackend.flush();
 
             $scope.cancel();
 
             expect(alerts.addInfo).toHaveBeenCalledWith('Changes to the contact have been cancelled.');
         });
 
-        it('should put json for the contact to the server when save is clicked', function() {
+        it('should update the contact when save is clicked', function() {
             var controller = createController();
-            $httpBackend.flush();
-
-            $httpBackend.expectPUT(apiRoot + '/contacts/' + contactIdentifier, angular.toJson(contact)).respond(204, '');
+            deferred.resolve(contact);
+            $scope.$apply();
 
             $scope.save();
+            deferred.resolve();
+            $scope.$apply();
 
-            $httpBackend.flush();
+            expect(mockContactRepository.updateContact).toHaveBeenCalledWith(contact);
         });
         
         it('should redirect to the list view when save is clicked and the operation is successful', function () {
             var controller = createController();
-            $httpBackend.flush();
+            deferred.resolve(contact);
+            $scope.$apply();
 
             $scope.save();
+            deferred.resolve();
+            $scope.$apply();
 
-            $httpBackend.when('PUT', apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
-            $httpBackend.flush();
-            
             expect($location.path()).toBe('/');
         });
 
         it('should add a success alert when save is clicked and the operation is successful', function () {
             var controller = createController();
-            $httpBackend.flush();
-            
-            $scope.save();
+            deferred.resolve(contact);
+            $scope.$apply();
 
-            $httpBackend.when('PUT', apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
-            $httpBackend.flush();
+            $scope.save();
+            deferred.resolve();
+            $scope.$apply();
 
             expect(alerts.addSuccess).toHaveBeenCalledWith('Changes to the contact have been saved.');
         });
     });
 
     describe('deleteController', function() {
-        var $httpBackend, $scope, $routeParams, $location, createController;
+        var $scope, $routeParams, $location, createController;
 
         var contactIdentifier = 'id1';
         var contact = { Identifier: contactIdentifier, FirstName: 'Joe', LastName: 'One' };
 
         beforeEach(inject(function ($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-            $httpBackend.when('GET', apiRoot + '/contacts/' + contactIdentifier).respond(contact);
-
             $scope = $injector.get('$rootScope');
+
+            q = $injector.get('$q');
 
             $routeParams = $injector.get('$routeParams');
             $routeParams.contactIdentifier = contactIdentifier;
@@ -285,60 +289,50 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, apiRootUrl: apiRoot });
+                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, contactRepository: mockContactRepository });
             };
         }));
 
-        afterEach(function () {
-            $httpBackend.verifyNoOutstandingExpectation();
-            $httpBackend.verifyNoOutstandingRequest();
-        });
-
         it('should set a contact on the scope when given a contact', function () {
             var controller = createController();
-            $httpBackend.flush();
+            deferred.resolve(contact);
+            $scope.$apply();
 
             expect($scope.contact).toBe(contact);
         });
 
-        it('should send a delete message to the server when continue is clicked', function () {
+        it('should delete the contact when continue is clicked', function () {
             var controller = createController();
-            $httpBackend.flush();
-
-            $httpBackend.expectDELETE(apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
 
             $scope.continue();
+            deferred.resolve();
+            $scope.$apply();
 
-            $httpBackend.flush();
+            expect(mockContactRepository.deleteContact).toHaveBeenCalledWith(contactIdentifier);
         });
 
         it('should redirect to the list view when continue is clicked and the operation is successful', function () {
             var controller = createController();
-            $httpBackend.flush();
 
             $scope.continue();
-
-            $httpBackend.when('DELETE', apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
-            $httpBackend.flush();
+            deferred.resolve();
+            $scope.$apply();
 
             expect($location.path()).toBe('/');
         });
 
         it('should add a success alert when continue is clicked and the operation is successful', function () {
             var controller = createController();
-            $httpBackend.flush();
 
             $scope.continue();
-
-            $httpBackend.when('DELETE', apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
-            $httpBackend.flush();
+            deferred.resolve();
+            $scope.$apply();
 
             expect(alerts.addSuccess).toHaveBeenCalledWith('The contact has been deleted.');
         });
 
         it('should redirect to the list view when cancel is clicked', function () {
             var controller = createController();
-            $httpBackend.flush();
 
             $scope.cancel();
 
@@ -347,7 +341,6 @@
 
         it('should add an info alert when cancel is clicked', function () {
             var controller = createController();
-            $httpBackend.flush();
 
             $scope.cancel();
 

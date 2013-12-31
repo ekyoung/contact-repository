@@ -13,18 +13,17 @@ contactsControllers.controller('listController', ['$scope', 'alerts', 'contactRe
     alerts.displayAlerts($scope);
 }]);
 
-contactsControllers.controller('createController', ['$http', '$scope', '$location', 'alerts', 'apiRootUrl', function ($http, $scope, $location, alerts, apiRootUrl) {
+contactsControllers.controller('createController', ['$scope', '$location', 'alerts', 'contactRepository', function ($scope, $location, alerts, contactRepository) {
     $scope.contact = {
         FirstName: null,
         LastName: null
     };
     
-    $scope.save = function() {
-        $http.post(apiRootUrl + '/contacts', angular.toJson($scope.contact))
-            .success(function(data) {
-                alerts.addSuccess('A new contact has been created.');
-                $location.path('/');
-            });
+    $scope.save = function () {
+        contactRepository.insertContact($scope.contact).then(function () {
+            alerts.addSuccess('A new contact has been created.');
+            $location.path('/');
+        });
     };
 
     $scope.cancel = function () {
@@ -33,16 +32,14 @@ contactsControllers.controller('createController', ['$http', '$scope', '$locatio
     };
 }]);
 
-contactsControllers.controller('editController', ['$http', '$scope', '$routeParams', '$location', 'alerts', 'apiRootUrl', function ($http, $scope, $routeParams, $location, alerts, apiRootUrl) {
-    $http.get(apiRootUrl + '/contacts/' + $routeParams.contactIdentifier)
-        .success(function(data) {
-            $scope.contact = data;
-            $scope.originalName = data.FirstName + ' ' + data.LastName;
-        });
+contactsControllers.controller('editController', ['$scope', '$routeParams', '$location', 'alerts', 'contactRepository', function ($scope, $routeParams, $location, alerts, contactRepository) {
+    contactRepository.getContact($routeParams.contactIdentifier).then(function(result) {
+        $scope.contact = result;
+        $scope.originalName = result.FirstName + ' ' + result.LastName;
+    });
 
     $scope.save = function () {
-        $http.put(apiRootUrl + '/contacts/' + $routeParams.contactIdentifier, angular.toJson($scope.contact))
-            .success(function(data) {
+        contactRepository.updateContact($scope.contact).then(function(result) {
                 alerts.addSuccess('Changes to the contact have been saved.');
                 $location.path('/');
             });
@@ -54,15 +51,13 @@ contactsControllers.controller('editController', ['$http', '$scope', '$routePara
     };
 }]);
 
-contactsControllers.controller('deleteController', ['$http', '$scope', '$routeParams', '$location', 'alerts', 'apiRootUrl', function ($http, $scope, $routeParams, $location, alerts, apiRootUrl) {
-    $http.get(apiRootUrl + '/contacts/' + $routeParams.contactIdentifier)
-        .success(function (data) {
-            $scope.contact = data;
+contactsControllers.controller('deleteController', ['$scope', '$routeParams', '$location', 'alerts', 'contactRepository', function ($scope, $routeParams, $location, alerts, contactRepository) {
+    contactRepository.getContact($routeParams.contactIdentifier).then(function (result) {
+            $scope.contact = result;
         });
 
     $scope.continue = function () {
-        $http.delete(apiRootUrl + '/contacts/' + $routeParams.contactIdentifier)
-            .success(function (data) {
+        contactRepository.deleteContact($routeParams.contactIdentifier).then(function (result) {
                 alerts.addSuccess('The contact has been deleted.');
                 $location.path('/');
             });

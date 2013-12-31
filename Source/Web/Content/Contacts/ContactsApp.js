@@ -76,7 +76,12 @@ contactsApp.factory('contactRepository', ['$http', 'apiRootUrl', function($http,
         },
         
         getContact: function(contactIdentifier) {
-            return $http.get(apiRootUrl + '/contacts/' + contactIdentifier);
+            var success = function (response) {
+                return response.data;
+            };
+
+            return $http.get(apiRootUrl + '/contacts/' + contactIdentifier)
+                .then(success);
         },
         
         insertContact: function(contact) {
