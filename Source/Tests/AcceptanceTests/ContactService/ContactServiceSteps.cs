@@ -49,6 +49,12 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
             _contact.PrimaryEmailAddress = emailAddress;
         }
 
+        [Given(@"I clear the email addresses of the contact")]
+        public void GivenIClearTheEmailAddressesOfTheContact()
+        {
+            _contact.ClearEmailAddresses();
+        }
+
         [Given(@"I save the contact")]
         public void GivenISaveTheContact()
         {
@@ -59,12 +65,6 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
         public void GivenIChangeTheNameOfTheContact()
         {
             _contact.Name = new Name("Joe", "Updated");
-        }
-
-        [Given(@"I save the contact again")]
-        public void GivenISaveTheContactAgain()
-        {
-            _service.Save(_contact);
         }
 
         [Given(@"I delete the contact")]
@@ -96,6 +96,13 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
         public void ThenTheContactHasCountEmailAddress(int count)
         {
             Assert.AreEqual(count, _contact.EmailAddresses.Count);
+        }
+
+        [Then(@"the retrieved contact has (.*) email address")]
+        [Then(@"the retrieved contact has (.*) email addresses")]
+        public void ThenTheRetrievedContactHasCountEmailAddress(int count)
+        {
+            Assert.AreEqual(count, _retrievedContact.EmailAddresses.Count);
         }
 
         [Then(@"the contact has email address (.*\.com) with nickname (.*)")]

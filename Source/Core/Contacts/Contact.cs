@@ -27,6 +27,11 @@ namespace EthanYoung.ContactRepository.Contacts
             }
         }
 
+        public void ClearEmailAddresses()
+        {
+            _emailAddresses.Clear();
+        }
+
         public EmailAddress PrimaryEmailAddress
         {
             get
@@ -70,5 +75,6 @@ namespace EthanYoung.ContactRepository.Contacts
         EmailAddress PrimaryEmailAddress { get; set; }
         IReadOnlyCollection<ContactEmailAddress> EmailAddresses { get; }
         void SetEmailAddress(EmailAddress emailAddress, string nickname);
+        void ClearEmailAddresses();
     }
 }

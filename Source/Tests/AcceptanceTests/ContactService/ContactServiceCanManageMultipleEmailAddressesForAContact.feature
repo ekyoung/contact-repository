@@ -31,3 +31,10 @@ Scenario: Set Primary Email Address to an Existing Email Address
 	And I set email address user@work.com as the primary email address of the contact
 	Then the contact has 2 email addresses
 	And the primary email address of the contact is user@work.com
+
+Scenario: Clear Email Addresses
+	Given I create a contact
+	And I set email address user@home.com on the contact
+	And I set email address user@work.com on the contact
+	And I clear the email addresses of the contact
+	Then the contact has 0 email addresses

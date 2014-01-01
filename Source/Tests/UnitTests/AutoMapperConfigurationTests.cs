@@ -104,5 +104,23 @@ namespace EthanYoung.ContactRepository.Tests.UnitTests
             Assert.IsTrue(contact.EmailAddresses.Any(x => x.EmailAddress == otherEmailAddress && x.Nickname == otherNickName && !x.IsPrimary));
             Assert.IsTrue(contact.EmailAddresses.Any(x => x.EmailAddress == primaryEmailAddress && x.Nickname == primaryNickName && x.IsPrimary));
         }
+
+        [Test]
+        public void GivenAContactModelWithNoEmailAddressesAndContactWithEmailAddresses_Map_RemovesTheEmailAddresses()
+        {
+            var contactModel = new ContactModel
+            {
+                FirstName = "Joe",
+                LastName = "Contact"
+            };
+
+            var contact = new Contact();
+            contact.SetEmailAddress(new EmailAddress("contact@email.com"), null);
+
+            AutoMapperConfiguration.Configure();
+            Mapper.Map(contactModel, contact);
+
+            Assert.AreEqual(0, contact.EmailAddresses.Count);
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace Web.Models
 
         private static void MapEncapsulatedCollections(ContactModel src, Contact dest)
         {
+            dest.ClearEmailAddresses();
             src.EmailAddresses.Each(x => dest.SetEmailAddress(new EmailAddress(x.EmailAddress), x.NickName));
             ContactEmailAddressModel primaryEmailAddress = src.EmailAddresses.FirstOrDefault(x => x.IsPrimary);
             if (primaryEmailAddress != null)
