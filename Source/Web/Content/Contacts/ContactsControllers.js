@@ -38,6 +38,11 @@ contactsControllers.controller('editController', ['$scope', '$routeParams', '$lo
         $scope.originalName = result.FirstName + ' ' + result.LastName;
     });
 
+    $scope.addEmailAddress = function () {
+        var isNewAddressPrimary = $scope.contact.EmailAddresses.length == 0;
+        $scope.contact.EmailAddresses.push({ EmailAddress: null, NickName: null, IsPrimary: isNewAddressPrimary });
+    };
+
     $scope.save = function () {
         contactRepository.updateContact($scope.contact).then(function(result) {
                 alerts.addSuccess('Changes to the contact have been saved.');

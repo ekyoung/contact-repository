@@ -267,6 +267,32 @@
 
             expect(alerts.addSuccess).toHaveBeenCalledWith('Changes to the contact have been saved.');
         });
+
+        it('should add a contact email address with IsPrimary true to the contact when addEmailAddress is called and the contact has no email addresses', function() {
+            contact.EmailAddresses = [];
+            
+            var controller = createController();
+            deferred.resolve(contact);
+            $scope.$apply();
+
+            $scope.addEmailAddress();
+
+            expect(contact.EmailAddresses.length).toBe(1);
+            expect(contact.EmailAddresses[0].IsPrimary).toBe(true);
+        });
+
+        it('should add a contact email address with IsPrimary false to the contact when addEmailAddress is called and the contact already has an email address', function() {
+            contact.EmailAddresses = [{ EmailAddress: 'fake@email.com', NickName: null, IsPrimary: true }];
+            
+            var controller = createController();
+            deferred.resolve(contact);
+            $scope.$apply();
+
+            $scope.addEmailAddress();
+
+            expect(contact.EmailAddresses.length).toBe(2);
+            expect(contact.EmailAddresses[1].IsPrimary).toBe(false);
+        });
     });
 
     describe('deleteController', function() {
