@@ -44,23 +44,33 @@ contactsControllers.controller('editController', ['$scope', '$routeParams', '$lo
     };
 
     $scope.removeEmailAddress = function (contactEmailAddressToRemove) {
-        var index = $scope.contact.EmailAddresses.indexOf(contactEmailAddressToRemove);
+        var emailAddresses = $scope.contact.EmailAddresses,
+            index = emailAddresses.indexOf(contactEmailAddressToRemove);
+        
         if (index >= 0) {
-            $scope.contact.EmailAddresses.splice(index, 1);
+            emailAddresses.splice(index, 1);
         }
 
-        if ($scope.contact.EmailAddresses.length > 0) {
+        if (emailAddresses.length > 0) {
             var anyPrimary = false;
-            for (var i = 0; i < $scope.contact.EmailAddresses.length; i++) {
-                anyPrimary = anyPrimary || $scope.contact.EmailAddresses[i].IsPrimary;
+            for (var i = 0; i < emailAddresses.length; i++) {
+                anyPrimary = anyPrimary || emailAddresses[i].IsPrimary;
             }
 
             if (!anyPrimary) {
-                $scope.contact.EmailAddresses[0].IsPrimary = true;
+                emailAddresses[0].IsPrimary = true;
             }
         }
     };
 
+    $scope.setPrimaryEmailAddress = function (newPrimaryEmailAddress) {
+        var emailAddresses = $scope.contact.EmailAddresses;
+        for (var i = 0; i < emailAddresses.length; i++) {
+            emailAddresses[i].IsPrimary = false;
+        }
+        newPrimaryEmailAddress.IsPrimary = true;
+    };
+    
     $scope.save = function () {
         contactRepository.updateContact($scope.contact).then(function(result) {
                 alerts.addSuccess('Changes to the contact have been saved.');

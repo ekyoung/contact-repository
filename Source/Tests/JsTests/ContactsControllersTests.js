@@ -324,6 +324,21 @@
             expect(contact.EmailAddresses[0]).toBe(otherEmailAddress);
             expect(otherEmailAddress.IsPrimary).toBe(true);
         });
+
+        it('should make only the specified email address primary when setPrimaryEmailAddress is called', function() {
+            var primaryEmailAddress = { EmailAddress: 'primary@email.com', NickName: null, IsPrimary: true },
+                otherEmailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
+            contact.EmailAddresses = [primaryEmailAddress, otherEmailAddress];
+
+            var controller = createController();
+            deferred.resolve(contact);
+            $scope.$apply();
+
+            $scope.setPrimaryEmailAddress(otherEmailAddress);
+
+            expect(primaryEmailAddress.IsPrimary).toBe(false);
+            expect(otherEmailAddress.IsPrimary).toBe(true);
+        });
     });
 
     describe('deleteController', function() {

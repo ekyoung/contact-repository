@@ -37,7 +37,7 @@
                     <label class="col-sm-2 control-label visible-xs">Primary?</label>
                     <div class="col-sm-1">
                         <span style="font-size: 43px;" class="glyphicon glyphicon-star" ng-show="contactEmailAddress.IsPrimary"></span>
-                        <span style="font-size: 43px;" class="glyphicon glyphicon-star-empty" ng-hide="contactEmailAddress.IsPrimary"></span>
+                        <span style="font-size: 43px;" class="glyphicon glyphicon-star-empty" ng-hide="contactEmailAddress.IsPrimary" ng-click="setPrimaryEmailAddress(contactEmailAddress)"></span>
                     </div>
                 </div>
                 <div class="form-group">
