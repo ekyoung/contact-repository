@@ -46,7 +46,7 @@
 
   <Target Name="Deploy">
     <Message Text="Migrating the DB" />
-    <MSBuild Projects="Migrate.build" Targets="RollbackAndMigrate" Properties="ServerName=$(DeployDbServer);DatabaseName=ContactRepository" />
+    <MSBuild Projects="Migrate.build" Targets="Migrate" Properties="ServerName=$(DeployDbServer);DatabaseName=ContactRepository" />
 
     <Message Text="Deploying the website" />
     <MSBuild Projects="$(SolutionDir)\Web\Web.csproj" Targets="WebPublish" Properties="Configuration=$(Configuration);PublishProfile=$(PublishProfile)" />
