@@ -65,9 +65,11 @@ contactsControllers.controller('editController', ['$scope', '$routeParams', '$lo
 
     $scope.setPrimaryEmailAddress = function (newPrimaryEmailAddress) {
         var emailAddresses = $scope.contact.EmailAddresses;
+        
         for (var i = 0; i < emailAddresses.length; i++) {
             emailAddresses[i].IsPrimary = false;
         }
+        
         newPrimaryEmailAddress.IsPrimary = true;
     };
     
