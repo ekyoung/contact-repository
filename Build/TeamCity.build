@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Branch)' != 'master' ">Debug</Configuration>
     <Configuration Condition=" '$(Branch)' == 'master' ">Release</Configuration>
 
-    <PublishProfile Condition=" '$(Branch)' == 'develop' ">Dev</PublishProfile>
+    <PublishProfile Condition=" '$(Branch)' == 'refs/heads/develop' ">Dev</PublishProfile>
 
     <TestsDbServer>localhost</TestsDbServer>
     <DeployDbServer>localhost</DeployDbServer>
@@ -26,7 +26,7 @@
 		<Message Text="Using PublishProfile $(PublishProfile)" />
     <CallTarget Targets="Build" />
     <CallTarget Targets="MigrateTestsDbAndTest" />
-    <CallTarget Targets="Deploy" Condition=" '$(Branch)' == 'develop' " />
+    <CallTarget Targets="Deploy" Condition=" '$(Branch)' == 'refs/heads/develop' " />
   </Target>
 
   <Target Name="Build">
