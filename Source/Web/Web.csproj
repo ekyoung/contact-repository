@@ -172,12 +172,13 @@
     <Content Include="Content\bootstrap-3.0.2\js\bootstrap.js" />
     <Content Include="Content\bootstrap-3.0.2\js\bootstrap.min.js" />
     <Content Include="Content\Common\Main.css" />
-    <Content Include="Content\Contacts\CreateContact.html" />
-    <Content Include="Content\Contacts\DeleteContact.html" />
-    <Content Include="Content\Contacts\ListContacts.html" />
+    <Content Include="Content\Contacts\EditContact.html" />
+    <Content Include="Content\Contacts\CreateContactView.html" />
+    <Content Include="Content\Contacts\DeleteContactView.html" />
+    <Content Include="Content\Contacts\ListContactsView.html" />
     <Content Include="Content\Contacts\ContactsApp.js" />
     <Content Include="Content\Contacts\ContactsControllers.js" />
-    <Content Include="Content\Contacts\EditContact.html" />
+    <Content Include="Content\Contacts\EditContactView.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\bootstrap-3.0.2\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-3.0.2\fonts\glyphicons-halflings-regular.ttf" />

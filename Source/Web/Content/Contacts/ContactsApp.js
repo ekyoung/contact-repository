@@ -7,19 +7,19 @@ contactsApp.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
             when('/create', {
-                templateUrl: '/Content/Contacts/CreateContact.html',
+                templateUrl: '/Content/Contacts/CreateContactView.html',
                 controller: 'createController'
             }).
             when('/edit/:contactIdentifier', {
-                templateUrl: '/Content/Contacts/EditContact.html',
+                templateUrl: '/Content/Contacts/EditContactView.html',
                 controller: 'editController'
             }).
             when('/delete/:contactIdentifier', {
-                templateUrl: '/Content/Contacts/DeleteContact.html',
+                templateUrl: '/Content/Contacts/DeleteContactView.html',
                 controller: 'deleteController'
             }).
             otherwise({
-                templateUrl: '/Content/Contacts/ListContacts.html',
+                templateUrl: '/Content/Contacts/ListContactsView.html',
                 controller: 'listController'
             });
     }]);

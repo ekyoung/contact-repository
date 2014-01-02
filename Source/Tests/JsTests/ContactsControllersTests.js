@@ -267,78 +267,6 @@
 
             expect(alerts.addSuccess).toHaveBeenCalledWith('Changes to the contact have been saved.');
         });
-
-        it('should add a contact email address with IsPrimary true to the contact when addEmailAddress is called and the contact has no email addresses', function() {
-            contact.EmailAddresses = [];
-            
-            var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
-
-            $scope.addEmailAddress();
-
-            expect(contact.EmailAddresses.length).toBe(1);
-            expect(contact.EmailAddresses[0].IsPrimary).toBe(true);
-        });
-
-        it('should add a contact email address with IsPrimary false to the contact when addEmailAddress is called and the contact already has an email address', function() {
-            contact.EmailAddresses = [{ EmailAddress: 'fake@email.com', NickName: null, IsPrimary: true }];
-            
-            var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
-
-            $scope.addEmailAddress();
-
-            expect(contact.EmailAddresses.length).toBe(2);
-            expect(contact.EmailAddresses[1].IsPrimary).toBe(false);
-        });
-
-        it('should remove a contact email address when removeEmailAddress is called with a contact email address that is not the primary address', function () {
-            var primaryEmailAddress = { EmailAddress: 'primary@email.com', NickName: null, IsPrimary: true },
-                otherEmailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
-            contact.EmailAddresses = [ primaryEmailAddress, otherEmailAddress ];
-
-            var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
-
-            $scope.removeEmailAddress(otherEmailAddress);
-
-            expect(contact.EmailAddresses.length).toBe(1);
-            expect(contact.EmailAddresses[0]).toBe(primaryEmailAddress);
-        });
-
-        it('should remove a contact email address and make the first remaining address primary when removeEmailAddress is called with the primary address', function () {
-            var primaryEmailAddress = { EmailAddress: 'primary@email.com', NickName: null, IsPrimary: true },
-                otherEmailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
-            contact.EmailAddresses = [ primaryEmailAddress, otherEmailAddress ];
-
-            var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
-
-            $scope.removeEmailAddress(primaryEmailAddress);
-
-            expect(contact.EmailAddresses.length).toBe(1);
-            expect(contact.EmailAddresses[0]).toBe(otherEmailAddress);
-            expect(otherEmailAddress.IsPrimary).toBe(true);
-        });
-
-        it('should make only the specified email address primary when setPrimaryEmailAddress is called', function() {
-            var primaryEmailAddress = { EmailAddress: 'primary@email.com', NickName: null, IsPrimary: true },
-                otherEmailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
-            contact.EmailAddresses = [primaryEmailAddress, otherEmailAddress];
-
-            var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
-
-            $scope.setPrimaryEmailAddress(otherEmailAddress);
-
-            expect(primaryEmailAddress.IsPrimary).toBe(false);
-            expect(otherEmailAddress.IsPrimary).toBe(true);
-        });
     });
 
     describe('deleteController', function() {
@@ -419,5 +347,84 @@
             expect(alerts.addInfo).toHaveBeenCalledWith('Deletion of the contact has been cancelled.');
         });
 
+    });
+
+    describe('eyEditContactController', function () {
+        var contact, $scope, createController;
+
+        beforeEach(inject(function ($injector) {
+            $scope = $injector.get('$rootScope');
+
+            contact = { FirstName: 'Joe', LastName: 'One', EmailAddresses: [] };
+            $scope.contact = contact;
+
+            var $controller = $injector.get('$controller');
+
+            createController = function () {
+                return $controller('eyEditContactController', { $scope: $scope });
+            };
+        }));
+
+        it('should add a contact email address with IsPrimary true to the contact when addEmailAddress is called and the contact has no email addresses', function () {
+            contact.EmailAddresses = [];
+
+            var controller = createController();
+
+            $scope.addEmailAddress();
+
+            expect(contact.EmailAddresses.length).toBe(1);
+            expect(contact.EmailAddresses[0].IsPrimary).toBe(true);
+        });
+
+        it('should add a contact email address with IsPrimary false to the contact when addEmailAddress is called and the contact already has an email address', function () {
+            contact.EmailAddresses = [{ EmailAddress: 'fake@email.com', NickName: null, IsPrimary: true }];
+
+            var controller = createController();
+
+            $scope.addEmailAddress();
+
+            expect(contact.EmailAddresses.length).toBe(2);
+            expect(contact.EmailAddresses[1].IsPrimary).toBe(false);
+        });
+
+        it('should remove a contact email address when removeEmailAddress is called with a contact email address that is not the primary address', function () {
+            var primaryEmailAddress = { EmailAddress: 'primary@email.com', NickName: null, IsPrimary: true },
+                otherEmailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
+            contact.EmailAddresses = [primaryEmailAddress, otherEmailAddress];
+
+            var controller = createController();
+
+            $scope.removeEmailAddress(otherEmailAddress);
+
+            expect(contact.EmailAddresses.length).toBe(1);
+            expect(contact.EmailAddresses[0]).toBe(primaryEmailAddress);
+        });
+
+        it('should remove a contact email address and make the first remaining address primary when removeEmailAddress is called with the primary address', function () {
+            var primaryEmailAddress = { EmailAddress: 'primary@email.com', NickName: null, IsPrimary: true },
+                otherEmailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
+            contact.EmailAddresses = [primaryEmailAddress, otherEmailAddress];
+
+            var controller = createController();
+
+            $scope.removeEmailAddress(primaryEmailAddress);
+
+            expect(contact.EmailAddresses.length).toBe(1);
+            expect(contact.EmailAddresses[0]).toBe(otherEmailAddress);
+            expect(otherEmailAddress.IsPrimary).toBe(true);
+        });
+
+        it('should make only the specified email address primary when setPrimaryEmailAddress is called', function () {
+            var primaryEmailAddress = { EmailAddress: 'primary@email.com', NickName: null, IsPrimary: true },
+                otherEmailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
+            contact.EmailAddresses = [primaryEmailAddress, otherEmailAddress];
+
+            var controller = createController();
+
+            $scope.setPrimaryEmailAddress(otherEmailAddress);
+
+            expect(primaryEmailAddress.IsPrimary).toBe(false);
+            expect(otherEmailAddress.IsPrimary).toBe(true);
+        });
     });
 });

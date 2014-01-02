@@ -16,7 +16,8 @@ contactsControllers.controller('listController', ['$scope', 'alerts', 'contactRe
 contactsControllers.controller('createController', ['$scope', '$location', 'alerts', 'contactRepository', function ($scope, $location, alerts, contactRepository) {
     $scope.contact = {
         FirstName: null,
-        LastName: null
+        LastName: null,
+        EmailAddresses: []
     };
     
     $scope.save = function () {
@@ -37,41 +38,6 @@ contactsControllers.controller('editController', ['$scope', '$routeParams', '$lo
         $scope.contact = result;
         $scope.originalName = result.FirstName + ' ' + result.LastName;
     });
-
-    $scope.addEmailAddress = function () {
-        var isNewAddressPrimary = $scope.contact.EmailAddresses.length == 0;
-        $scope.contact.EmailAddresses.push({ EmailAddress: null, NickName: null, IsPrimary: isNewAddressPrimary });
-    };
-
-    $scope.removeEmailAddress = function (contactEmailAddressToRemove) {
-        var emailAddresses = $scope.contact.EmailAddresses,
-            index = emailAddresses.indexOf(contactEmailAddressToRemove);
-        
-        if (index >= 0) {
-            emailAddresses.splice(index, 1);
-        }
-
-        if (emailAddresses.length > 0) {
-            var anyPrimary = false;
-            for (var i = 0; i < emailAddresses.length; i++) {
-                anyPrimary = anyPrimary || emailAddresses[i].IsPrimary;
-            }
-
-            if (!anyPrimary) {
-                emailAddresses[0].IsPrimary = true;
-            }
-        }
-    };
-
-    $scope.setPrimaryEmailAddress = function (newPrimaryEmailAddress) {
-        var emailAddresses = $scope.contact.EmailAddresses;
-        
-        for (var i = 0; i < emailAddresses.length; i++) {
-            emailAddresses[i].IsPrimary = false;
-        }
-        
-        newPrimaryEmailAddress.IsPrimary = true;
-    };
     
     $scope.save = function () {
         contactRepository.updateContact($scope.contact).then(function(result) {
@@ -103,3 +69,49 @@ contactsControllers.controller('deleteController', ['$scope', '$routeParams', '$
         $location.path('/');
     };
 }]);
+
+contactsControllers.controller('eyEditContactController', ['$scope', function($scope) {
+    $scope.addEmailAddress = function () {
+        var isNewAddressPrimary = $scope.contact.EmailAddresses.length == 0;
+        $scope.contact.EmailAddresses.push({ EmailAddress: null, NickName: null, IsPrimary: isNewAddressPrimary });
+    };
+
+    $scope.removeEmailAddress = function (contactEmailAddressToRemove) {
+        var emailAddresses = $scope.contact.EmailAddresses,
+            index = emailAddresses.indexOf(contactEmailAddressToRemove);
+
+        if (index >= 0) {
+            emailAddresses.splice(index, 1);
+        }
+
+        if (emailAddresses.length > 0) {
+            var anyPrimary = false;
+            for (var i = 0; i < emailAddresses.length; i++) {
+                anyPrimary = anyPrimary || emailAddresses[i].IsPrimary;
+            }
+
+            if (!anyPrimary) {
+                emailAddresses[0].IsPrimary = true;
+            }
+        }
+    };
+
+    $scope.setPrimaryEmailAddress = function (newPrimaryEmailAddress) {
+        var emailAddresses = $scope.contact.EmailAddresses;
+
+        for (var i = 0; i < emailAddresses.length; i++) {
+            emailAddresses[i].IsPrimary = false;
+        }
+
+        newPrimaryEmailAddress.IsPrimary = true;
+    };
+}]);
+
+contactsControllers.directive('eyEditContact', function() {
+    return {
+        templateUrl: '/Content/Contacts/EditContact.html',
+        restrict: 'E',
+        scope: { contact: '=' },
+        controller: 'eyEditContactController'
+    };
+});
