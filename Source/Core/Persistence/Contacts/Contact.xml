@@ -67,6 +67,12 @@
     </select>
   
     <delete id="DeleteContactByIdentifier" parameterClass="guid">
+      DELETE ContactEmailAddresses
+      FROM ContactEmailAddresses cea
+      INNER JOIN Contacts c
+        ON cea.ContactId = c.ContactId
+      WHERE c.ContactIdentifier = #value#
+      
       DELETE FROM Contacts
       WHERE ContactIdentifier = #value#
     </delete>

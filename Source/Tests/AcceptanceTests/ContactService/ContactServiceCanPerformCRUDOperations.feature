@@ -19,6 +19,7 @@ Scenario: Insert Update and Select
 
 Scenario: Insert and Delete
 	Given I create a contact
+	And I set email address user@home.com on the contact
 	And I save the contact
 	And I delete the contact
 	When I retrieve the contact
