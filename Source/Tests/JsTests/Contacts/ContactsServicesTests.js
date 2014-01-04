@@ -1,9 +1,5 @@
 ﻿describe('Contacts Services', function() {
-    var apiRoot = '/api';
-
-    beforeEach(module('contactsApp', function ($provide) {
-        $provide.value('apiRootUrl', apiRoot);
-    }));
+    beforeEach(module('contactsApp'));
 
     describe('alerts', function () {
         var createService;
@@ -105,86 +101,6 @@
             service.displayAlerts({});
             
             expect(service.readAlerts().length).toBe(0);
-        });
-    });
-
-    describe('contactRepository', function() {
-        var $httpBackend, createRepository;
-        
-        beforeEach(inject(function ($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-
-            createRepository = function () {
-                return $injector.get('contactRepository');
-            };
-        }));
-
-        afterEach(function () {
-            $httpBackend.verifyNoOutstandingExpectation();
-            $httpBackend.verifyNoOutstandingRequest();
-        });
-
-        it('should make a get request when asked to get contacts', function() {
-            var repository = createRepository();
-
-            var contacts = [];
-            $httpBackend.expectGET(apiRoot + '/contacts').respond(contacts);
-
-            repository.getContacts();
-            $httpBackend.flush();
-        });
-
-        it('should make a get request when asked to get a single contact', function () {
-            var contactIdentifier = 'id1';
-            
-            var repository = createRepository();
-
-            var contact = {};
-            $httpBackend.expectGET(apiRoot + '/contacts/' + contactIdentifier).respond(contact);
-
-            repository.getContact(contactIdentifier);
-            $httpBackend.flush();
-        });
-
-        it('should make a post request when asked to insert a contact', function () {
-            var contact = {
-                FirstName: 'Joe',
-                LastName: 'Contact'
-            };
-
-            var repository = createRepository();
-
-            $httpBackend.expectPOST(apiRoot + '/contacts', angular.toJson(contact)).respond(204, '');
-
-            repository.insertContact(contact);
-            $httpBackend.flush();
-        });
-
-        it('should make a put request when asked to update a contact', function () {
-            var contactIdentifier = 'id1';
-            var contact = {
-                Identifier: contactIdentifier,
-                FirstName: 'Joe',
-                LastName: 'Contact'
-            };
-
-            var repository = createRepository();
-
-            $httpBackend.expectPUT(apiRoot + '/contacts/' + contactIdentifier, angular.toJson(contact)).respond(204, '');
-
-            repository.updateContact(contact);
-            $httpBackend.flush();
-        });
-
-        it('should make a delete request when asked to delete a contact', function () {
-            var contactIdentifier = 'id1';
-
-            var repository = createRepository();
-
-            $httpBackend.expectDELETE(apiRoot + '/contacts/' + contactIdentifier).respond(204, '');
-
-            repository.deleteContact(contactIdentifier);
-            $httpBackend.flush();
         });
     });
 });
