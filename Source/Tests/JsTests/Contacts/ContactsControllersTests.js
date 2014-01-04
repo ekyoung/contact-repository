@@ -50,11 +50,24 @@
 
     beforeEach(function() {
         mockContactsResource = {
+            create: function() {
+                return {
+                    FirstName: null,
+                    LastName: null,
+                    EmailAddresses: []
+                };
+            },
             get : function() {
                 return {};
             },
+            $save : function(callback) {
+                callback();
+            },
             query: function () {
                 return [];
+            },
+            delete: function(params, data, success) {
+                 success();
             }
         };
     });
@@ -93,7 +106,15 @@
     describe('createController', function() {
         var $scope, $location, createController;
 
-        beforeEach(inject(function($injector) {
+        var contact = {
+            $save: function(callback) {
+                 callback();
+            }
+        };
+
+        beforeEach(inject(function ($injector) {
+            mockContactsResource.create = function () { return contact; };
+            
             $scope = $injector.get('$rootScope');
 
             q = $injector.get('$q');
@@ -104,49 +125,46 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('createController', { $scope: $scope, $location: $location, alerts: alerts, contactRepository: mockContactRepository });
+                return $controller('createController', { $scope: $scope, $location: $location, alerts: alerts, Contacts: mockContactsResource });
             };
         }));
 
-        it('should set an empty contact on the scope in all cases', function() {
+        it('should use the factory method to create an empty contact in all cases', function () {
+            spyOn(mockContactsResource, 'create').andCallThrough();
+
             var controller = createController();
 
-            expect($scope.contact.FirstName).toBe(null);
-            expect($scope.contact.LastName).toBe(null);
+            expect(mockContactsResource.create).toHaveBeenCalled();
         });
 
-        it('should insert a contact when save is clicked', function () {
-            var contact = {
-                FirstName: 'Joe',
-                LastName: 'Contact'
-            };
+        it('should set an empty contact on the scope in all cases', function () {
+            var controller = createController();
+
+            expect($scope.contact).toBe(contact);
+        });
+
+        it('should save the contact when save is clicked', function () {
+            spyOn(contact, '$save').andCallThrough();
             
             var controller = createController();
-            $scope.contact = contact;
             
             $scope.save();
-            deferred.resolve();
-            $scope.$apply();
 
-            expect(mockContactRepository.insertContact).toHaveBeenCalledWith(contact);
+            expect(contact.$save).toHaveBeenCalled();
         });
         
         it('should redirect to the list view when save is clicked and the operation is successful', function () {
             var controller = createController();
 
             $scope.save();
-            deferred.resolve();
-            $scope.$apply();
 
             expect($location.path()).toBe('/');
         });
 
-        it('should add a success alert when save is clicked and the operation is successful', function () {
+        it('should add a success alert when save is clicked and the operation is successful', function() {
             var controller = createController();
 
             $scope.save();
-            deferred.resolve();
-            $scope.$apply();
 
             expect(alerts.addSuccess).toHaveBeenCalledWith('A new contact has been created.');
         });
@@ -181,6 +199,7 @@
 
         beforeEach(inject(function ($injector) {
             mockContactsResource.get = function () { return contact; };
+            spyOn(mockContactsResource, 'get').andCallThrough();
             spyOn(contact, '$update').andCallThrough();
 
             $scope = $injector.get('$rootScope');
@@ -201,8 +220,6 @@
         }));
         
         it('should use the contact identifier to get a contact', function () {
-            spyOn(mockContactsResource, 'get').andCallThrough();
-
             var controller = createController();
 
             expect(mockContactsResource.get).toHaveBeenCalledWith({ contactIdentifier: contactIdentifier }, jasmine.any(Function));
@@ -252,24 +269,16 @@
         it('should redirect to the list view when save is clicked and the operation is successful', function () {
 
             var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
 
             $scope.save();
-            deferred.resolve();
-            $scope.$apply();
 
             expect($location.path()).toBe('/');
         });
 
         it('should add a success alert when save is clicked and the operation is successful', function () {
             var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
 
             $scope.save();
-            deferred.resolve();
-            $scope.$apply();
 
             expect(alerts.addSuccess).toHaveBeenCalledWith('Changes to the contact have been saved.');
         });
@@ -282,6 +291,10 @@
         var contact = { Identifier: contactIdentifier, FirstName: 'Joe', LastName: 'One' };
 
         beforeEach(inject(function ($injector) {
+            mockContactsResource.get = function () { return contact; };
+            spyOn(mockContactsResource, 'get').andCallThrough();
+            spyOn(mockContactsResource, 'delete').andCallThrough();
+
             $scope = $injector.get('$rootScope');
 
             q = $injector.get('$q');
@@ -295,14 +308,12 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, contactRepository: mockContactRepository });
+                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, Contacts: mockContactsResource });
             };
         }));
 
         it('should set a contact on the scope when given a contact', function () {
             var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
 
             expect($scope.contact).toBe(contact);
         });
@@ -311,18 +322,14 @@
             var controller = createController();
 
             $scope.continue();
-            deferred.resolve();
-            $scope.$apply();
 
-            expect(mockContactRepository.deleteContact).toHaveBeenCalledWith(contactIdentifier);
+            expect(mockContactsResource.delete).toHaveBeenCalledWith({ contactIdentifier: contactIdentifier }, null, jasmine.any(Function));
         });
 
         it('should redirect to the list view when continue is clicked and the operation is successful', function () {
             var controller = createController();
 
             $scope.continue();
-            deferred.resolve();
-            $scope.$apply();
 
             expect($location.path()).toBe('/');
         });
@@ -331,8 +338,6 @@
             var controller = createController();
 
             $scope.continue();
-            deferred.resolve();
-            $scope.$apply();
 
             expect(alerts.addSuccess).toHaveBeenCalledWith('The contact has been deleted.');
         });

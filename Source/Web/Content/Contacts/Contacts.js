@@ -3,9 +3,18 @@
 ]);
 
 eyContacts.factory('Contacts', ['$resource', 'apiRootUrl', function($resource, apiRootUrl) {
-    return $resource(apiRootUrl + '/contacts/:contactIdentifier', null,
+    var Contacts =  $resource(apiRootUrl + '/contacts/:contactIdentifier', null,
         {
-            'insert': { method: 'POST' },
             'update': { method: 'PUT', params: {contactIdentifier: '@Identifier'} }
         });
+
+    Contacts.create = function() {
+        return new Contacts({
+            FirstName: null,
+            LastName: null,
+            EmailAddresses: []
+        });
+    };
+    
+    return Contacts;
 }]);
