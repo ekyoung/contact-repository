@@ -1,5 +1,5 @@
-﻿describe('Contacts Services', function() {
-    beforeEach(module('contactsApp'));
+﻿describe('eyAlerts', function() {
+    beforeEach(module('eyAlerts'));
 
     describe('alerts', function () {
         var createService;

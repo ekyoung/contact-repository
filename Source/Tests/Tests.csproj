@@ -102,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AcceptanceTests\Bootstrapping\CreateBlankDb.sql" />
-    <Content Include="JsTests\Contacts\ContactsServicesTests.js" />
+    <Content Include="JsTests\Alerts\AlertsTests.js" />
     <Content Include="JsTests\angular-1.2.0\angular-animate.js" />
     <Content Include="JsTests\angular-1.2.0\angular-animate.min.js" />
     <Content Include="JsTests\angular-1.2.0\angular-cookies.js" />

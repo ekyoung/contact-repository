@@ -1,4 +1,5 @@
 ﻿var contactsControllers = angular.module('contactsControllers', [
+    'eyAlerts',
     'eyContacts'
 ]);
 
