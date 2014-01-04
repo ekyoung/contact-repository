@@ -12,28 +12,36 @@
         };
 
         $provide.value('alerts', mockAlertsService);
-        
-        mockContactsResource = {
-            create: function () {
-                return {
-                    FirstName: null,
-                    LastName: null,
-                    EmailAddresses: []
-                };
-            },
-            get: function () {
-                return {};
-            },
-            $save: function (callback) {
-                callback();
-            },
-            query: function () {
-                return [];
-            },
-            delete: function (params, data, success) {
-                success();
-            }
+
+        mockContactsResource = function () {
+            this.FirstName = null;
+            this.LastName = null;
+            this.EmailAddresses = [];
         };
+
+        mockContactsResource.create = function () {
+            return new mockContactsResource();
+        };
+
+        mockContactsResource.get = function () {
+            return {};
+        };
+
+        mockContactsResource.query = function () {
+            return [];
+        };
+
+        mockContactsResource.delete = function (params, data, success) {
+            success();
+        };
+        
+        mockContactsResource.prototype.$save = function (callback) {
+            callback();
+        };
+
+        mockContactsResource.prototype.addEmailAddress = jasmine.createSpy();
+        mockContactsResource.prototype.removeEmailAddress = jasmine.createSpy();
+        mockContactsResource.prototype.setPrimaryEmailAddress = jasmine.createSpy();
 
         $provide.value('Contacts', mockContactsResource);
     }));
@@ -324,7 +332,7 @@
         beforeEach(inject(function ($injector) {
             $scope = $injector.get('$rootScope');
 
-            contact = { FirstName: 'Joe', LastName: 'One', EmailAddresses: [] };
+            contact = new mockContactsResource();
             $scope.contact = contact;
 
             var $controller = $injector.get('$controller');
@@ -334,66 +342,32 @@
             };
         }));
 
-        it('should add a contact email address with IsPrimary true to the contact when addEmailAddress is called and the contact has no email addresses', function () {
-            contact.EmailAddresses = [];
-
+        it('should call addEmailAddress on the contact when addEmailAddress is called', function () {
             var controller = createController();
 
             $scope.addEmailAddress();
 
-            expect(contact.EmailAddresses.length).toBe(1);
-            expect(contact.EmailAddresses[0].IsPrimary).toBe(true);
+            expect(contact.addEmailAddress).toHaveBeenCalled();
         });
 
-        it('should add a contact email address with IsPrimary false to the contact when addEmailAddress is called and the contact already has an email address', function () {
-            contact.EmailAddresses = [{ EmailAddress: 'fake@email.com', NickName: null, IsPrimary: true }];
+        it('should call removeEmailAddress on the contact when removeEmailAddress is called', function () {
+            var emailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
 
             var controller = createController();
 
-            $scope.addEmailAddress();
+            $scope.removeEmailAddress(emailAddress);
 
-            expect(contact.EmailAddresses.length).toBe(2);
-            expect(contact.EmailAddresses[1].IsPrimary).toBe(false);
+            expect(contact.removeEmailAddress).toHaveBeenCalledWith(emailAddress);
         });
 
-        it('should remove a contact email address when removeEmailAddress is called with a contact email address that is not the primary address', function () {
-            var primaryEmailAddress = { EmailAddress: 'primary@email.com', NickName: null, IsPrimary: true },
-                otherEmailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
-            contact.EmailAddresses = [primaryEmailAddress, otherEmailAddress];
+        it('should call setPrimaryEmailAddress on the contact when setPrimaryEmailAddress is called', function () {
+            var emailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
 
             var controller = createController();
 
-            $scope.removeEmailAddress(otherEmailAddress);
+            $scope.setPrimaryEmailAddress(emailAddress);
 
-            expect(contact.EmailAddresses.length).toBe(1);
-            expect(contact.EmailAddresses[0]).toBe(primaryEmailAddress);
-        });
-
-        it('should remove a contact email address and make the first remaining address primary when removeEmailAddress is called with the primary address', function () {
-            var primaryEmailAddress = { EmailAddress: 'primary@email.com', NickName: null, IsPrimary: true },
-                otherEmailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
-            contact.EmailAddresses = [primaryEmailAddress, otherEmailAddress];
-
-            var controller = createController();
-
-            $scope.removeEmailAddress(primaryEmailAddress);
-
-            expect(contact.EmailAddresses.length).toBe(1);
-            expect(contact.EmailAddresses[0]).toBe(otherEmailAddress);
-            expect(otherEmailAddress.IsPrimary).toBe(true);
-        });
-
-        it('should make only the specified email address primary when setPrimaryEmailAddress is called', function () {
-            var primaryEmailAddress = { EmailAddress: 'primary@email.com', NickName: null, IsPrimary: true },
-                otherEmailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
-            contact.EmailAddresses = [primaryEmailAddress, otherEmailAddress];
-
-            var controller = createController();
-
-            $scope.setPrimaryEmailAddress(otherEmailAddress);
-
-            expect(primaryEmailAddress.IsPrimary).toBe(false);
-            expect(otherEmailAddress.IsPrimary).toBe(true);
+            expect(contact.setPrimaryEmailAddress).toHaveBeenCalledWith(emailAddress);
         });
     });
 });

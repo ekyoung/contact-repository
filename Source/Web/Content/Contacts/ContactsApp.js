@@ -82,38 +82,15 @@ contactsApp.controller('deleteController', ['$scope', '$routeParams', '$location
 
 contactsApp.controller('eyEditContactController', ['$scope', function ($scope) {
     $scope.addEmailAddress = function () {
-        var isNewAddressPrimary = $scope.contact.EmailAddresses.length == 0;
-        $scope.contact.EmailAddresses.push({ EmailAddress: null, NickName: null, IsPrimary: isNewAddressPrimary });
+        $scope.contact.addEmailAddress();
     };
 
     $scope.removeEmailAddress = function (contactEmailAddressToRemove) {
-        var emailAddresses = $scope.contact.EmailAddresses,
-            index = emailAddresses.indexOf(contactEmailAddressToRemove);
-
-        if (index >= 0) {
-            emailAddresses.splice(index, 1);
-        }
-
-        if (emailAddresses.length > 0) {
-            var anyPrimary = false;
-            for (var i = 0; i < emailAddresses.length; i++) {
-                anyPrimary = anyPrimary || emailAddresses[i].IsPrimary;
-            }
-
-            if (!anyPrimary) {
-                emailAddresses[0].IsPrimary = true;
-            }
-        }
+        $scope.contact.removeEmailAddress(contactEmailAddressToRemove);
     };
 
     $scope.setPrimaryEmailAddress = function (newPrimaryEmailAddress) {
-        var emailAddresses = $scope.contact.EmailAddresses;
-
-        for (var i = 0; i < emailAddresses.length; i++) {
-            emailAddresses[i].IsPrimary = false;
-        }
-
-        newPrimaryEmailAddress.IsPrimary = true;
+        $scope.contact.setPrimaryEmailAddress(newPrimaryEmailAddress);
     };
 }]);
 
