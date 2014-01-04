@@ -1,8 +1,14 @@
 ﻿describe('Contacts Controllers', function () {
     beforeEach(module('contactsApp'));
 
-    var alerts, mockContactRepository, q, deferred,
+    var alerts,
+        mockContactRepository, q, deferred,
+        mockContactsResource,
         apiRoot = '/api';
+
+    beforeEach(module('eyContacts', function ($provide) {
+        $provide.value('apiRootUrl', apiRoot);
+    }));
 
     beforeEach(function() {
         alerts = {
@@ -42,6 +48,17 @@
         spyOn(mockContactRepository, 'deleteContact').andCallThrough();
     });
 
+    beforeEach(function() {
+        mockContactsResource = {
+            get : function() {
+                return {};
+            },
+            query: function () {
+                return [];
+            }
+        };
+    });
+
     describe('listController', function () {
         var $scope, createController;
 
@@ -53,45 +70,20 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('listController', { $scope: $scope, alerts: alerts, contactRepository: mockContactRepository });
+                return $controller('listController', { $scope: $scope, alerts: alerts, Contacts: mockContactsResource });
             };
         }));
 
         it('should set an array of contacts on the scope when given an array of contacts', function () {
             var contacts = [{ FirstName: 'Joe', LastName: 'One' }, { FirstName: 'Frank', LastName: 'Two' }];
+            mockContactsResource.query = function () { return contacts; };
 
             var controller = createController();
-            deferred.resolve(contacts);
 
-            $scope.$apply();
             expect($scope.contacts).toBe(contacts);
         });
-        /*
-        it('should add a danger alert when given a 404 error', function() {
-            $httpBackend.when('GET', apiRoot + '/contacts').respond(404);
-            var controller = createController();
-            $httpBackend.flush();
 
-            expect(alerts.addDanger).toHaveBeenCalledWith('The server returned 404.');
-            expect(alerts.displayAlerts).toHaveBeenCalledWith($scope);
-            expect(alerts.displayAlerts.callCount).toBe(2);
-        });
-
-        it('should add a danger alert when given a 500 error', function () {
-            var exceptionMessage = "Some exception";
-            $httpBackend.when('GET', apiRoot + '/contacts').respond(500, {ExceptionMessage: exceptionMessage});
-            var controller = createController();
-            $httpBackend.flush();
-
-            expect(alerts.addDanger).toHaveBeenCalledWith('The server returned the following error message: ' + exceptionMessage);
-            expect(alerts.displayAlerts).toHaveBeenCalledWith($scope);
-            expect(alerts.displayAlerts.callCount).toBe(2);
-        });
-        */
         it('should display alerts in all cases', function () {
-            var alertsArray = [{ text: 'The alert text', type: 'info' }];
-            alerts.alerts = alertsArray;
-
             var controller = createController();
 
             expect(alerts.displayAlerts).toHaveBeenCalledWith($scope);
@@ -180,9 +172,17 @@
         var $scope, $routeParams, $location, createController;
 
         var contactIdentifier = 'id1';
-        var contact = { Identifier: contactIdentifier, FirstName: 'Joe', LastName: 'One' };
+        var contact = {
+            Identifier: contactIdentifier,
+            FirstName: 'Joe',
+            LastName: 'One',
+            $update: function (callback) { callback(); }
+        };
 
         beforeEach(inject(function ($injector) {
+            mockContactsResource.get = function () { return contact; };
+            spyOn(contact, '$update').andCallThrough();
+
             $scope = $injector.get('$rootScope');
 
             q = $injector.get('$q');
@@ -196,22 +196,31 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, contactRepository: mockContactRepository });
+                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, Contacts: mockContactsResource });
             };
         }));
         
+        it('should use the contact identifier to get a contact', function () {
+            spyOn(mockContactsResource, 'get').andCallThrough();
+
+            var controller = createController();
+
+            expect(mockContactsResource.get).toHaveBeenCalledWith({ contactIdentifier: contactIdentifier }, jasmine.any(Function));
+        });
+        
         it('should set a contact on the scope when given a contact', function () {
             var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
 
             expect($scope.contact).toBe(contact);
         });
         
-        it('should set the original name on the scope when given a contact', function () {
+        it('should set the original name of the contact on the scope when given a contact', function () {
+            mockContactsResource.get = function (x, callback) {
+                callback(contact);
+                return contact;
+            };
+
             var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
 
             expect($scope.originalName).toBe(contact.FirstName + ' ' + contact.LastName);
         });
@@ -232,19 +241,16 @@
             expect(alerts.addInfo).toHaveBeenCalledWith('Changes to the contact have been cancelled.');
         });
 
-        it('should update the contact when save is clicked', function() {
+        it('should update the contact when save is clicked', function () {
             var controller = createController();
-            deferred.resolve(contact);
-            $scope.$apply();
 
             $scope.save();
-            deferred.resolve();
-            $scope.$apply();
 
-            expect(mockContactRepository.updateContact).toHaveBeenCalledWith(contact);
+            expect(contact.$update).toHaveBeenCalled();
         });
         
         it('should redirect to the list view when save is clicked and the operation is successful', function () {
+
             var controller = createController();
             deferred.resolve(contact);
             $scope.$apply();

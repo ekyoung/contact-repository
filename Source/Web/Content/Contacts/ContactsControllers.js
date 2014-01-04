@@ -1,14 +1,9 @@
-﻿var contactsControllers = angular.module('contactsControllers', []);
+﻿var contactsControllers = angular.module('contactsControllers', [
+    'eyContacts'
+]);
 
-contactsControllers.controller('listController', ['$scope', 'alerts', 'contactRepository', function($scope, alerts, contactRepository) {
-    contactRepository.getContacts().then(function (result) {
-        if (typeof result === 'string') {
-            alerts.addDanger(result);
-            alerts.displayAlerts($scope);
-        } else {
-            $scope.contacts = result;
-        }
-    });
+contactsControllers.controller('listController', ['$scope', 'alerts', 'Contacts', function ($scope, alerts, Contacts) {
+    $scope.contacts = Contacts.query();
 
     alerts.displayAlerts($scope);
 }]);
@@ -33,17 +28,16 @@ contactsControllers.controller('createController', ['$scope', '$location', 'aler
     };
 }]);
 
-contactsControllers.controller('editController', ['$scope', '$routeParams', '$location', 'alerts', 'contactRepository', function ($scope, $routeParams, $location, alerts, contactRepository) {
-    contactRepository.getContact($routeParams.contactIdentifier).then(function(result) {
-        $scope.contact = result;
-        $scope.originalName = result.FirstName + ' ' + result.LastName;
+contactsControllers.controller('editController', ['$scope', '$routeParams', '$location', 'alerts', 'Contacts', function ($scope, $routeParams, $location, alerts, Contacts) {
+    $scope.contact = Contacts.get({ contactIdentifier: $routeParams.contactIdentifier }, function(contact) {
+        $scope.originalName = contact.FirstName + ' ' + contact.LastName;
     });
     
     $scope.save = function () {
-        contactRepository.updateContact($scope.contact).then(function(result) {
-                alerts.addSuccess('Changes to the contact have been saved.');
-                $location.path('/');
-            });
+        $scope.contact.$update(function() {
+            alerts.addSuccess('Changes to the contact have been saved.');
+            $location.path('/');
+        });
     };
 
     $scope.cancel = function () {

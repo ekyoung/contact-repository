@@ -5,10 +5,10 @@
         <a href="#/create" class="btn btn-primary btn-xs pull-right">Create</a>
         &nbsp;
     </div>
-    <div class="panel-body" ng-hide="contacts">
+    <div class="panel-body" ng-hide="contacts.length">
         There are no contacts. Use the create button above to create one.
     </div>
-    <table class="table table-condensed table-striped" ng-show="contacts">
+    <table class="table table-condensed table-striped" ng-show="contacts.length">
         <thead>
             <tr>
                 <th>Actions</th>

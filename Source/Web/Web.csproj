@@ -172,6 +172,7 @@
     <Content Include="Content\bootstrap-3.0.2\js\bootstrap.js" />
     <Content Include="Content\bootstrap-3.0.2\js\bootstrap.min.js" />
     <Content Include="Content\Common\Main.css" />
+    <Content Include="Content\Contacts\Contacts.js" />
     <Content Include="Content\Contacts\EditContact.html" />
     <Content Include="Content\Contacts\CreateContactView.html" />
     <Content Include="Content\Contacts\DeleteContactView.html" />

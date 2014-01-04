@@ -102,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AcceptanceTests\Bootstrapping\CreateBlankDb.sql" />
-    <Content Include="JsTests\ContactsServicesTests.js" />
+    <Content Include="JsTests\Contacts\ContactsServicesTests.js" />
     <Content Include="JsTests\angular-1.2.0\angular-animate.js" />
     <Content Include="JsTests\angular-1.2.0\angular-animate.min.js" />
     <Content Include="JsTests\angular-1.2.0\angular-cookies.js" />
@@ -368,8 +368,9 @@
     <Content Include="JsTests\angular-1.2.0\i18n\angular-locale_zu-za.js" />
     <Content Include="JsTests\angular-1.2.0\i18n\angular-locale_zu.js" />
     <Content Include="JsTests\angular-1.2.0\version.txt" />
+    <Content Include="JsTests\Contacts\ContactsTests.js" />
     <Content Include="JsTests\my.config.js" />
-    <Content Include="JsTests\ContactsControllersTests.js" />
+    <Content Include="JsTests\Contacts\ContactsControllersTests.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">
