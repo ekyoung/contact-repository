@@ -2,7 +2,6 @@
     beforeEach(module('contactsApp'));
 
     var alerts,
-        mockContactRepository, q, deferred,
         mockContactsResource,
         apiRoot = '/api';
 
@@ -18,34 +17,6 @@
             addDanger: jasmine.createSpy(),
             displayAlerts: jasmine.createSpy()
         };
-    });
-
-    beforeEach(function() {
-        mockContactRepository = {
-            getContacts: function() {
-                deferred = q.defer();
-                return deferred.promise;
-            },
-            getContact: function(contactIdentifier) {
-                deferred = q.defer();
-                return deferred.promise;
-            },
-            insertContact: function(contact) {
-                deferred = q.defer();
-                return deferred.promise;
-            },
-            updateContact: function(contact) {
-                deferred = q.defer();
-                return deferred.promise;
-            },
-            deleteContact: function(contactIdentifier) {
-                deferred = q.defer();
-                return deferred.promise;
-            }
-        };
-        spyOn(mockContactRepository, 'insertContact').andCallThrough();
-        spyOn(mockContactRepository, 'updateContact').andCallThrough();
-        spyOn(mockContactRepository, 'deleteContact').andCallThrough();
     });
 
     beforeEach(function() {
@@ -77,8 +48,6 @@
 
         beforeEach(inject(function ($injector) {
             $scope = $injector.get('$rootScope');
-
-            q = $injector.get('$q');
 
             var $controller = $injector.get('$controller');
 
@@ -116,8 +85,6 @@
             mockContactsResource.create = function () { return contact; };
             
             $scope = $injector.get('$rootScope');
-
-            q = $injector.get('$q');
 
             $location = $injector.get('$location');
             $location.path('/create');
@@ -203,8 +170,6 @@
             spyOn(contact, '$update').andCallThrough();
 
             $scope = $injector.get('$rootScope');
-
-            q = $injector.get('$q');
 
             $routeParams = $injector.get('$routeParams');
             $routeParams.contactIdentifier = contactIdentifier;
@@ -296,8 +261,6 @@
             spyOn(mockContactsResource, 'delete').andCallThrough();
 
             $scope = $injector.get('$rootScope');
-
-            q = $injector.get('$q');
 
             $routeParams = $injector.get('$routeParams');
             $routeParams.contactIdentifier = contactIdentifier;
