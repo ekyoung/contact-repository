@@ -325,49 +325,4 @@
         });
 
     });
-
-    describe('eyEditContactController', function () {
-        var contact, $scope, createController;
-
-        beforeEach(inject(function ($injector) {
-            $scope = $injector.get('$rootScope');
-
-            contact = new mockContactsResource();
-            $scope.contact = contact;
-
-            var $controller = $injector.get('$controller');
-
-            createController = function () {
-                return $controller('eyEditContactController', { $scope: $scope });
-            };
-        }));
-
-        it('should call addEmailAddress on the contact when addEmailAddress is called', function () {
-            var controller = createController();
-
-            $scope.addEmailAddress();
-
-            expect(contact.addEmailAddress).toHaveBeenCalled();
-        });
-
-        it('should call removeEmailAddress on the contact when removeEmailAddress is called', function () {
-            var emailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
-
-            var controller = createController();
-
-            $scope.removeEmailAddress(emailAddress);
-
-            expect(contact.removeEmailAddress).toHaveBeenCalledWith(emailAddress);
-        });
-
-        it('should call setPrimaryEmailAddress on the contact when setPrimaryEmailAddress is called', function () {
-            var emailAddress = { EmailAddress: 'other@email.com', NickName: null, IsPrimary: false };
-
-            var controller = createController();
-
-            $scope.setPrimaryEmailAddress(emailAddress);
-
-            expect(contact.setPrimaryEmailAddress).toHaveBeenCalledWith(emailAddress);
-        });
-    });
 });

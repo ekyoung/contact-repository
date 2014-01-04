@@ -35,18 +35,18 @@
                 <label class="col-sm-2 control-label visible-xs">Primary?</label>
                 <div class="col-sm-1">
                     <span style="font-size: 43px;" class="glyphicon glyphicon-star" ng-show="contactEmailAddress.IsPrimary"></span>
-                    <span style="font-size: 43px;" class="glyphicon glyphicon-star-empty" ng-hide="contactEmailAddress.IsPrimary" ng-click="setPrimaryEmailAddress(contactEmailAddress)"></span>
+                    <span style="font-size: 43px;" class="glyphicon glyphicon-star-empty" ng-hide="contactEmailAddress.IsPrimary" ng-click="contact.setPrimaryEmailAddress(contactEmailAddress)"></span>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-10 col-sm-offset-2">
-                    <button type="button" class="btn btn-default btn-xs" ng-click="removeEmailAddress(contactEmailAddress)"><span class="glyphicon glyphicon-remove"></span> Remove</button>
+                    <button type="button" class="btn btn-default btn-xs" ng-click="contact.removeEmailAddress(contactEmailAddress)"><span class="glyphicon glyphicon-remove"></span> Remove</button>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-12">
-                <button type="button" class="btn btn-default btn-xs" ng-click="addEmailAddress()">Add an Email Address</button>
+                <button type="button" class="btn btn-default btn-xs" ng-click="contact.addEmailAddress()">Add an Email Address</button>
             </div>
         </div>
     </div>

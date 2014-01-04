@@ -80,25 +80,10 @@ contactsApp.controller('deleteController', ['$scope', '$routeParams', '$location
     };
 }]);
 
-contactsApp.controller('eyEditContactController', ['$scope', function ($scope) {
-    $scope.addEmailAddress = function () {
-        $scope.contact.addEmailAddress();
-    };
-
-    $scope.removeEmailAddress = function (contactEmailAddressToRemove) {
-        $scope.contact.removeEmailAddress(contactEmailAddressToRemove);
-    };
-
-    $scope.setPrimaryEmailAddress = function (newPrimaryEmailAddress) {
-        $scope.contact.setPrimaryEmailAddress(newPrimaryEmailAddress);
-    };
-}]);
-
 contactsApp.directive('eyEditContact', function () {
     return {
         templateUrl: '/Content/Contacts/EditContact.html',
         restrict: 'E',
         scope: { contact: '=' },
-        controller: 'eyEditContactController'
     };
 });
