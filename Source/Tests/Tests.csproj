@@ -370,7 +370,7 @@
     <Content Include="JsTests\angular-1.2.0\version.txt" />
     <Content Include="JsTests\Contacts\ContactsTests.js" />
     <Content Include="JsTests\my.config.js" />
-    <Content Include="JsTests\Contacts\ContactsControllersTests.js" />
+    <Content Include="JsTests\Contacts\ContactsAppTests.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

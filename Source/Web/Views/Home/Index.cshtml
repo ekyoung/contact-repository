@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.AngularJsApp = "contactsApp";
+    ViewBag.AngularJsApp = "eyContactsApp";
     ViewBag.Title = "Contact Repository";
 }
 @section head {
@@ -10,7 +10,7 @@
     @Scripts.Render("~/bundles/contacts")
 }
 <script type="text/javascript">
-    angular.module('contactsApp')
+    angular.module('eyContacts')
         .value('apiRootUrl', '/api');
 </script>
 <div ng-view></div>

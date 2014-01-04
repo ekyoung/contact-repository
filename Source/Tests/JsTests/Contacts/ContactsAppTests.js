@@ -1,47 +1,42 @@
-﻿describe('Contacts Controllers', function () {
-    beforeEach(module('contactsApp'));
+﻿describe('Contacts App', function () {
 
-    var alerts,
-        mockContactsResource,
-        apiRoot = '/api';
+    var mockAlertsService, mockContactsResource;
 
-    beforeEach(module('eyContacts', function ($provide) {
-        $provide.value('apiRootUrl', apiRoot);
-    }));
-
-    beforeEach(function() {
-        alerts = {
+    beforeEach(module('eyContactsApp', function($provide) {
+        mockAlertsService = {
             addSuccess: jasmine.createSpy(),
             addInfo: jasmine.createSpy(),
             addWarning: jasmine.createSpy(),
             addDanger: jasmine.createSpy(),
             displayAlerts: jasmine.createSpy()
         };
-    });
 
-    beforeEach(function() {
+        $provide.value('alerts', mockAlertsService);
+        
         mockContactsResource = {
-            create: function() {
+            create: function () {
                 return {
                     FirstName: null,
                     LastName: null,
                     EmailAddresses: []
                 };
             },
-            get : function() {
+            get: function () {
                 return {};
             },
-            $save : function(callback) {
+            $save: function (callback) {
                 callback();
             },
             query: function () {
                 return [];
             },
-            delete: function(params, data, success) {
-                 success();
+            delete: function (params, data, success) {
+                success();
             }
         };
-    });
+
+        $provide.value('Contacts', mockContactsResource);
+    }));
 
     describe('listController', function () {
         var $scope, createController;
@@ -52,7 +47,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('listController', { $scope: $scope, alerts: alerts, Contacts: mockContactsResource });
+                return $controller('listController', { $scope: $scope });
             };
         }));
 
@@ -68,7 +63,7 @@
         it('should display alerts in all cases', function () {
             var controller = createController();
 
-            expect(alerts.displayAlerts).toHaveBeenCalledWith($scope);
+            expect(mockAlertsService.displayAlerts).toHaveBeenCalledWith($scope);
         });
     });
 
@@ -92,7 +87,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('createController', { $scope: $scope, $location: $location, alerts: alerts, Contacts: mockContactsResource });
+                return $controller('createController', { $scope: $scope, $location: $location });
             };
         }));
 
@@ -133,7 +128,7 @@
 
             $scope.save();
 
-            expect(alerts.addSuccess).toHaveBeenCalledWith('A new contact has been created.');
+            expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('A new contact has been created.');
         });
 
         it('should redirect to the list view when cancel is clicked', function () {
@@ -149,7 +144,7 @@
 
             $scope.cancel();
 
-            expect(alerts.addInfo).toHaveBeenCalledWith('Creation of a new contact has been cancelled.');
+            expect(mockAlertsService.addInfo).toHaveBeenCalledWith('Creation of a new contact has been cancelled.');
         });
     });
     
@@ -180,7 +175,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, Contacts: mockContactsResource });
+                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location });
             };
         }));
         
@@ -220,7 +215,7 @@
 
             $scope.cancel();
 
-            expect(alerts.addInfo).toHaveBeenCalledWith('Changes to the contact have been cancelled.');
+            expect(mockAlertsService.addInfo).toHaveBeenCalledWith('Changes to the contact have been cancelled.');
         });
 
         it('should update the contact when save is clicked', function () {
@@ -245,7 +240,7 @@
 
             $scope.save();
 
-            expect(alerts.addSuccess).toHaveBeenCalledWith('Changes to the contact have been saved.');
+            expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('Changes to the contact have been saved.');
         });
     });
 
@@ -271,7 +266,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams, $location: $location, alerts: alerts, Contacts: mockContactsResource });
+                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams, $location: $location });
             };
         }));
 
@@ -302,7 +297,7 @@
 
             $scope.continue();
 
-            expect(alerts.addSuccess).toHaveBeenCalledWith('The contact has been deleted.');
+            expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('The contact has been deleted.');
         });
 
         it('should redirect to the list view when cancel is clicked', function () {
@@ -318,7 +313,7 @@
 
             $scope.cancel();
 
-            expect(alerts.addInfo).toHaveBeenCalledWith('Deletion of the contact has been cancelled.');
+            expect(mockAlertsService.addInfo).toHaveBeenCalledWith('Deletion of the contact has been cancelled.');
         });
 
     });
