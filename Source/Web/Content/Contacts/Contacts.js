@@ -2,17 +2,49 @@
     'ngResource'
 ]);
 
-eyContacts.factory('Contacts', ['$resource', 'apiRootUrl', function($resource, apiRootUrl) {
+eyContacts.factory('Contacts', ['$resource', 'apiRootUrl', function ($resource, apiRootUrl) {
+    var addPrimaryEmailAddress = function (contact) {
+        contact.PrimaryEmailAddress = null;
+        angular.forEach(contact.EmailAddresses, function(contactEmailAddress) {
+            if (contactEmailAddress.IsPrimary) {
+                contact.PrimaryEmailAddress = contactEmailAddress.EmailAddress;
+            }
+        });
+    };
+    
     var Contacts =  $resource(apiRootUrl + '/contacts/:contactIdentifier', null,
         {
-            'update': { method: 'PUT', params: {contactIdentifier: '@Identifier'} }
+            'get': {
+                method: 'GET',
+                transformResponse: function (data) {
+                    var contact = angular.fromJson(data);
+                    addPrimaryEmailAddress(contact);
+                    return contact;
+                }
+            },
+            'query': {
+                method: 'GET',
+                isArray: true,
+                transformResponse: function(data) {
+                    var contacts = angular.fromJson(data);
+                    angular.forEach(contacts, function(contact) {
+                        addPrimaryEmailAddress(contact);
+                    });
+                    return contacts;
+                }
+            },
+            'update': {
+                method: 'PUT',
+                params: { contactIdentifier: '@Identifier' }
+            }
         });
 
     Contacts.create = function() {
         return new Contacts({
             FirstName: null,
             LastName: null,
-            EmailAddresses: []
+            EmailAddresses: [],
+            PrimaryEmailAddress: null
         });
     };
 
