@@ -6,22 +6,13 @@
     }));
 
     describe('Contacts', function () {
-        var $httpBackend,
-            createResource,
-            contactIdentifier = 'id1';
+        var createResource;
         
         beforeEach(inject(function ($injector) {
-            $httpBackend = $injector.get('$httpBackend');
-            
             createResource = function () {
                 return $injector.get('Contacts');
             };
         }));
-
-        afterEach(function () {
-            $httpBackend.verifyNoOutstandingExpectation();
-            $httpBackend.verifyNoOutstandingRequest();
-        });
 
         it('should return an empty instance when create is called', function () {
             var Contacts = createResource();
@@ -32,69 +23,6 @@
             expect(instance.FirstName).toBe(null);
             expect(instance.LastName).toBe(null);
             expect(instance.EmailAddresses.length).toBe(0);
-            expect(instance.PrimaryEmailAddress).toBe(null);
-        });
-
-        it('should add a PrimaryEmailAddress property with value null to the result when get returns a contact with no email addresses', function () {
-            var contact = {
-                Identifier: contactIdentifier,
-                FirstName: 'Joe',
-                LastName: 'One',
-                EmailAddresses: []
-            };
-            $httpBackend.when('GET', apiRootUrl + '/contacts/' + contactIdentifier).respond(contact);
-
-            var Contacts = createResource();
-            var instance = Contacts.get({ contactIdentifier: contactIdentifier });
-            $httpBackend.flush();
-
-            expect(instance.PrimaryEmailAddress).toBe(null);
-        });
-
-        it('should add a PrimaryEmailAddress property with the correct value to the result when get returns a contact with email addresses', function() {
-            var primaryEmailAddress = 'user@home.com';
-            var contact = {
-                Identifier: contactIdentifier,
-                FirstName: 'Joe',
-                LastName: 'One',
-                EmailAddresses: [
-                    { EmailAddress: 'user@work.com', IsPrimary: false },
-                    { EmailAddress: primaryEmailAddress, IsPrimary: true }
-                ]
-            };
-            $httpBackend.when('GET', apiRootUrl + '/contacts/' + contactIdentifier).respond(contact);
-
-            var Contacts = createResource();
-            var instance = Contacts.get({ contactIdentifier: contactIdentifier });
-            $httpBackend.flush();
-
-            expect(instance.PrimaryEmailAddress).toBe(primaryEmailAddress);
-        });
-
-        it('should add a PrimaryEmailAddress property with the correct value to each contact in the result when query returns contacts with email addresses', function() {
-            var primaryEmailAddress1 = 'user@home.com';
-            var contact1 = {
-                Identifier: contactIdentifier,
-                FirstName: 'Joe',
-                LastName: 'One',
-                EmailAddresses: [{ EmailAddress: primaryEmailAddress1, IsPrimary: true }]
-            };
-            var primaryEmailAddress2 = 'joe@contact.com';
-            var contact2 = {
-                Identifier: contactIdentifier,
-                FirstName: 'Joe',
-                LastName: 'One',
-                EmailAddresses: [{ EmailAddress: primaryEmailAddress2, IsPrimary: true }]
-            };
-            $httpBackend.when('GET', apiRootUrl + '/contacts').respond([contact1, contact2]);
-
-            var Contacts = createResource();
-            var instances = Contacts.query();
-            $httpBackend.flush();
-
-            expect(instances.length).toBe(2);
-            expect(instances[0].PrimaryEmailAddress).toBe(primaryEmailAddress1);
-            expect(instances[1].PrimaryEmailAddress).toBe(primaryEmailAddress2);
         });
     });
 
