@@ -32,7 +32,11 @@
                 </td>
                 <td>{{contact.FirstName}}</td>
                 <td>{{contact.LastName}}</td>
-                <td>{{contact.PrimaryEmailAddress}}</td>
+                <td>
+                    <span ng-repeat="contactEmailAddress in contact.EmailAddresses | filter : { IsPrimary: true }">
+                        {{contactEmailAddress.EmailAddress}} <span ng-show="contactEmailAddress.NickName">({{contactEmailAddress.NickName}})</span>
+                    </span>
+                </td>
             </tr>
         </tbody>
     </table>
