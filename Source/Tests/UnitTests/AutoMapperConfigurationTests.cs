@@ -122,5 +122,74 @@ namespace EthanYoung.ContactRepository.Tests.UnitTests
 
             Assert.AreEqual(0, contact.EmailAddresses.Count);
         }
+
+        [Test]
+        public void GivenAContact_Map_CreatesAContactModelWithTheRightPhoneNumbers()
+        {
+            var primaryPhoneNumber = new PhoneNumber("1111111111");
+            const string primaryNickName = "Home";
+            var otherPhoneNumber = new PhoneNumber("2222222222");
+            const string otherNickName = "Other";
+
+            var contact = new Contact();
+            contact.SetPhoneNumber(otherPhoneNumber, otherNickName);
+            contact.SetPhoneNumber(primaryPhoneNumber, primaryNickName);
+            contact.PrimaryPhoneNumber = primaryPhoneNumber;
+
+            AutoMapperConfiguration.Configure();
+            var contactModel = Mapper.Map<Contact, ContactModel>(contact);
+
+            Assert.AreEqual(otherPhoneNumber.ToString(), contactModel.PhoneNumbers[0].PhoneNumber);
+            Assert.AreEqual(otherNickName, contactModel.PhoneNumbers[0].NickName);
+            Assert.IsFalse(contactModel.PhoneNumbers[0].IsPrimary);
+
+            Assert.AreEqual(primaryPhoneNumber.ToString(), contactModel.PhoneNumbers[1].PhoneNumber);
+            Assert.AreEqual(primaryNickName, contactModel.PhoneNumbers[1].NickName);
+            Assert.IsTrue(contactModel.PhoneNumbers[1].IsPrimary);
+        }
+
+        [Test]
+        public void GivenAContactModel_Map_CreatesAContactWithTheRightPhoneNumbers()
+        {
+            var primaryPhoneNumber = new PhoneNumber("1111111111");
+            const string primaryNickName = "Home";
+            var otherPhoneNumber = new PhoneNumber("2222222222");
+            const string otherNickName = "Other";
+
+            var contactModel = new ContactModel
+            {
+                FirstName = "Joe",
+                LastName = "Contact",
+                PhoneNumbers = new List<ContactPhoneNumberModel>
+                {
+                    new ContactPhoneNumberModel {PhoneNumber = otherPhoneNumber.Value, NickName = otherNickName, IsPrimary = false},
+                    new ContactPhoneNumberModel {PhoneNumber = primaryPhoneNumber.Value, NickName = primaryNickName, IsPrimary = true},
+                }
+            };
+
+            AutoMapperConfiguration.Configure();
+            var contact = Mapper.Map<ContactModel, Contact>(contactModel);
+
+            Assert.IsTrue(contact.PhoneNumbers.Any(x => x.PhoneNumber == otherPhoneNumber && x.Nickname == otherNickName && !x.IsPrimary));
+            Assert.IsTrue(contact.PhoneNumbers.Any(x => x.PhoneNumber == primaryPhoneNumber && x.Nickname == primaryNickName && x.IsPrimary));
+        }
+
+        [Test]
+        public void GivenAContactModelWithNoPhoneNumbersAndContactWithPhoneNumbers_Map_RemovesThePhoneNumbers()
+        {
+            var contactModel = new ContactModel
+            {
+                FirstName = "Joe",
+                LastName = "Contact"
+            };
+
+            var contact = new Contact();
+            contact.SetPhoneNumber(new PhoneNumber("1111111111"), null);
+
+            AutoMapperConfiguration.Configure();
+            Mapper.Map(contactModel, contact);
+
+            Assert.AreEqual(0, contact.PhoneNumbers.Count);
+        }
     }
 }

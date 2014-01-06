@@ -10,5 +10,11 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests
         {
             return new EmailAddress(value);
         }
+
+        [StepArgumentTransformation]
+        public PhoneNumber StringToPhoneNumber(string value)
+        {
+            return new PhoneNumber(value);
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace Web.Models
         public ContactModel()
         {
             EmailAddresses = new List<ContactEmailAddressModel>();
+            PhoneNumbers = new List<ContactPhoneNumberModel>();
         }
 
         [DataMember]
@@ -23,5 +24,8 @@ namespace Web.Models
 
         [DataMember]
         public List<ContactEmailAddressModel> EmailAddresses { get; set; }
+
+        [DataMember]
+        public List<ContactPhoneNumberModel> PhoneNumbers { get; set; }
     }
 }

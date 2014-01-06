@@ -55,6 +55,30 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
             _contact.ClearEmailAddresses();
         }
 
+        [Given(@"I set phone number (\(\d{3}\) \d{3}\-\d{4}) on the contact")]
+        public void GivenISetPhoneNumberOnTheContact(PhoneNumber phoneNumber)
+        {
+            _contact.SetPhoneNumber(phoneNumber, null);
+        }
+
+        [Given(@"I set phone number (\(\d{3}\) \d{3}\-\d{4}) with nickname (.*) on the contact")]
+        public void GivenISetPhoneNumberWithNicknameOnTheContact(PhoneNumber phoneNumber, string nickname)
+        {
+            _contact.SetPhoneNumber(phoneNumber, nickname);
+        }
+
+        [Given(@"I set phone number (\(\d{3}\) \d{3}\-\d{4}) as the primary phone number of the contact")]
+        public void GivenISetPhoneNumberAsThePrimaryPhoneNumberOfTheContact(PhoneNumber phoneNumber)
+        {
+            _contact.PrimaryPhoneNumber = phoneNumber;
+        }
+
+        [Given(@"I clear the phone numbers of the contact")]
+        public void GivenIClearThePhoneNumbersOfTheContact()
+        {
+            _contact.ClearPhoneNumbers();
+        }
+
         [Given(@"I save the contact")]
         public void GivenISaveTheContact()
         {
@@ -140,6 +164,58 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
         public void ThenThePrimaryEmailAddressOfTheRetrievedContactIs(EmailAddress emailAddress)
         {
             Assert.AreEqual(emailAddress, _retrievedContact.PrimaryEmailAddress);
+        }
+
+
+        [Then(@"the contact has (.*) phone number")]
+        [Then(@"the contact has (.*) phone numbers")]
+        public void ThenTheContactHasCountPhoneNumbers(int count)
+        {
+            Assert.AreEqual(count, _contact.PhoneNumbers.Count);
+        }
+
+        [Then(@"the retrieved contact has (.*) phone number")]
+        [Then(@"the retrieved contact has (.*) phone numbers")]
+        public void ThenTheRetrievedContactHasCountPhoneNumber(int count)
+        {
+            Assert.AreEqual(count, _retrievedContact.PhoneNumbers.Count);
+        }
+
+        [Then(@"the contact has phone number (\(\d{3}\) \d{3}\-\d{4}) with nickname (.*)")]
+        public void ThenTheContactHasPhoneNumberWithNickname(PhoneNumber phoneNumber, string nickname)
+        {
+            AssertContactHasPhoneNumberWithNickname(_contact, phoneNumber, nickname);
+        }
+
+        [Then(@"the contact has phone number (\(\d{3}\) \d{3}\-\d{4}) with null nickname")]
+        public void ThenTheContactHasPhoneNumberWithNullNickname(PhoneNumber phoneNumber)
+        {
+            AssertContactHasPhoneNumberWithNickname(_contact, phoneNumber, null);
+        }
+
+        [Then(@"the retrieved contact has phone number (\(\d{3}\) \d{3}\-\d{4}) with nickname (.*)")]
+        public void ThenTheRetrievedContactHasPhoneNumberWithNickname(PhoneNumber phoneNumber, string nickname)
+        {
+            AssertContactHasPhoneNumberWithNickname(_retrievedContact, phoneNumber, nickname);
+        }
+
+        private void AssertContactHasPhoneNumberWithNickname(IContact contact, PhoneNumber phoneNumber, string nickname)
+        {
+            var contactPhoneNumber = contact.PhoneNumbers.FirstOrDefault(x => x.PhoneNumber == phoneNumber);
+            Assert.IsNotNull(contactPhoneNumber);
+            Assert.AreEqual(nickname, contactPhoneNumber.Nickname);
+        }
+
+        [Then(@"the primary phone number of the contact is (\(\d{3}\) \d{3}\-\d{4})")]
+        public void ThenThePrimaryPhoneNumberOfTheContactIs(PhoneNumber phoneNumber)
+        {
+            Assert.AreEqual(phoneNumber, _contact.PrimaryPhoneNumber);
+        }
+
+        [Then(@"the primary phone number of the retrieved contact is (\(\d{3}\) \d{3}\-\d{4})")]
+        public void ThenThePrimaryPhoneNumberOfTheRetrievedContactIs(PhoneNumber phoneNumber)
+        {
+            Assert.AreEqual(phoneNumber, _retrievedContact.PrimaryPhoneNumber);
         }
     }
 }

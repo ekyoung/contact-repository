@@ -59,6 +59,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ContactServiceCanManageMultipleEmailAddressesForAContact.feature</DependentUpon>
     </Compile>
+    <Compile Include="AcceptanceTests\ContactService\ContactServiceCanManageMultiplePhoneNumbersForAContact.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContactServiceCanManageMultiplePhoneNumbersForAContact.feature</DependentUpon>
+    </Compile>
     <Compile Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperations.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -80,6 +85,10 @@
     <None Include="AcceptanceTests\ContactService\ContactServiceCanManageMultipleEmailAddressesForAContact.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ContactServiceCanManageMultipleEmailAddressesForAContact.feature.cs</LastGenOutput>
+    </None>
+    <None Include="AcceptanceTests\ContactService\ContactServiceCanManageMultiplePhoneNumbersForAContact.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ContactServiceCanManageMultiplePhoneNumbersForAContact.feature.cs</LastGenOutput>
     </None>
     <None Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperations.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

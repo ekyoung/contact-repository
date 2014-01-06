@@ -66,6 +66,7 @@
     <Compile Include="Bootstrapping\Migrations\Migrator.cs" />
     <Compile Include="Contacts\Contact.cs" />
     <Compile Include="Contacts\ContactEmailAddress.cs" />
+    <Compile Include="Contacts\ContactPhoneNumber.cs" />
     <Compile Include="Contacts\ContactService.cs" />
     <Compile Include="Contacts\IContactRepository.cs" />
     <Compile Include="DependencyInstaller.cs" />
