@@ -8,11 +8,13 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
     {
         private readonly IContactQueryExecutor _contactQueryExecutor;
         private readonly IContactEmailAddressQueryExecutor _contactEmailAddressQueryExecutor;
+        private readonly IContactPhoneNumberQueryExecutor _contactPhoneNumberQueryExecutor;
 
-        public ContactRepository(IContactQueryExecutor contactQueryExecutor, IContactEmailAddressQueryExecutor contactEmailAddressQueryExecutor)
+        public ContactRepository(IContactQueryExecutor contactQueryExecutor, IContactEmailAddressQueryExecutor contactEmailAddressQueryExecutor, IContactPhoneNumberQueryExecutor contactPhoneNumberQueryExecutor)
         {
             _contactQueryExecutor = contactQueryExecutor;
             _contactEmailAddressQueryExecutor = contactEmailAddressQueryExecutor;
+            _contactPhoneNumberQueryExecutor = contactPhoneNumberQueryExecutor;
         }
 
         public void Save(IContact contact)
@@ -25,11 +27,17 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
             {
                 _contactQueryExecutor.Update(contact);
                 _contactEmailAddressQueryExecutor.DeleteByContactId(contact.Id.Value);
+                _contactPhoneNumberQueryExecutor.DeleteByContactId(contact.Id.Value);
             }
 
             foreach (var contactEmailAddress in contact.EmailAddresses)
             {
                 _contactEmailAddressQueryExecutor.Insert(contact.Id.Value, contactEmailAddress);
+            }
+
+            foreach (var contactPhoneNumber in contact.PhoneNumbers)
+            {
+                _contactPhoneNumberQueryExecutor.Insert(contact.Id.Value, contactPhoneNumber);
             }
         }
 

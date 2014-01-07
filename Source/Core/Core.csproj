@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapping\BootstrappingService.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201401062133_CreateContactPhoneNumbersTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201312141425_CreateContactEmailAddressesTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201312071339_CreateContactsTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migrator.cs" />
@@ -77,6 +78,8 @@
     <Compile Include="IValueObject.cs" />
     <Compile Include="Name.cs" />
     <Compile Include="Persistence\Contacts\ContactEmailAddressQueryExecutor.cs" />
+    <Compile Include="Persistence\Contacts\ContactPhoneNumberQueryExecutor.cs" />
+    <Compile Include="Persistence\Contacts\IContactPhoneNumberQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\IContactEmailAddressQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\IContactQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\ContactQueryExecutor.cs" />

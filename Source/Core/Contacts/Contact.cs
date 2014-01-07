@@ -66,7 +66,7 @@ namespace EthanYoung.ContactRepository.Contacts
             return contactEmailAddress;
         }
 
-        private readonly List<ContactPhoneNumber> _phoneNumbers = new List<ContactPhoneNumber>();
+        protected readonly List<ContactPhoneNumber> _phoneNumbers = new List<ContactPhoneNumber>();
         public IReadOnlyCollection<ContactPhoneNumber> PhoneNumbers
         {
             get { return _phoneNumbers.AsReadOnly(); }

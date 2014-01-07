@@ -5,6 +5,7 @@
     <typeAlias alias="PersistedContact" type="EthanYoung.ContactRepository.Persistence.Contacts.PersistedContact, EthanYoung.ContactRepository"/>
     <typeAlias alias="Name" type="EthanYoung.ContactRepository.Name, EthanYoung.ContactRepository"/>
     <typeAlias alias="ContactEmailAddress" type="EthanYoung.ContactRepository.Contacts.ContactEmailAddress, EthanYoung.ContactRepository"/>
+    <typeAlias alias="ContactPhoneNumber" type="EthanYoung.ContactRepository.Contacts.ContactPhoneNumber, EthanYoung.ContactRepository"/>
   </alias>
   
   <typeHandlers>
@@ -22,9 +23,15 @@
       <result property="Identifier" column="ContactIdentifier"/>
       <result property="Name" resultMapping="Contact.NameRM"/>
       <result property="PersistedEmailAddresses" column="ContactId" select="SelectContactEmailAddressesByContactId" />
+      <result property="PersistedPhoneNumbers" column="ContactId" select="SelectContactPhoneNumbersByContactId" />
     </resultMap>
     <resultMap id="ContactEmailAddressRM" class="ContactEmailAddress">
       <result property="EmailAddress" column="EmailAddress"/>
+      <result property="Nickname" column="Nickname"/>
+      <result property="IsPrimary" column="IsPrimary"/>
+    </resultMap>
+    <resultMap id="ContactPhoneNumberRM" class="ContactPhoneNumber">
+      <result property="PhoneNumber" column="PhoneNumber"/>
       <result property="Nickname" column="Nickname"/>
       <result property="IsPrimary" column="IsPrimary"/>
     </resultMap>
@@ -91,6 +98,23 @@
     
     <delete id="DeleteContactEmailAddressesByContactId" parameterclass="long">
       DELETE FROM ContactEmailAddresses
+      WHERE ContactId = #value#
+    </delete>
+  
+    <!-- Contact Phone Numbers-->
+    <insert id="InsertContactPhoneNumber" parameterClass="hashmap">
+      INSERT INTO ContactPhoneNumbers (ContactId, PhoneNumber, Nickname, IsPrimary)
+      VALUES (#ContactId#, #PhoneNumber#, #Nickname#, #IsPrimary#)
+    </insert>
+    
+    <select id="SelectContactPhoneNumbersByContactId" resultMap="ContactPhoneNumberRM" parameterClass="long">
+      SELECT *
+      FROM ContactPhoneNumbers
+      WHERE ContactId = #value#
+    </select>
+    
+    <delete id="DeleteContactPhoneNumbersByContactId" parameterclass="long">
+      DELETE FROM ContactPhoneNumbers
       WHERE ContactId = #value#
     </delete>
   </statements>

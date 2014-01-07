@@ -9,5 +9,10 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
         {
             set { _emailAddresses.AddRange(value); }
         }
+
+        public List<ContactPhoneNumber> PersistedPhoneNumbers
+        {
+            set { _phoneNumbers.AddRange(value); }
+        }
     }
 }

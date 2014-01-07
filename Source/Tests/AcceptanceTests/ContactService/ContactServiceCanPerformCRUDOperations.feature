@@ -44,3 +44,23 @@ Scenario: Clear Stored Email Addresses
 	And I save the contact
 	When I retrieve the contact
 	Then the retrieved contact has 0 email addresses
+
+Scenario: Contact With Multiple Phone Numbers
+	Given I create a contact
+	And I set phone number (111) 111-1111 with nickname Home on the contact
+	And I set phone number (222) 222-2222 with nickname Work on the contact
+	And I save the contact
+	When I retrieve the contact
+	Then the retrieved contact has phone number (111) 111-1111 with nickname Home
+	And the retrieved contact has phone number (222) 222-2222 with nickname Work
+	And the primary phone number of the retrieved contact is (111) 111-1111
+
+Scenario: Clear Stored Phone Numbers
+	Given I create a contact
+	And I set phone number (111) 111-1111 on the contact
+	And I set phone number (222) 222-2222 on the contact
+	And I save the contact
+	And I clear the phone numbers of the contact
+	And I save the contact
+	When I retrieve the contact
+	Then the retrieved contact has 0 phone numbers
