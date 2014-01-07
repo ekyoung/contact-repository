@@ -15,6 +15,7 @@
                 <th>First</th>
                 <th>Last</th>
                 <th>Primary Email</th>
+                <th>Primary Phone</th>
             </tr>
         </thead>
         <tbody>
@@ -35,6 +36,11 @@
                 <td>
                     <span ng-repeat="contactEmailAddress in contact.EmailAddresses | filter : { IsPrimary: true }">
                         {{contactEmailAddress.EmailAddress}} <span ng-show="contactEmailAddress.NickName">({{contactEmailAddress.NickName}})</span>
+                    </span>
+                </td>
+                <td>
+                    <span ng-repeat="contactPhoneNumber in contact.PhoneNumbers | filter : { IsPrimary: true }">
+                        {{contactPhoneNumber.PhoneNumber}} <span ng-show="contactPhoneNumber.NickName">({{contactPhoneNumber.NickName}})</span>
                     </span>
                 </td>
             </tr>

@@ -15,44 +15,62 @@ eyContacts.factory('Contacts', ['$resource', 'apiRootUrl', function ($resource, 
         return new Contacts({
             FirstName: null,
             LastName: null,
-            EmailAddresses: []
+            EmailAddresses: [],
+            PhoneNumbers: []
         });
     };
 
-    Contacts.prototype.addEmailAddress = function() {
-        var isNewAddressPrimary = this.EmailAddresses.length == 0;
-        this.EmailAddresses.push({ EmailAddress: null, NickName: null, IsPrimary: isNewAddressPrimary });
-    };
-    
-    Contacts.prototype.removeEmailAddress = function (contactEmailAddressToRemove) {
-        var emailAddresses = this.EmailAddresses,
-            index = emailAddresses.indexOf(contactEmailAddressToRemove);
+    Contacts.prototype._removeContactInfo = function(toRemove, arr) {
+        var index = arr.indexOf(toRemove);
 
         if (index >= 0) {
-            emailAddresses.splice(index, 1);
+            arr.splice(index, 1);
         }
 
-        if (emailAddresses.length > 0) {
+        if (arr.length > 0) {
             var anyPrimary = false;
-            for (var i = 0; i < emailAddresses.length; i++) {
-                anyPrimary = anyPrimary || emailAddresses[i].IsPrimary;
+            for (var i = 0; i < arr.length; i++) {
+                anyPrimary = anyPrimary || arr[i].IsPrimary;
             }
 
             if (!anyPrimary) {
-                emailAddresses[0].IsPrimary = true;
+                arr[0].IsPrimary = true;
             }
         }
     };
-    
-    Contacts.prototype.setPrimaryEmailAddress = function (newPrimaryEmailAddress) {
-        var emailAddresses = this.EmailAddresses;
 
-        for (var i = 0; i < emailAddresses.length; i++) {
-            emailAddresses[i].IsPrimary = false;
+    Contacts.prototype._setPrimaryContactInfo = function(newPrimary, arr) {
+        for (var i = 0; i < arr.length; i++) {
+            arr[i].IsPrimary = false;
         }
 
-        newPrimaryEmailAddress.IsPrimary = true;
+        newPrimary.IsPrimary = true;
     };
     
+    Contacts.prototype.addEmailAddress = function() {
+        var isNewEmailAddressPrimary = this.EmailAddresses.length == 0;
+        this.EmailAddresses.push({ EmailAddress: null, NickName: null, IsPrimary: isNewEmailAddressPrimary });
+    };
+    
+    Contacts.prototype.removeEmailAddress = function (contactEmailAddressToRemove) {
+        this._removeContactInfo(contactEmailAddressToRemove, this.EmailAddresses);
+    };
+    
+    Contacts.prototype.setPrimaryEmailAddress = function (newPrimaryEmailAddress) {
+        this._setPrimaryContactInfo(newPrimaryEmailAddress, this.EmailAddresses);
+    };
+
+    Contacts.prototype.addPhoneNumber = function() {
+        var isNewPhoneNumberPrimary = this.PhoneNumbers.length == 0;
+        this.PhoneNumbers.push({ PhoneNumber: null, NickName: null, IsPrimary: isNewPhoneNumberPrimary });
+    };
+
+    Contacts.prototype.removePhoneNumber = function(contactPhoneNumberToRemove) {
+        this._removeContactInfo(contactPhoneNumberToRemove, this.PhoneNumbers);
+    };
+
+    Contacts.prototype.setPrimaryPhoneNumber = function(newPrimaryPhoneNumber) {
+        this._setPrimaryContactInfo(newPrimaryPhoneNumber, this.PhoneNumbers);
+    };
     return Contacts;
 }]);
