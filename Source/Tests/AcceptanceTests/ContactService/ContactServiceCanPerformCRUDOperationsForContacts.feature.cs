@@ -19,20 +19,20 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Contact Service Can Perform CRUD Operations")]
-    public partial class ContactServiceCanPerformCRUDOperationsFeature
+    [NUnit.Framework.DescriptionAttribute("Contact Service Can Perform CRUD Operations For Contacts")]
+    public partial class ContactServiceCanPerformCRUDOperationsForContactsFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "ContactServiceCanPerformCRUDOperations.feature"
+#line 1 "ContactServiceCanPerformCRUDOperationsForContacts.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Contact Service Can Perform CRUD Operations", "In order to remember my contacts\r\nAs a user\r\nI want to be able to save and retrie" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Contact Service Can Perform CRUD Operations For Contacts", "In order to remember my contacts\r\nAs a user\r\nI want to be able to save and retrie" +
                     "ve a contact", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -119,12 +119,14 @@ this.ScenarioSetup(scenarioInfo);
 #line 22
  testRunner.And("I set email address user@home.com on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 23
- testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I set phone number (111) 111-1111 on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 24
- testRunner.And("I delete the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 25
- testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I delete the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 26
+ testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 27
  testRunner.Then("the retrieved contact is null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -135,23 +137,23 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ContactWithMultipleEmailAddresses()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contact With Multiple Email Addresses", ((string[])(null)));
-#line 28
-this.ScenarioSetup(scenarioInfo);
 #line 29
- testRunner.Given("I create a contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 30
- testRunner.And("I set email address user@home.com with nickname Home on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I create a contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 31
- testRunner.And("I set email address user@work.com with nickname Work on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I set email address user@home.com with nickname Home on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 32
- testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I set email address user@work.com with nickname Work on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 33
- testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 34
- testRunner.Then("the retrieved contact has email address user@home.com with nickname Home", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 35
- testRunner.And("the retrieved contact has email address user@work.com with nickname Work", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("the retrieved contact has email address user@home.com with nickname Home", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 36
+ testRunner.And("the retrieved contact has email address user@work.com with nickname Work", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 37
  testRunner.And("the primary email address of the retrieved contact is user@home.com", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -162,23 +164,23 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ClearStoredEmailAddresses()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clear Stored Email Addresses", ((string[])(null)));
-#line 38
-this.ScenarioSetup(scenarioInfo);
 #line 39
- testRunner.Given("I create a contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 40
- testRunner.And("I set email address user@home.com on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I create a contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 41
- testRunner.And("I set email address user@work.com on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I set email address user@home.com on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 42
- testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I set email address user@work.com on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 43
- testRunner.And("I clear the email addresses of the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 44
  testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 44
+ testRunner.And("I clear the email addresses of the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 45
- testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 46
+ testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 47
  testRunner.Then("the retrieved contact has 0 email addresses", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -189,23 +191,23 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ContactWithMultiplePhoneNumbers()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contact With Multiple Phone Numbers", ((string[])(null)));
-#line 48
-this.ScenarioSetup(scenarioInfo);
 #line 49
- testRunner.Given("I create a contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 50
- testRunner.And("I set phone number (111) 111-1111 with nickname Home on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I create a contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 51
- testRunner.And("I set phone number (222) 222-2222 with nickname Work on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I set phone number (111) 111-1111 with nickname Home on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 52
- testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I set phone number (222) 222-2222 with nickname Work on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 53
- testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 54
- testRunner.Then("the retrieved contact has phone number (111) 111-1111 with nickname Home", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 55
- testRunner.And("the retrieved contact has phone number (222) 222-2222 with nickname Work", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("the retrieved contact has phone number (111) 111-1111 with nickname Home", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 56
+ testRunner.And("the retrieved contact has phone number (222) 222-2222 with nickname Work", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 57
  testRunner.And("the primary phone number of the retrieved contact is (111) 111-1111", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -216,23 +218,23 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void ClearStoredPhoneNumbers()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clear Stored Phone Numbers", ((string[])(null)));
-#line 58
-this.ScenarioSetup(scenarioInfo);
 #line 59
- testRunner.Given("I create a contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
 #line 60
- testRunner.And("I set phone number (111) 111-1111 on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I create a contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 61
- testRunner.And("I set phone number (222) 222-2222 on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I set phone number (111) 111-1111 on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 62
- testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I set phone number (222) 222-2222 on the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 63
- testRunner.And("I clear the phone numbers of the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 64
  testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 64
+ testRunner.And("I clear the phone numbers of the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 65
- testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 66
+ testRunner.When("I retrieve the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 67
  testRunner.Then("the retrieved contact has 0 phone numbers", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

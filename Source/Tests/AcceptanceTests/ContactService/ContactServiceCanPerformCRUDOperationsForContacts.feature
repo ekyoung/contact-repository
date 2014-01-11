@@ -1,4 +1,4 @@
-﻿Feature: Contact Service Can Perform CRUD Operations
+﻿Feature: Contact Service Can Perform CRUD Operations For Contacts
 	In order to remember my contacts
 	As a user
 	I want to be able to save and retrieve a contact
@@ -20,6 +20,7 @@ Scenario: Insert Update and Select
 Scenario: Insert and Delete
 	Given I create a contact
 	And I set email address user@home.com on the contact
+	And I set phone number (111) 111-1111 on the contact
 	And I save the contact
 	And I delete the contact
 	When I retrieve the contact

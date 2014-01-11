@@ -64,10 +64,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ContactServiceCanManageMultiplePhoneNumbersForAContact.feature</DependentUpon>
     </Compile>
-    <Compile Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperations.feature.cs">
+    <Compile Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperationsForContacts.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ContactServiceCanPerformCRUDOperations.feature</DependentUpon>
+      <DependentUpon>ContactServiceCanPerformCRUDOperationsForContacts.feature</DependentUpon>
     </Compile>
     <Compile Include="AcceptanceTests\ContactService\ContactServiceSteps.cs" />
     <Compile Include="AcceptanceTests\StepArgumentTransformations.cs" />
@@ -90,9 +90,9 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ContactServiceCanManageMultiplePhoneNumbersForAContact.feature.cs</LastGenOutput>
     </None>
-    <None Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperations.feature">
+    <None Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperationsForContacts.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ContactServiceCanPerformCRUDOperations.feature.cs</LastGenOutput>
+      <LastGenOutput>ContactServiceCanPerformCRUDOperationsForContacts.feature.cs</LastGenOutput>
     </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
