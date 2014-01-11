@@ -54,7 +54,13 @@
       <DependentUpon>BootstrappingServiceCanCreateTheSchemaInABlankDatabase.feature</DependentUpon>
     </Compile>
     <Compile Include="AcceptanceTests\Bootstrapping\BootstrappingServiceSteps.cs" />
+    <Compile Include="AcceptanceTests\ContactGroupService\ContactGroupServiceCanManageGroupMembership.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ContactGroupServiceCanManageGroupMembership.feature</DependentUpon>
+    </Compile>
     <Compile Include="AcceptanceTests\ContactGroupService\ContactGroupServiceSteps.cs" />
+    <Compile Include="AcceptanceTests\ContactService\ContactContext.cs" />
     <Compile Include="AcceptanceTests\ContactService\ContactServiceCanManageMultipleEmailAddressesForAContact.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -87,6 +93,10 @@
     <None Include="AcceptanceTests\Bootstrapping\BootstrappingServiceCanCreateTheSchemaInABlankDatabase.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BootstrappingServiceCanCreateTheSchemaInABlankDatabase.feature.cs</LastGenOutput>
+    </None>
+    <None Include="AcceptanceTests\ContactGroupService\ContactGroupServiceCanManageGroupMembership.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ContactGroupServiceCanManageGroupMembership.feature.cs</LastGenOutput>
     </None>
     <None Include="AcceptanceTests\ContactService\ContactServiceCanManageMultipleEmailAddressesForAContact.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

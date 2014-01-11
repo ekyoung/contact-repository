@@ -2,16 +2,23 @@
 <sqlMap namespace="ContactGroup" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
   <alias>
     <typeAlias alias="ContactGroup" type="EthanYoung.ContactRepository.ContactGroups.ContactGroup, EthanYoung.ContactRepository"/>
+    <typeAlias alias="PersistedContactGroup" type="EthanYoung.ContactRepository.Persistence.ContactGroups.PersistedContactGroup, EthanYoung.ContactRepository"/>
+    <typeAlias alias="ContactGroupMember" type="EthanYoung.ContactRepository.ContactGroups.ContactGroupMember, EthanYoung.ContactRepository"/>
   </alias>
   
   <typeHandlers>
   </typeHandlers>
 
   <resultMaps>
-    <resultMap id="ContactGroupRM" class="ContactGroup">
+    <resultMap id="ContactGroupRM" class="PersistedContactGroup">
       <result property="Id" column="ContactGroupId"/>
       <result property="Identifier" column="ContactGroupIdentifier"/>
       <result property="Name" column="Name"/>
+      <result property="PersistedMembers" column="ContactGroupId" select="SelectContactGroupMembersByContactGroupId" />
+    </resultMap>
+    <resultMap id="ContactGroupMemberRM" class="ContactGroupMember">
+      <result property="ContactGroupId" column="ContactGroupId"/>
+      <result property="ContactIdentifier" column="ContactIdentifier"/>
     </resultMap>
   </resultMaps>
 
@@ -22,6 +29,10 @@
     </parameterMap>
     <parameterMap id="UpdateContactGroupPM" class="ContactGroup" extends="ContactGroupPM">
       <parameter property="Id" column="ContactGroupId"/>
+    </parameterMap>
+    <parameterMap id="ContactGroupMemberPM" class="ContactGroupMember">
+      <parameter property="ContactGroupId" column="ContactGroupId"/>
+      <parameter property="ContactIdentifier" column="ContactIdentifier"/>
     </parameterMap>
   </parameterMaps>
 
@@ -53,6 +64,22 @@
     <delete id="DeleteContactGroupByIdentifier" parameterClass="guid">
       DELETE FROM ContactGroups
       WHERE ContactGroupIdentifier = #value#
+    </delete>
+  
+    <!-- ContactGroupMembers -->
+    <insert id="InsertContactGroupMember" parameterMap="ContactGroupMemberPM">
+      <generate table="ContactGroupMembers" />
+    </insert>
+  
+    <select id="SelectContactGroupMembersByContactGroupId" resultMap="ContactGroupMemberRM" parameterClass="long">
+      SELECT *
+      FROM ContactGroupMembers (NOLOCK)
+      WHERE ContactGroupId = #value#
+    </select>
+  
+    <delete id="DeleteContactGroupMembersByContactGroupId" parameterClass="long">
+      DELETE FROM ContactGroupMembers
+      WHERE ContactGroupId = #value#
     </delete>
   </statements>
 </sqlMap>

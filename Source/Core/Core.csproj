@@ -61,12 +61,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapping\BootstrappingService.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201401102110_CreateContactGroupMembersTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201401101942_CreateContactGroupsTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201401062133_CreateContactPhoneNumbersTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201312141425_CreateContactEmailAddressesTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201312071339_CreateContactsTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migrator.cs" />
     <Compile Include="ContactGroups\ContactGroup.cs" />
+    <Compile Include="ContactGroups\ContactGroupMember.cs" />
     <Compile Include="ContactGroups\ContactGroupService.cs" />
     <Compile Include="ContactGroups\IContactGroupRepository.cs" />
     <Compile Include="Contacts\Contact.cs" />
@@ -81,9 +83,12 @@
     <Compile Include="IService.cs" />
     <Compile Include="IValueObject.cs" />
     <Compile Include="Name.cs" />
+    <Compile Include="Persistence\ContactGroups\ContactGroupMemberQueryExecutor.cs" />
     <Compile Include="Persistence\ContactGroups\ContactGroupQueryExecutor.cs" />
     <Compile Include="Persistence\ContactGroups\ContactGroupRepository.cs" />
+    <Compile Include="Persistence\ContactGroups\IContactGroupMemberQueryExecutor.cs" />
     <Compile Include="Persistence\ContactGroups\IContactGroupQueryExecutor.cs" />
+    <Compile Include="Persistence\ContactGroups\PersistedContactGroup.cs" />
     <Compile Include="Persistence\Contacts\ContactEmailAddressQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\ContactPhoneNumberQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\IContactPhoneNumberQueryExecutor.cs" />

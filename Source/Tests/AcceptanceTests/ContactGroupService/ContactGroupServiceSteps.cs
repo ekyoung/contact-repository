@@ -1,5 +1,6 @@
 ﻿using System;
 using EthanYoung.ContactRepository.ContactGroups;
+using EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
 
@@ -10,8 +11,15 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
     {
         private readonly IContactGroupService _service = DependencyRegistry.Resolve<IContactGroupService>();
 
+        private readonly ContactContext _contactContext;
+
         private IContactGroup _contactGroup;
         private IContactGroup _retrievedContactGroup;
+
+        public ContactGroupServiceSteps(ContactContext contactContext)
+        {
+            _contactContext = contactContext;
+        }
 
         [BeforeScenario]
         public void BeforeScenario()
@@ -34,6 +42,12 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
         public void GivenIChangeTheNameOfTheContactGroup()
         {
             _contactGroup.Name += " Updated";
+        }
+
+        [Given(@"I add the contact to the contact group")]
+        public void GivenIAddTheContactToTheContactGroup()
+        {
+            _contactGroup.AddMember(_contactContext.Contact.Identifier);
         }
 
         [Given(@"I save the contact group")]
@@ -66,5 +80,10 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
             Assert.AreEqual(_contactGroup.Name, _retrievedContactGroup.Name);
         }
 
+        [Then(@"the contact is a member of the retrieved contact group")]
+        public void ThenTheContactIsAMemberOfTheRetrievedContactGroup()
+        {
+            Assert.IsTrue(_retrievedContactGroup.IsMember(_contactContext.Contact.Identifier));
+        }
     }
 }

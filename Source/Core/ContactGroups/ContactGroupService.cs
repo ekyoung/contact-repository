@@ -27,6 +27,11 @@ namespace EthanYoung.ContactRepository.ContactGroups
             return _contactGroupRepository.FindByIdentifier(identifier);
         }
 
+        public void AddContactToGroup(Guid contactIdentifier, Guid contactGroupIdentifier)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteByIdentifier(Guid identifier)
         {
             _contactGroupRepository.DeleteByIdentifier(identifier);
@@ -38,6 +43,7 @@ namespace EthanYoung.ContactRepository.ContactGroups
         void Save(IContactGroup contactGroup);
         List<IContactGroup> FindAll();
         IContactGroup FindByIdentifier(Guid identifier);
+        void AddContactToGroup(Guid contactIdentifier, Guid contactGroupIdentifier);
         void DeleteByIdentifier(Guid identifier);
     }
 }
