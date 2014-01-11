@@ -26,11 +26,13 @@
       <result property="PersistedPhoneNumbers" column="ContactId" select="SelectContactPhoneNumbersByContactId" />
     </resultMap>
     <resultMap id="ContactEmailAddressRM" class="ContactEmailAddress">
+      <result property="ContactId" column="ContactId"/>
       <result property="EmailAddress" column="EmailAddress"/>
       <result property="Nickname" column="Nickname"/>
       <result property="IsPrimary" column="IsPrimary"/>
     </resultMap>
     <resultMap id="ContactPhoneNumberRM" class="ContactPhoneNumber">
+      <result property="ContactId" column="ContactId"/>
       <result property="PhoneNumber" column="PhoneNumber"/>
       <result property="Nickname" column="Nickname"/>
       <result property="IsPrimary" column="IsPrimary"/>
@@ -45,6 +47,18 @@
     </parameterMap>
     <parameterMap id="UpdateContactPM" class="Contact" extends="ContactPM">
       <parameter property="Id" column="ContactId"/>
+    </parameterMap>
+    <parameterMap id="ContactEmailAddressPM" class="ContactEmailAddress">
+      <parameter property="ContactId" column="ContactId"/>
+      <parameter property="EmailAddress" column="EmailAddress"/>
+      <parameter property="Nickname" column="Nickname"/>
+      <parameter property="IsPrimary" column="IsPrimary"/>
+    </parameterMap>
+    <parameterMap id="ContactPhoneNumberPM" class="ContactPhoneNumber">
+      <parameter property="ContactId" column="ContactId"/>
+      <parameter property="PhoneNumber" column="PhoneNumber"/>
+      <parameter property="Nickname" column="Nickname"/>
+      <parameter property="IsPrimary" column="IsPrimary"/>
     </parameterMap>
   </parameterMaps>
 
@@ -93,9 +107,8 @@
     </delete>
   
     <!-- Contact Email Addresses-->
-    <insert id="InsertContactEmailAddress" parameterClass="hashmap">
-      INSERT INTO ContactEmailAddresses (ContactId, EmailAddress, Nickname, IsPrimary)
-      VALUES (#ContactId#, #EmailAddress#, #Nickname#, #IsPrimary#)
+    <insert id="InsertContactEmailAddress" parameterMap="ContactEmailAddressPM">
+      <generate table="ContactEmailAddresses" />
     </insert>
     
     <select id="SelectContactEmailAddressesByContactId" resultMap="ContactEmailAddressRM" parameterClass="long">
@@ -110,9 +123,8 @@
     </delete>
   
     <!-- Contact Phone Numbers-->
-    <insert id="InsertContactPhoneNumber" parameterClass="hashmap">
-      INSERT INTO ContactPhoneNumbers (ContactId, PhoneNumber, Nickname, IsPrimary)
-      VALUES (#ContactId#, #PhoneNumber#, #Nickname#, #IsPrimary#)
+    <insert id="InsertContactPhoneNumber" parameterMap="ContactPhoneNumberPM">
+      <generate table="ContactPhoneNumbers" />
     </insert>
     
     <select id="SelectContactPhoneNumbersByContactId" resultMap="ContactPhoneNumberRM" parameterClass="long">

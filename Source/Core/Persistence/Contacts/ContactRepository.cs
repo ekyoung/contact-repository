@@ -22,6 +22,16 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
             if (contact.Id == null)
             {
                 _contactQueryExecutor.Insert(contact);
+
+                foreach (var contactEmailAddress in contact.EmailAddresses)
+                {
+                    contactEmailAddress.ContactId = contact.Id.Value;
+                }
+
+                foreach (var contactPhoneNumber in contact.PhoneNumbers)
+                {
+                    contactPhoneNumber.ContactId = contact.Id.Value;
+                }
             }
             else
             {
@@ -32,12 +42,12 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
 
             foreach (var contactEmailAddress in contact.EmailAddresses)
             {
-                _contactEmailAddressQueryExecutor.Insert(contact.Id.Value, contactEmailAddress);
+                _contactEmailAddressQueryExecutor.Insert(contactEmailAddress);
             }
 
             foreach (var contactPhoneNumber in contact.PhoneNumbers)
             {
-                _contactPhoneNumberQueryExecutor.Insert(contact.Id.Value, contactPhoneNumber);
+                _contactPhoneNumberQueryExecutor.Insert(contactPhoneNumber);
             }
         }
 

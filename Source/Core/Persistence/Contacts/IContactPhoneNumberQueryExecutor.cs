@@ -4,7 +4,7 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
 {
     public interface IContactPhoneNumberQueryExecutor
     {
-        void Insert(long contactId, ContactPhoneNumber contactPhoneNumber);
+        void Insert(ContactPhoneNumber contactPhoneNumber);
         void DeleteByContactId(long contactId);
     }
 }
