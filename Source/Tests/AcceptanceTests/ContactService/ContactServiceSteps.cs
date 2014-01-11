@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using EthanYoung.ContactRepository.ContactGroups;
 using EthanYoung.ContactRepository.Contacts;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -14,9 +13,6 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
 
         private IContact _contact;
         private IContact _retrievedContact;
-
-        private IContactGroup _contactGroup;
-        private IContactGroup _retrievedContactGroup;
 
         [BeforeScenario]
         public void BeforeScenario()
@@ -32,16 +28,6 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
             {
                 Identifier = Guid.NewGuid(),
                 Name = new Name("Joe", "Contact")
-            };
-        }
-
-        [Given(@"I create a contact group")]
-        public void GivenICreateAContactGroup()
-        {
-            _contactGroup = new ContactGroup
-            {
-                Identifier = Guid.NewGuid(),
-                Name = "My Contacts"
             };
         }
 
@@ -99,22 +85,10 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
             _contact.ClearPhoneNumbers();
         }
 
-        [Given(@"I change the name of the contact group")]
-        public void GivenIChangeTheNameOfTheContactGroup()
-        {
-            _contactGroup.Name += " Updated";
-        }
-
         [Given(@"I save the contact")]
         public void GivenISaveTheContact()
         {
             _service.Save(_contact);
-        }
-
-        [Given(@"I save the contact group")]
-        public void GivenISaveTheContactGroup()
-        {
-            _service.Save(_contactGroup);
         }
 
         [Given(@"I delete the contact")]
@@ -123,22 +97,10 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
             _service.DeleteByIdentifier(_contact.Identifier);
         }
 
-        [Given(@"I delete the contact group")]
-        public void GivenIDeleteTheContactGroup()
-        {
-            _service.DeleteContactGroupByIdentifier(_contactGroup.Identifier);
-        }
-
         [When(@"I retrieve the contact")]
         public void WhenIRetrieveTheContact()
         {
             _retrievedContact = _service.FindByIdentifier(_contact.Identifier);
-        }
-
-        [When(@"I retrieve the contact group")]
-        public void WhenIRetrieveTheContactGroup()
-        {
-            _retrievedContactGroup = _service.FindContactGroupByIdentifier(_contactGroup.Identifier);
         }
 
         [Then(@"the retrieved contact is null")]
@@ -147,22 +109,10 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
             Assert.IsNull(_retrievedContact);
         }
 
-        [Then(@"the retrieved contact group is null")]
-        public void ThenTheRetrievedContactGroupIsNull()
-        {
-            Assert.IsNull(_retrievedContactGroup);
-        }
-
         [Then(@"the name of the retrieved contact is equal to the name of the contact")]
         public void ThenTheNameOfTheRetrievedContactIsEqualToTheNameOfTheContact()
         {
             Assert.AreEqual(_contact.Name, _retrievedContact.Name);
-        }
-
-        [Then(@"the name of the retrieved contact group is equal to the name of the contact group")]
-        public void ThenTheNameOfTheRetrievedContactGroupIsEqualToTheNameOfTheContactGroup()
-        {
-            Assert.AreEqual(_contactGroup.Name, _retrievedContactGroup.Name);
         }
 
         [Then(@"the contact has (.*) email address")]

@@ -1,4 +1,4 @@
-﻿Feature: Contact Service Can Perform CRUD Operations For Contact Groups
+﻿Feature: Contact Group Service Can Perform CRUD Operations
 	In order to organize my contacts
 	As a user
 	I want to be able to save and retrieve groups of contacts

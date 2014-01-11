@@ -67,6 +67,7 @@
     <Compile Include="Bootstrapping\Migrations\Migration201312071339_CreateContactsTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migrator.cs" />
     <Compile Include="ContactGroups\ContactGroup.cs" />
+    <Compile Include="ContactGroups\ContactGroupService.cs" />
     <Compile Include="ContactGroups\IContactGroupRepository.cs" />
     <Compile Include="Contacts\Contact.cs" />
     <Compile Include="Contacts\ContactEmailAddress.cs" />

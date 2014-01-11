@@ -11,7 +11,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
+namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
 {
     using TechTalk.SpecFlow;
     
@@ -19,20 +19,20 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Contact Service Can Perform CRUD Operations For Contact Groups")]
-    public partial class ContactServiceCanPerformCRUDOperationsForContactGroupsFeature
+    [NUnit.Framework.DescriptionAttribute("Contact Group Service Can Perform CRUD Operations")]
+    public partial class ContactGroupServiceCanPerformCRUDOperationsFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "ContactServiceCanPerformCRUDOperationsForContactGroups.feature"
+#line 1 "ContactGroupServiceCanPerformCRUDOperations.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Contact Service Can Perform CRUD Operations For Contact Groups", "In order to organize my contacts\r\nAs a user\r\nI want to be able to save and retrie" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Contact Group Service Can Perform CRUD Operations", "In order to organize my contacts\r\nAs a user\r\nI want to be able to save and retrie" +
                     "ve groups of contacts", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }

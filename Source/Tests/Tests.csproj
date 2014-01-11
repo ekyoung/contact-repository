@@ -54,6 +54,7 @@
       <DependentUpon>BootstrappingServiceCanCreateTheSchemaInABlankDatabase.feature</DependentUpon>
     </Compile>
     <Compile Include="AcceptanceTests\Bootstrapping\BootstrappingServiceSteps.cs" />
+    <Compile Include="AcceptanceTests\ContactGroupService\ContactGroupServiceSteps.cs" />
     <Compile Include="AcceptanceTests\ContactService\ContactServiceCanManageMultipleEmailAddressesForAContact.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -64,15 +65,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ContactServiceCanManageMultiplePhoneNumbersForAContact.feature</DependentUpon>
     </Compile>
-    <Compile Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperationsForContactGroups.feature.cs">
+    <Compile Include="AcceptanceTests\ContactGroupService\ContactGroupServiceCanPerformCRUDOperations.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ContactServiceCanPerformCRUDOperationsForContactGroups.feature</DependentUpon>
+      <DependentUpon>ContactGroupServiceCanPerformCRUDOperations.feature</DependentUpon>
     </Compile>
-    <Compile Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperationsForContacts.feature.cs">
+    <Compile Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperations.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ContactServiceCanPerformCRUDOperationsForContacts.feature</DependentUpon>
+      <DependentUpon>ContactServiceCanPerformCRUDOperations.feature</DependentUpon>
     </Compile>
     <Compile Include="AcceptanceTests\ContactService\ContactServiceSteps.cs" />
     <Compile Include="AcceptanceTests\StepArgumentTransformations.cs" />
@@ -95,13 +96,13 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ContactServiceCanManageMultiplePhoneNumbersForAContact.feature.cs</LastGenOutput>
     </None>
-    <None Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperationsForContactGroups.feature">
+    <None Include="AcceptanceTests\ContactGroupService\ContactGroupServiceCanPerformCRUDOperations.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ContactServiceCanPerformCRUDOperationsForContactGroups.feature.cs</LastGenOutput>
+      <LastGenOutput>ContactGroupServiceCanPerformCRUDOperations.feature.cs</LastGenOutput>
     </None>
-    <None Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperationsForContacts.feature">
+    <None Include="AcceptanceTests\ContactService\ContactServiceCanPerformCRUDOperations.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>ContactServiceCanPerformCRUDOperationsForContacts.feature.cs</LastGenOutput>
+      <LastGenOutput>ContactServiceCanPerformCRUDOperations.feature.cs</LastGenOutput>
     </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
@@ -400,6 +401,7 @@
       <Name>Web</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

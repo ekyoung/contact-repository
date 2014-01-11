@@ -19,20 +19,20 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("Contact Service Can Perform CRUD Operations For Contacts")]
-    public partial class ContactServiceCanPerformCRUDOperationsForContactsFeature
+    [NUnit.Framework.DescriptionAttribute("Contact Service Can Perform CRUD Operations")]
+    public partial class ContactServiceCanPerformCRUDOperationsFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "ContactServiceCanPerformCRUDOperationsForContacts.feature"
+#line 1 "ContactServiceCanPerformCRUDOperations.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Contact Service Can Perform CRUD Operations For Contacts", "In order to remember my contacts\r\nAs a user\r\nI want to be able to save and retrie" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Contact Service Can Perform CRUD Operations", "In order to remember my contacts\r\nAs a user\r\nI want to be able to save and retrie" +
                     "ve a contact", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }

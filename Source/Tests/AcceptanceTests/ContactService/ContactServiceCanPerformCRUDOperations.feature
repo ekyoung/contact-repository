@@ -1,4 +1,4 @@
-﻿Feature: Contact Service Can Perform CRUD Operations For Contacts
+﻿Feature: Contact Service Can Perform CRUD Operations
 	In order to remember my contacts
 	As a user
 	I want to be able to save and retrieve a contact
