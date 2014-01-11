@@ -61,10 +61,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapping\BootstrappingService.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201401101942_CreateContactGroupsTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201401062133_CreateContactPhoneNumbersTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201312141425_CreateContactEmailAddressesTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201312071339_CreateContactsTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migrator.cs" />
+    <Compile Include="ContactGroups\ContactGroup.cs" />
+    <Compile Include="ContactGroups\IContactGroupRepository.cs" />
     <Compile Include="Contacts\Contact.cs" />
     <Compile Include="Contacts\ContactEmailAddress.cs" />
     <Compile Include="Contacts\ContactPhoneNumber.cs" />
@@ -77,6 +80,9 @@
     <Compile Include="IService.cs" />
     <Compile Include="IValueObject.cs" />
     <Compile Include="Name.cs" />
+    <Compile Include="Persistence\ContactGroups\ContactGroupQueryExecutor.cs" />
+    <Compile Include="Persistence\ContactGroups\ContactGroupRepository.cs" />
+    <Compile Include="Persistence\ContactGroups\IContactGroupQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\ContactEmailAddressQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\ContactPhoneNumberQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\IContactPhoneNumberQueryExecutor.cs" />
@@ -110,6 +116,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Persistence\Contacts\Contact.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Persistence\ContactGroups\ContactGroup.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="ContactGroup" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="ContactGroup" type="EthanYoung.ContactRepository.ContactGroups.ContactGroup, EthanYoung.ContactRepository"/>
+  </alias>
+  
+  <typeHandlers>
+  </typeHandlers>
+
+  <resultMaps>
+    <resultMap id="ContactGroupRM" class="ContactGroup">
+      <result property="Id" column="ContactGroupId"/>
+      <result property="Identifier" column="ContactGroupIdentifier"/>
+      <result property="Name" column="Name"/>
+    </resultMap>
+  </resultMaps>
+
+  <parameterMaps>
+    <parameterMap id="ContactGroupPM" class="ContactGroup">
+      <parameter property="Identifier" column="ContactGroupIdentifier" />
+      <parameter property="Name" column="Name"/>
+    </parameterMap>
+    <parameterMap id="UpdateContactGroupPM" class="ContactGroup" extends="ContactGroupPM">
+      <parameter property="Id" column="ContactGroupId"/>
+    </parameterMap>
+  </parameterMaps>
+
+  <statements>
+    <!-- ContactGroups -->
+    <insert id="InsertContactGroup" parameterMap="ContactGroupPM">
+      <generate table="ContactGroups" />
+      <selectKey resultClass="long" type="post" property="Id">
+        SELECT @@IDENTITY as value
+      </selectKey>
+    </insert>
+
+    <update id="UpdateContactGroup" parameterMap="UpdateContactGroupPM">
+      <generate table="ContactGroups" by="ContactGroupId" />
+    </update>
+
+    <select id="SelectAllContactGroups" resultMap="ContactGroupRM" parameterClass="guid">
+      SELECT *
+      FROM ContactGroups (NOLOCK)
+      ORDER BY Name
+    </select>
+    
+    <select id="SelectContactGroupByIdentifier" resultMap="ContactGroupRM" parameterClass="guid">
+      SELECT *
+      FROM ContactGroups (NOLOCK)
+      WHERE ContactGroupIdentifier = #value#
+    </select>
+  
+    <delete id="DeleteContactGroupByIdentifier" parameterClass="guid">
+      DELETE FROM ContactGroups
+      WHERE ContactGroupIdentifier = #value#
+    </delete>
+  </statements>
+</sqlMap>
