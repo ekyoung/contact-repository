@@ -15,12 +15,19 @@ namespace EthanYoung.ContactRepository.Persistence.ContactGroups
 
         public void Save(IContactGroup contactGroup)
         {
-            _contactGroupQueryExecutor.Insert(contactGroup);
+            if (contactGroup.Id == null)
+            {
+                _contactGroupQueryExecutor.Insert(contactGroup);
+            }
+            else
+            {
+                _contactGroupQueryExecutor.Update(contactGroup);
+            }
         }
 
         public List<IContactGroup> FindAll()
         {
-            throw new NotImplementedException();
+            return _contactGroupQueryExecutor.SelectAll();
         }
 
         public IContactGroup FindByIdentifier(Guid identifier)
@@ -30,7 +37,7 @@ namespace EthanYoung.ContactRepository.Persistence.ContactGroups
 
         public void DeleteByIdentifier(Guid identifier)
         {
-            throw new NotImplementedException();
+            _contactGroupQueryExecutor.DeleteByIdentifier(identifier);
         }
     }
 }

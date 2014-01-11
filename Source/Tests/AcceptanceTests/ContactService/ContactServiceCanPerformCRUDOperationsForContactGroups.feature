@@ -8,3 +8,18 @@ Scenario: Insert and Select
 	And I save the contact group
 	When I retrieve the contact group
 	Then the name of the retrieved contact group is equal to the name of the contact group
+
+Scenario: Insert Update and Select
+	Given I create a contact group
+	And I save the contact group
+	And I change the name of the contact group
+	And I save the contact group
+	When I retrieve the contact group
+	Then the name of the retrieved contact group is equal to the name of the contact group
+
+Scenario: Insert and Delete
+	Given I create a contact group
+	And I save the contact group
+	And I delete the contact group
+	When I retrieve the contact group
+	Then the retrieved contact group is null

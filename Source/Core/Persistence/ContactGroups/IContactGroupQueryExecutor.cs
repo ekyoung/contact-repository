@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using EthanYoung.ContactRepository.ContactGroups;
-using EthanYoung.ContactRepository.Contacts;
 
 namespace EthanYoung.ContactRepository.Persistence.ContactGroups
 {
@@ -9,7 +8,7 @@ namespace EthanYoung.ContactRepository.Persistence.ContactGroups
     {
         void Insert(IContactGroup contactGroup);
         void Update(IContactGroup contactGroup);
-        List<IContact> SelectAll();
+        List<IContactGroup> SelectAll();
         IContactGroup SelectByIdentifier(Guid identifier);
         void DeleteByIdentifier(Guid identifier); 
     }

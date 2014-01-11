@@ -45,6 +45,12 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
             };
         }
 
+        [Given(@"I change the name of the contact")]
+        public void GivenIChangeTheNameOfTheContact()
+        {
+            _contact.Name = new Name("Joe", "Updated");
+        }
+
         [Given(@"I set email address (.*\.com) on the contact")]
         public void GivenISetEmailAddressOnTheContact(EmailAddress emailAddress)
         {
@@ -93,6 +99,12 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
             _contact.ClearPhoneNumbers();
         }
 
+        [Given(@"I change the name of the contact group")]
+        public void GivenIChangeTheNameOfTheContactGroup()
+        {
+            _contactGroup.Name += " Updated";
+        }
+
         [Given(@"I save the contact")]
         public void GivenISaveTheContact()
         {
@@ -105,16 +117,16 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
             _service.Save(_contactGroup);
         }
 
-        [Given(@"I change the name of the contact")]
-        public void GivenIChangeTheNameOfTheContact()
-        {
-            _contact.Name = new Name("Joe", "Updated");
-        }
-
         [Given(@"I delete the contact")]
         public void GivenIDeleteTheContact()
         {
             _service.DeleteByIdentifier(_contact.Identifier);
+        }
+
+        [Given(@"I delete the contact group")]
+        public void GivenIDeleteTheContactGroup()
+        {
+            _service.DeleteContactGroupByIdentifier(_contactGroup.Identifier);
         }
 
         [When(@"I retrieve the contact")]
@@ -133,6 +145,12 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
         public void ThenTheRetrievedContactIsNull()
         {
             Assert.IsNull(_retrievedContact);
+        }
+
+        [Then(@"the retrieved contact group is null")]
+        public void ThenTheRetrievedContactGroupIsNull()
+        {
+            Assert.IsNull(_retrievedContactGroup);
         }
 
         [Then(@"the name of the retrieved contact is equal to the name of the contact")]
