@@ -20,10 +20,6 @@ namespace EthanYoung.ContactRepository.Persistence.ContactGroups
             if (contactGroup.Id == null)
             {
                 _contactGroupQueryExecutor.Insert(contactGroup);
-                foreach (var member in contactGroup.Members)
-                {
-                    member.ContactGroupId = contactGroup.Id.Value;
-                }
             }
             else
             {
@@ -33,6 +29,7 @@ namespace EthanYoung.ContactRepository.Persistence.ContactGroups
 
             foreach (var member in contactGroup.Members)
             {
+                member.ContactGroupId = contactGroup.Id.Value;
                 _contactGroupMemberQueryExecutor.Insert(member);
             }
         }

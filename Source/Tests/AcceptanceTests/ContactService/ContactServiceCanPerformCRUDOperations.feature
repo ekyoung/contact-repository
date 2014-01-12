@@ -17,6 +17,16 @@ Scenario: Insert Update and Select
 	When I retrieve the contact
 	Then the name of the retrieved contact is equal to the name of the contact
 
+Scenario: Insert Select and Add Contact Info
+	Given I create a contact
+	And I save the contact
+	And I set email address user@home.com with nickname Home on the contact
+	And I set phone number (111) 111-1111 with nickname Home on the contact
+	And I save the contact
+	When I retrieve the contact
+	Then the retrieved contact has email address user@home.com with nickname Home
+	And the retrieved contact has phone number (111) 111-1111 with nickname Home
+
 Scenario: Insert and Delete
 	Given I create a contact
 	And I set email address user@home.com on the contact
