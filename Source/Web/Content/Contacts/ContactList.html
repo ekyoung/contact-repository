@@ -15,12 +15,12 @@
         <tr ng-repeat="contact in contacts">
             <td>
                 <div class="btn-group">
-                    <a href="#/edit/{{contact.Identifier}}" class="btn btn-primary btn-xs">Edit</a>
+                    <a ey-start-task="/edit/{{contact.Identifier}}" class="btn btn-primary btn-xs">Edit</a>
                     <a class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#/delete/{{contact.Identifier}}">Delete</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" ey-start-task="/delete/{{contact.Identifier}}">Delete</a></li>
                     </ul>
                 </div>
             </td>

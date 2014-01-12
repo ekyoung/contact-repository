@@ -191,6 +191,7 @@
     <Content Include="Content\Contacts\ListContactsView.html" />
     <Content Include="Content\Contacts\ContactsApp.js" />
     <Content Include="Content\Contacts\EditContactView.html" />
+    <Content Include="Content\Tasks\Tasks.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\bootstrap-3.0.2\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-3.0.2\fonts\glyphicons-halflings-regular.ttf" />

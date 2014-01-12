@@ -401,6 +401,7 @@
     <Content Include="JsTests\Contacts\ContactsTests.js" />
     <Content Include="JsTests\my.config.js" />
     <Content Include="JsTests\Contacts\ContactsAppTests.js" />
+    <Content Include="JsTests\Tasks\TasksTests.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj">

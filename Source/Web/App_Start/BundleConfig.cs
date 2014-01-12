@@ -10,8 +10,9 @@ namespace Web
                 "~/Content/bootstrap-3.0.2/css/bootstrap.css",
                 "~/Content/Common/Main.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/alerts").Include(
-                "~/Content/Alerts/Alerts.js"));
+            bundles.Add(new ScriptBundle("~/bundles/commonApp").Include(
+                "~/Content/Alerts/Alerts.js",
+                "~/Content/Tasks/Tasks.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contactsApp").Include(
                 "~/Content/ContactGroups/ContactGroups.js",

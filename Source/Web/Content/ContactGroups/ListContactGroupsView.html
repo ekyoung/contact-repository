@@ -20,13 +20,13 @@
             <tr ng-repeat="contactGroup in contactGroups">
                 <td>
                     <div class="btn-group">
-                        <a href="#/contactGroups/{{contactGroup.Identifier}}" class="btn btn-primary btn-xs">View Overview</a>
+                        <a ey-start-task="/contactGroups/{{contactGroup.Identifier}}" class="btn btn-primary btn-xs">View Overview</a>
                         <a class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#/contactGroups/rename/{{contactGroup.Identifier}}">Rename</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#/contactGroups/delete/{{contactGroup.Identifier}}">Delete</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" ey-start-task="/contactGroups/rename/{{contactGroup.Identifier}}">Rename</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" ey-start-task="/contactGroups/delete/{{contactGroup.Identifier}}">Delete</a></li>
                         </ul>
                     </div>
                 </td>

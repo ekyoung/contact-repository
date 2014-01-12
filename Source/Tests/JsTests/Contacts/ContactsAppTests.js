@@ -1,6 +1,6 @@
 ﻿describe('Contacts App', function () {
 
-    var mockAlertsService, mockContactGroupsResource, mockContactsResource;
+    var mockAlertsService, mockTasksService, mockContactGroupsResource, mockContactsResource;
 
     beforeEach(module('eyContactsApp', function($provide) {
         mockAlertsService = {
@@ -12,6 +12,12 @@
         };
 
         $provide.value('alerts', mockAlertsService);
+
+        mockTasksService = {
+            redirectBack: jasmine.createSpy()
+        };
+
+        $provide.value('tasks', mockTasksService);
 
         mockContactsResource = function () {
             this.FirstName = null;
@@ -99,7 +105,7 @@
     });
 
     describe('createController', function() {
-        var $scope, $location, createController;
+        var $scope, createController;
 
         var contact = {
             $save: function(callback) {
@@ -112,13 +118,10 @@
             
             $scope = $injector.get('$rootScope');
 
-            $location = $injector.get('$location');
-            $location.path('/create');
-
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('createController', { $scope: $scope, $location: $location });
+                return $controller('createController', { $scope: $scope });
             };
         }));
 
@@ -146,12 +149,12 @@
             expect(contact.$save).toHaveBeenCalled();
         });
         
-        it('should redirect to the list view when save is clicked and the operation is successful', function () {
+        it('should redirect back when save is clicked and the operation is successful', function () {
             var controller = createController();
 
             $scope.save();
 
-            expect($location.path()).toBe('/');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add a success alert when save is clicked and the operation is successful', function() {
@@ -162,12 +165,12 @@
             expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('A new contact has been created.');
         });
 
-        it('should redirect to the list view when cancel is clicked', function () {
+        it('should redirect back when cancel is clicked', function () {
             var controller = createController();
 
             $scope.cancel();
 
-            expect($location.path()).toBe('/');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add an info alert when cancel is clicked', function () {
@@ -180,7 +183,7 @@
     });
     
     describe('editController', function () {
-        var $scope, $routeParams, $location, createController;
+        var $scope, $routeParams, createController;
 
         var contactIdentifier = 'id1';
         var contact = {
@@ -200,13 +203,10 @@
             $routeParams = $injector.get('$routeParams');
             $routeParams.contactIdentifier = contactIdentifier;
 
-            $location = $injector.get('$location');
-            $location.path('/edit/' + contactIdentifier);
-
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('editController', { $scope: $scope, $routeParams: $routeParams, $location: $location });
+                return $controller('editController', { $scope: $scope, $routeParams: $routeParams });
             };
         }));
         
@@ -233,12 +233,12 @@
             expect($scope.originalName).toBe(contact.FirstName + ' ' + contact.LastName);
         });
 
-        it('should redirect to the list view when cancel is clicked', function () {
+        it('should redirect back when cancel is clicked', function () {
             var controller = createController();
 
             $scope.cancel();
 
-            expect($location.path()).toBe('/');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add an info alert when cancel is clicked', function () {
@@ -257,13 +257,13 @@
             expect(contact.$update).toHaveBeenCalled();
         });
         
-        it('should redirect to the list view when save is clicked and the operation is successful', function () {
+        it('should redirect back when save is clicked and the operation is successful', function () {
 
             var controller = createController();
 
             $scope.save();
 
-            expect($location.path()).toBe('/');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add a success alert when save is clicked and the operation is successful', function () {
@@ -276,7 +276,7 @@
     });
 
     describe('deleteController', function() {
-        var $scope, $routeParams, $location, createController;
+        var $scope, $routeParams, createController;
 
         var contactIdentifier = 'id1';
         var contact = { Identifier: contactIdentifier, FirstName: 'Joe', LastName: 'One' };
@@ -291,13 +291,10 @@
             $routeParams = $injector.get('$routeParams');
             $routeParams.contactIdentifier = contactIdentifier;
 
-            $location = $injector.get('$location');
-            $location.path('/delete/' + contactIdentifier);
-
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams, $location: $location });
+                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams });
             };
         }));
 
@@ -315,12 +312,12 @@
             expect(mockContactsResource.delete).toHaveBeenCalledWith({ contactIdentifier: contactIdentifier }, null, jasmine.any(Function));
         });
 
-        it('should redirect to the list view when continue is clicked and the operation is successful', function () {
+        it('should redirect back when continue is clicked and the operation is successful', function () {
             var controller = createController();
 
             $scope.continue();
 
-            expect($location.path()).toBe('/');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add a success alert when continue is clicked and the operation is successful', function () {
@@ -331,12 +328,12 @@
             expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('The contact has been deleted.');
         });
 
-        it('should redirect to the list view when cancel is clicked', function () {
+        it('should redirect back when cancel is clicked', function () {
             var controller = createController();
 
             $scope.cancel();
 
-            expect($location.path()).toBe('/');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add an info alert when cancel is clicked', function () {
@@ -379,7 +376,7 @@
     });
 
     describe('createContactGroupController', function () {
-        var $scope, $location, createController;
+        var $scope, createController;
 
         var contactGroup = {
             $save: function (callback) {
@@ -392,13 +389,10 @@
 
             $scope = $injector.get('$rootScope');
 
-            $location = $injector.get('$location');
-            $location.path('/contactGroups/create');
-
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('createContactGroupController', { $scope: $scope, $location: $location });
+                return $controller('createContactGroupController', { $scope: $scope });
             };
         }));
 
@@ -426,12 +420,12 @@
             expect(contactGroup.$save).toHaveBeenCalled();
         });
 
-        it('should redirect to the list view when save is clicked and the operation is successful', function () {
+        it('should redirect back when save is clicked and the operation is successful', function () {
             var controller = createController();
 
             $scope.save();
 
-            expect($location.path()).toBe('/');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add a success alert when save is clicked and the operation is successful', function () {
@@ -442,12 +436,12 @@
             expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('A new contact group has been created.');
         });
 
-        it('should redirect to the list view when cancel is clicked', function () {
+        it('should redirect back when cancel is clicked', function () {
             var controller = createController();
 
             $scope.cancel();
 
-            expect($location.path()).toBe('/contactGroups');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add an info alert when cancel is clicked', function () {
@@ -521,7 +515,7 @@
     });
 
     describe('renameContactGroupController', function () {
-        var $scope, $routeParams, $location, createController;
+        var $scope, $routeParams, createController;
 
         var contactGroupIdentifier = 'id1';
         var contactGroup = {
@@ -540,13 +534,10 @@
             $routeParams = $injector.get('$routeParams');
             $routeParams.contactGroupIdentifier = contactGroupIdentifier;
 
-            $location = $injector.get('$location');
-            $location.path('contactGroups/rename/' + contactGroupIdentifier);
-
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('renameContactGroupController', { $scope: $scope, $routeParams: $routeParams, $location: $location });
+                return $controller('renameContactGroupController', { $scope: $scope, $routeParams: $routeParams });
             };
         }));
 
@@ -573,12 +564,12 @@
             expect($scope.originalName).toBe(contactGroup.Name);
         });
 
-        it('should redirect to the list view when cancel is clicked', function () {
+        it('should redirect back when cancel is clicked', function () {
             var controller = createController();
 
             $scope.cancel();
 
-            expect($location.path()).toBe('/contactGroups');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add an info alert when cancel is clicked', function () {
@@ -597,13 +588,13 @@
             expect(contactGroup.$update).toHaveBeenCalled();
         });
 
-        it('should redirect to the list view when save is clicked and the operation is successful', function () {
+        it('should redirect back when save is clicked and the operation is successful', function () {
 
             var controller = createController();
 
             $scope.save();
 
-            expect($location.path()).toBe('/contactGroups');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add a success alert when save is clicked and the operation is successful', function () {
@@ -616,7 +607,7 @@
     });
 
     describe('deleteContactGroupController', function () {
-        var $scope, $routeParams, $location, createController;
+        var $scope, $routeParams, createController;
 
         var contactGroupIdentifier = 'id1';
         var contactGroup = { Identifier: contactGroupIdentifier, Name: 'My Contacts' };
@@ -631,13 +622,10 @@
             $routeParams = $injector.get('$routeParams');
             $routeParams.contactGroupIdentifier = contactGroupIdentifier;
 
-            $location = $injector.get('$location');
-            $location.path('/contactGroups/delete/' + contactGroupIdentifier);
-
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('deleteContactGroupController', { $scope: $scope, $routeParams: $routeParams, $location: $location });
+                return $controller('deleteContactGroupController', { $scope: $scope, $routeParams: $routeParams });
             };
         }));
 
@@ -655,12 +643,12 @@
             expect(mockContactGroupsResource.delete).toHaveBeenCalledWith({ contactGroupIdentifier: contactGroupIdentifier }, null, jasmine.any(Function));
         });
 
-        it('should redirect to the list view when continue is clicked and the operation is successful', function () {
+        it('should redirect back when continue is clicked and the operation is successful', function () {
             var controller = createController();
 
             $scope.continue();
 
-            expect($location.path()).toBe('/contactGroups');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add a success alert when continue is clicked and the operation is successful', function () {
@@ -671,12 +659,12 @@
             expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('The contact group has been deleted.');
         });
 
-        it('should redirect to the list view when cancel is clicked', function () {
+        it('should redirect back when cancel is clicked', function () {
             var controller = createController();
 
             $scope.cancel();
 
-            expect($location.path()).toBe('/contactGroups');
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
         });
 
         it('should add an info alert when cancel is clicked', function () {
