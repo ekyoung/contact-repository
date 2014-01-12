@@ -5,6 +5,7 @@ using System.Web.Http;
 using AutoMapper;
 using EthanYoung.ContactRepository;
 using EthanYoung.ContactRepository.ContactGroups;
+using EthanYoung.ContactRepository.Contacts;
 using Web.Models;
 
 namespace Web.Controllers
@@ -19,18 +20,32 @@ namespace Web.Controllers
         }
 
         // GET api/contactGroups
+        [HttpGet]
+        [ActionName("VerbDefault")]
         public IEnumerable<ContactGroupModel> Get()
         {
             return _service.FindAll().Select(Mapper.Map<IContactGroup, ContactGroupModel>);
         }
-
+        
         // GET api/contactGroups/{guid}
+        [HttpGet]
+        [ActionName("VerbDefault")]
         public ContactGroupModel Get(Guid identifier)
         {
             return Mapper.Map<IContactGroup, ContactGroupModel>(_service.FindByIdentifier(identifier));
         }
-
+        
+        // GET api/contactGroups/{guid}/members
+        [HttpGet]
+        [ActionName("members")]
+        public IEnumerable<ContactModel> GetMembers(Guid identifier)
+        {
+            return _service.GetMembers(identifier).Select(Mapper.Map<IContact, ContactModel>);
+        }
+        
         // POST api/contactGroups
+        [HttpPost]
+        [ActionName("VerbDefault")]
         public void Post([FromBody]ContactGroupModel contactGroupModel)
         {
             var contactGroup = Mapper.Map<ContactGroupModel, ContactGroup>(contactGroupModel);
@@ -43,6 +58,8 @@ namespace Web.Controllers
         }
 
         // PUT api/contactGroups/{guid}
+        [HttpPut]
+        [ActionName("VerbDefault")]
         public void Put(Guid identifier, [FromBody]ContactGroupModel contactGroupModel)
         {
             IContactGroup contactGroup = _service.FindByIdentifier(contactGroupModel.Identifier);
@@ -51,6 +68,8 @@ namespace Web.Controllers
         }
 
         // DELETE api/contactGroups/{guid}
+        [HttpDelete]
+        [ActionName("VerbDefault")]
         public void Delete(Guid identifier)
         {
             _service.DeleteByIdentifier(identifier);

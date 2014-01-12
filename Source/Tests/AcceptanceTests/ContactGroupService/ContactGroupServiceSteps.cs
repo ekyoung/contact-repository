@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using EthanYoung.ContactRepository.ContactGroups;
+using EthanYoung.ContactRepository.Contacts;
 using EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService;
 using NUnit.Framework;
 using TechTalk.SpecFlow;
@@ -15,6 +18,7 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
 
         private IContactGroup _contactGroup;
         private IContactGroup _retrievedContactGroup;
+        private List<IContact> _retrievedContactGroupMembers;
 
         public ContactGroupServiceSteps(ContactContext contactContext)
         {
@@ -68,6 +72,12 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
             _retrievedContactGroup = _service.FindByIdentifier(_contactGroup.Identifier);
         }
 
+        [When(@"I retrieve the members of the contact group")]
+        public void WhenIRetrieveTheMembersOfTheContactGroup()
+        {
+            _retrievedContactGroupMembers = _service.GetMembers(_contactGroup.Identifier);
+        }
+
         [Then(@"the retrieved contact group is null")]
         public void ThenTheRetrievedContactGroupIsNull()
         {
@@ -84,6 +94,12 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
         public void ThenTheContactIsAMemberOfTheRetrievedContactGroup()
         {
             Assert.IsTrue(_retrievedContactGroup.IsMember(_contactContext.Contact.Identifier));
+        }
+
+        [Then(@"the list of retrieved members contains the contact")]
+        public void ThenTheListOfRetrievedMembersContainsTheContact()
+        {
+            Assert.IsTrue(_retrievedContactGroupMembers.Any(x => x.Identifier == _contactContext.Contact.Identifier));
         }
     }
 }

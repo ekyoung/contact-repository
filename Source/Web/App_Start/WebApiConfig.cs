@@ -8,8 +8,8 @@ namespace Web
         {
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{identifier}",
-                defaults: new { identifier = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{identifier}/{action}",
+                defaults: new { identifier = RouteParameter.Optional, action = "VerbDefault" }
             );
 
             // Uncomment the following line of code to enable query support for actions with an IQueryable or IQueryable<T> return type.

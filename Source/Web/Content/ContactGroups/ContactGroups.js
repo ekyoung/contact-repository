@@ -8,6 +8,11 @@ eyContactGroups.factory('ContactGroups', ['$resource', 'apiRootUrl', function ($
             'update': {
                 method: 'PUT',
                 params: { contactGroupIdentifier: '@Identifier' }
+            },
+            'getMembers': {
+                method: 'GET',
+                isArray: true,
+                url: apiRootUrl + '/contactGroups/:contactGroupIdentifier/members'
             }
         });
 

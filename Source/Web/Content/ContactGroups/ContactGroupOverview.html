@@ -1,3 +1,9 @@
 ﻿<div ng-repeat="alert in alerts" class="alert alert-{{alert.type}}">{{alert.text}}</div>
 Contact Group: {{contactGroup.Name}}
 <h1>Contact Group Overview</h1>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Contacts
+    </div>
+    <ey-contact-list contacts="contactGroupMembers"></ey-contact-list>
+</div>

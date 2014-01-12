@@ -184,6 +184,7 @@
     <Content Include="Content\ContactGroups\DeleteContactGroupView.html" />
     <Content Include="Content\ContactGroups\ListContactGroupsView.html" />
     <Content Include="Content\Contacts\Contacts.js" />
+    <Content Include="Content\Contacts\ContactList.html" />
     <Content Include="Content\Contacts\EditContact.html" />
     <Content Include="Content\Contacts\CreateContactView.html" />
     <Content Include="Content\Contacts\DeleteContactView.html" />

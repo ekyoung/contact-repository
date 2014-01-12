@@ -112,6 +112,14 @@ contactsApp.directive('eyEditContact', function () {
     };
 });
 
+contactsApp.directive('eyContactList', function () {
+    return {
+        templateUrl: '/Content/Contacts/ContactList.html',
+        restrict: 'E',
+        scope: { contacts: '=' },
+    };
+});
+
 contactsApp.controller('listContactGroupsController', ['$scope', 'alerts', 'ContactGroups', function ($scope, alerts, ContactGroups) {
     $scope.contactGroups = ContactGroups.query();
 
@@ -136,6 +144,7 @@ contactsApp.controller('createContactGroupController', ['$scope', '$location', '
 
 contactsApp.controller('contactGroupOverviewController', ['$scope', '$routeParams', 'alerts', 'ContactGroups', function ($scope, $routeParams, alerts, ContactGroups) {
     $scope.contactGroup = ContactGroups.get({ contactGroupIdentifier: $routeParams.contactGroupIdentifier });
+    $scope.contactGroupMembers = ContactGroups.getMembers({ contactGroupIdentifier: $routeParams.contactGroupIdentifier });
 
     alerts.displayAlerts($scope);
 }]);

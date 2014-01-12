@@ -54,6 +54,10 @@
             return [];
         };
 
+        mockContactGroupsResource.getMembers = function() {
+            return [];
+        };
+        
         mockContactGroupsResource.delete = function (params, data, success) {
             success();
         };
@@ -463,10 +467,15 @@
             Identifier: contactGroupIdentifier,
             Name: 'My Contacts'
         };
+        var contactGroupMembers = [
+            { FirstName: 'Joe', LastName: 'Contact' }
+        ];
 
         beforeEach(inject(function ($injector) {
             mockContactGroupsResource.get = function () { return contactGroup; };
             spyOn(mockContactGroupsResource, 'get').andCallThrough();
+            mockContactGroupsResource.getMembers = function () { return contactGroupMembers; };
+            spyOn(mockContactGroupsResource, 'getMembers').andCallThrough();
 
             $scope = $injector.get('$rootScope');
 
@@ -492,6 +501,18 @@
             expect($scope.contactGroup).toBe(contactGroup);
         });
 
+        it('should use the contact group identifier to get the members of the contact group', function() {
+            var controller = createController();
+
+            expect(mockContactGroupsResource.getMembers).toHaveBeenCalledWith({ contactGroupIdentifier: contactGroupIdentifier });
+        });
+
+        it('should set the members of the group on the scope when given members', function() {
+            var controller = createController();
+
+            expect($scope.contactGroupMembers).toBe(contactGroupMembers);
+        });
+        
         it('should display alerts in all cases', function () {
             var controller = createController();
 

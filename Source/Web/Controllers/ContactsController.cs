@@ -19,18 +19,24 @@ namespace Web.Controllers
         }
 
         // GET api/contacts
+        [HttpGet]
+        [ActionName("VerbDefault")]
         public IEnumerable<ContactModel> Get()
         {
             return _service.FindAll().Select(Mapper.Map<IContact, ContactModel>);
         }
 
         // GET api/contacts/{guid}
+        [HttpGet]
+        [ActionName("VerbDefault")]
         public ContactModel Get(Guid identifier)
         {
             return Mapper.Map<IContact, ContactModel>(_service.FindByIdentifier(identifier));
         }
 
         // POST api/contacts
+        [HttpPost]
+        [ActionName("VerbDefault")]
         public void Post([FromBody]ContactModel contactModel)
         {
             var contact = Mapper.Map<ContactModel, Contact>(contactModel);
@@ -43,6 +49,8 @@ namespace Web.Controllers
         }
 
         // PUT api/contacts/{guid}
+        [HttpPost]
+        [ActionName("VerbDefault")]
         public void Put(Guid identifier, [FromBody]ContactModel contactModel)
         {
             IContact contact = _service.FindByIdentifier(contactModel.Identifier);
@@ -51,6 +59,8 @@ namespace Web.Controllers
         }
 
         // DELETE api/contacts/{guid}
+        [HttpDelete]
+        [ActionName("VerbDefault")]
         public void Delete(Guid identifier)
         {
             _service.DeleteByIdentifier(identifier);
