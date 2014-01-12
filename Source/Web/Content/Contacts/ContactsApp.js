@@ -56,6 +56,8 @@ contactsApp.controller('listController', ['$scope', 'alerts', 'Contacts', functi
 }]);
 
 contactsApp.controller('createController', ['$scope', 'tasks', 'alerts', 'Contacts', function ($scope, tasks, alerts, Contacts) {
+    tasks.setDefaultOrigin('/contacts');
+    
     $scope.contact = Contacts.create();
 
     $scope.save = function () {
@@ -72,6 +74,8 @@ contactsApp.controller('createController', ['$scope', 'tasks', 'alerts', 'Contac
 }]);
 
 contactsApp.controller('editController', ['$scope', '$routeParams', 'tasks', 'alerts', 'Contacts', function ($scope, $routeParams, tasks, alerts, Contacts) {
+    tasks.setDefaultOrigin('/contacts');
+    
     $scope.contact = Contacts.get({ contactIdentifier: $routeParams.contactIdentifier }, function (contact) {
         $scope.originalName = contact.FirstName + ' ' + contact.LastName;
     });
@@ -90,6 +94,8 @@ contactsApp.controller('editController', ['$scope', '$routeParams', 'tasks', 'al
 }]);
 
 contactsApp.controller('deleteController', ['$scope', '$routeParams', 'tasks', 'alerts', 'Contacts', function ($scope, $routeParams, tasks, alerts, Contacts) {
+    tasks.setDefaultOrigin('/contacts');
+    
     $scope.contact = Contacts.get({ contactIdentifier: $routeParams.contactIdentifier });
 
     $scope.continue = function () {
@@ -128,6 +134,8 @@ contactsApp.controller('listContactGroupsController', ['$scope', 'alerts', 'Cont
 }]);
 
 contactsApp.controller('createContactGroupController', ['$scope', 'tasks', 'alerts', 'ContactGroups', function ($scope, tasks, alerts, ContactGroups) {
+    tasks.setDefaultOrigin('/contactGroups');
+    
     $scope.contactGroup = ContactGroups.create();
 
     $scope.save = function () {
@@ -151,6 +159,8 @@ contactsApp.controller('contactGroupOverviewController', ['$scope', '$routeParam
 }]);
 
 contactsApp.controller('renameContactGroupController', ['$scope', '$routeParams', 'tasks', 'alerts', 'ContactGroups', function ($scope, $routeParams, tasks, alerts, ContactGroups) {
+    tasks.setDefaultOrigin('/contactGroups');
+    
     $scope.contactGroup = ContactGroups.get({ contactGroupIdentifier: $routeParams.contactGroupIdentifier }, function (contactGroup) {
         $scope.originalName = contactGroup.Name;
     });
@@ -169,6 +179,8 @@ contactsApp.controller('renameContactGroupController', ['$scope', '$routeParams'
 }]);
 
 contactsApp.controller('deleteContactGroupController', ['$scope', '$routeParams', 'tasks', 'alerts', 'ContactGroups', function ($scope, $routeParams, tasks, alerts, ContactGroups) {
+    tasks.setDefaultOrigin('/contactGroups');
+    
     $scope.contactGroup = ContactGroups.get({ contactGroupIdentifier: $routeParams.contactGroupIdentifier });
 
     $scope.continue = function () {

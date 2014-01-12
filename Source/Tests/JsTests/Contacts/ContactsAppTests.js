@@ -14,6 +14,7 @@
         $provide.value('alerts', mockAlertsService);
 
         mockTasksService = {
+            setDefaultOrigin: jasmine.createSpy(),
             redirectBack: jasmine.createSpy()
         };
 
@@ -125,6 +126,12 @@
             };
         }));
 
+        it('should set the default origin to the list of contacts', function () {
+            var controller = createController();
+
+            expect(mockTasksService.setDefaultOrigin).toHaveBeenCalledWith('/contacts');
+        });
+
         it('should use the factory method to create an empty contact in all cases', function () {
             spyOn(mockContactsResource, 'create').andCallThrough();
 
@@ -209,7 +216,13 @@
                 return $controller('editController', { $scope: $scope, $routeParams: $routeParams });
             };
         }));
-        
+
+        it('should set the default origin to the list of contacts', function () {
+            var controller = createController();
+
+            expect(mockTasksService.setDefaultOrigin).toHaveBeenCalledWith('/contacts');
+        });
+
         it('should use the contact identifier to get a contact', function () {
             var controller = createController();
 
@@ -297,6 +310,12 @@
                 return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams });
             };
         }));
+
+        it('should set the default origin to the list of contacts', function () {
+            var controller = createController();
+
+            expect(mockTasksService.setDefaultOrigin).toHaveBeenCalledWith('/contacts');
+        });
 
         it('should set a contact on the scope when given a contact', function () {
             var controller = createController();
@@ -395,6 +414,12 @@
                 return $controller('createContactGroupController', { $scope: $scope });
             };
         }));
+
+        it('should set the default origin to the list of contact groups', function () {
+            var controller = createController();
+
+            expect(mockTasksService.setDefaultOrigin).toHaveBeenCalledWith('/contactGroups');
+        });
 
         it('should use the factory method to create an empty contact group in all cases', function () {
             spyOn(mockContactGroupsResource, 'create').andCallThrough();
@@ -541,6 +566,12 @@
             };
         }));
 
+        it('should set the default origin to the list of contact groups', function() {
+            var controller = createController();
+
+            expect(mockTasksService.setDefaultOrigin).toHaveBeenCalledWith('/contactGroups');
+        });
+        
         it('should use the contact group identifier to get a contact group', function () {
             var controller = createController();
 
@@ -628,6 +659,12 @@
                 return $controller('deleteContactGroupController', { $scope: $scope, $routeParams: $routeParams });
             };
         }));
+
+        it('should set the default origin to the list of contact groups', function () {
+            var controller = createController();
+
+            expect(mockTasksService.setDefaultOrigin).toHaveBeenCalledWith('/contactGroups');
+        });
 
         it('should set a contact group on the scope when given a contact group', function () {
             var controller = createController();
