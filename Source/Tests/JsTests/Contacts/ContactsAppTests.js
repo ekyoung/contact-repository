@@ -455,6 +455,50 @@
         });
     });
 
+    describe('contactGroupOverviewController', function () {
+        var $scope, $routeParams, createController;
+
+        var contactGroupIdentifier = 'id1';
+        var contactGroup = {
+            Identifier: contactGroupIdentifier,
+            Name: 'My Contacts'
+        };
+
+        beforeEach(inject(function ($injector) {
+            mockContactGroupsResource.get = function () { return contactGroup; };
+            spyOn(mockContactGroupsResource, 'get').andCallThrough();
+
+            $scope = $injector.get('$rootScope');
+
+            $routeParams = $injector.get('$routeParams');
+            $routeParams.contactGroupIdentifier = contactGroupIdentifier;
+
+            var $controller = $injector.get('$controller');
+
+            createController = function () {
+                return $controller('contactGroupOverviewController', { $scope: $scope, $routeParams: $routeParams });
+            };
+        }));
+
+        it('should use the contact group identifier to get a contact group', function () {
+            var controller = createController();
+
+            expect(mockContactGroupsResource.get).toHaveBeenCalledWith({ contactGroupIdentifier: contactGroupIdentifier });
+        });
+
+        it('should set a contact group on the scope when given a contact group', function () {
+            var controller = createController();
+
+            expect($scope.contactGroup).toBe(contactGroup);
+        });
+
+        it('should display alerts in all cases', function () {
+            var controller = createController();
+
+            expect(mockAlertsService.displayAlerts).toHaveBeenCalledWith($scope);
+        });
+    });
+
     describe('renameContactGroupController', function () {
         var $scope, $routeParams, $location, createController;
 
