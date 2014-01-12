@@ -54,6 +54,10 @@
             return [];
         };
 
+        mockContactGroupsResource.delete = function (params, data, success) {
+            success();
+        };
+
         mockContactGroupsResource.prototype.$save = function (callback) {
             callback();
         };
@@ -448,6 +452,79 @@
             $scope.cancel();
 
             expect(mockAlertsService.addInfo).toHaveBeenCalledWith('Creation of a new contact group has been cancelled.');
+        });
+    });
+
+    describe('deleteContactGroupController', function () {
+        var $scope, $routeParams, $location, createController;
+
+        var contactGroupIdentifier = 'id1';
+        var contactGroup = { Identifier: contactGroupIdentifier, Name: 'My Contacts' };
+
+        beforeEach(inject(function ($injector) {
+            mockContactGroupsResource.get = function () { return contactGroup; };
+            spyOn(mockContactGroupsResource, 'get').andCallThrough();
+            spyOn(mockContactGroupsResource, 'delete').andCallThrough();
+
+            $scope = $injector.get('$rootScope');
+
+            $routeParams = $injector.get('$routeParams');
+            $routeParams.contactGroupIdentifier = contactGroupIdentifier;
+
+            $location = $injector.get('$location');
+            $location.path('/contactGroups/delete/' + contactGroupIdentifier);
+
+            var $controller = $injector.get('$controller');
+
+            createController = function () {
+                return $controller('deleteContactGroupController', { $scope: $scope, $routeParams: $routeParams, $location: $location });
+            };
+        }));
+
+        it('should set a contact group on the scope when given a contact group', function () {
+            var controller = createController();
+
+            expect($scope.contactGroup).toBe(contactGroup);
+        });
+
+        it('should delete the contact group when continue is clicked', function () {
+            var controller = createController();
+
+            $scope.continue();
+
+            expect(mockContactGroupsResource.delete).toHaveBeenCalledWith({ contactGroupIdentifier: contactGroupIdentifier }, null, jasmine.any(Function));
+        });
+
+        it('should redirect to the list view when continue is clicked and the operation is successful', function () {
+            var controller = createController();
+
+            $scope.continue();
+
+            expect($location.path()).toBe('/contactGroups');
+        });
+
+        it('should add a success alert when continue is clicked and the operation is successful', function () {
+            var controller = createController();
+
+            $scope.continue();
+
+            expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('The contact group has been deleted.');
+        });
+
+        it('should redirect to the list view when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect($location.path()).toBe('/contactGroups');
+        });
+
+        it('should add an info alert when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect(mockAlertsService.addInfo).toHaveBeenCalledWith('Deletion of the contact group has been cancelled.');
         });
     });
 

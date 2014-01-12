@@ -31,6 +31,10 @@ contactsApp.config(['$routeProvider', function($routeProvider) {
             templateUrl: '/Content/ContactGroups/CreateContactGroupView.html',
             controller: 'createContactGroupController'
         }).
+        when('/contactGroups/delete/:contactGroupIdentifier', {
+            templateUrl: '/Content/ContactGroups/DeleteContactGroupView.html',
+            controller: 'deleteContactGroupController'
+        }).
         otherwise({
             redirectTo: '/contactGroups'
         });
@@ -118,6 +122,22 @@ contactsApp.controller('createContactGroupController', ['$scope', '$location', '
 
     $scope.cancel = function () {
         alerts.addInfo('Creation of a new contact group has been cancelled.');
+        $location.path('/contactGroups');
+    };
+}]);
+
+contactsApp.controller('deleteContactGroupController', ['$scope', '$routeParams', '$location', 'alerts', 'ContactGroups', function ($scope, $routeParams, $location, alerts, ContactGroups) {
+    $scope.contactGroup = ContactGroups.get({ contactGroupIdentifier: $routeParams.contactGroupIdentifier });
+
+    $scope.continue = function () {
+        ContactGroups.delete({ contactGroupIdentifier: $routeParams.contactGroupIdentifier }, null, function () {
+            alerts.addSuccess('The contact group has been deleted.');
+            $location.path('/contactGroups');
+        });
+    };
+
+    $scope.cancel = function () {
+        alerts.addInfo('Deletion of the contact group has been cancelled.');
         $location.path('/contactGroups');
     };
 }]);
