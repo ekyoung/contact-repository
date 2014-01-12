@@ -7,7 +7,7 @@ eyContactGroups.factory('ContactGroups', ['$resource', 'apiRootUrl', function ($
         {
             'update': {
                 method: 'PUT',
-                params: { contactIdentifier: '@Identifier' }
+                params: { contactGroupIdentifier: '@Identifier' }
             }
         });
 

@@ -178,6 +178,7 @@
     <Content Include="Content\bootstrap-3.0.2\js\bootstrap.min.js" />
     <Content Include="Content\Common\Main.css" />
     <Content Include="Content\ContactGroups\ContactGroups.js" />
+    <Content Include="Content\ContactGroups\RenameContactGroupView.html" />
     <Content Include="Content\ContactGroups\CreateContactGroupView.html" />
     <Content Include="Content\ContactGroups\DeleteContactGroupView.html" />
     <Content Include="Content\ContactGroups\ListContactGroupsView.html" />

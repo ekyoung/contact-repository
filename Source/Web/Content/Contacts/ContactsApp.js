@@ -31,6 +31,10 @@ contactsApp.config(['$routeProvider', function($routeProvider) {
             templateUrl: '/Content/ContactGroups/CreateContactGroupView.html',
             controller: 'createContactGroupController'
         }).
+        when('/contactGroups/rename/:contactGroupIdentifier', {
+            templateUrl: '/Content/ContactGroups/RenameContactGroupView.html',
+            controller: 'renameContactGroupController'
+        }).
         when('/contactGroups/delete/:contactGroupIdentifier', {
             templateUrl: '/Content/ContactGroups/DeleteContactGroupView.html',
             controller: 'deleteContactGroupController'
@@ -122,6 +126,24 @@ contactsApp.controller('createContactGroupController', ['$scope', '$location', '
 
     $scope.cancel = function () {
         alerts.addInfo('Creation of a new contact group has been cancelled.');
+        $location.path('/contactGroups');
+    };
+}]);
+
+contactsApp.controller('renameContactGroupController', ['$scope', '$routeParams', '$location', 'alerts', 'ContactGroups', function ($scope, $routeParams, $location, alerts, ContactGroups) {
+    $scope.contactGroup = ContactGroups.get({ contactGroupIdentifier: $routeParams.contactGroupIdentifier }, function (contactGroup) {
+        $scope.originalName = contactGroup.Name;
+    });
+
+    $scope.save = function () {
+        $scope.contactGroup.$update(function () {
+            alerts.addSuccess('The contact group has been renamed.');
+            $location.path('/contactGroups');
+        });
+    };
+
+    $scope.cancel = function () {
+        alerts.addInfo('Renaming the contact group has been cancelled.');
         $location.path('/contactGroups');
     };
 }]);

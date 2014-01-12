@@ -455,6 +455,101 @@
         });
     });
 
+    describe('renameContactGroupController', function () {
+        var $scope, $routeParams, $location, createController;
+
+        var contactGroupIdentifier = 'id1';
+        var contactGroup = {
+            Identifier: contactGroupIdentifier,
+            Name: 'My Contacts',
+            $update: function (callback) { callback(); }
+        };
+
+        beforeEach(inject(function ($injector) {
+            mockContactGroupsResource.get = function () { return contactGroup; };
+            spyOn(mockContactGroupsResource, 'get').andCallThrough();
+            spyOn(contactGroup, '$update').andCallThrough();
+
+            $scope = $injector.get('$rootScope');
+
+            $routeParams = $injector.get('$routeParams');
+            $routeParams.contactGroupIdentifier = contactGroupIdentifier;
+
+            $location = $injector.get('$location');
+            $location.path('contactGroups/rename/' + contactGroupIdentifier);
+
+            var $controller = $injector.get('$controller');
+
+            createController = function () {
+                return $controller('renameContactGroupController', { $scope: $scope, $routeParams: $routeParams, $location: $location });
+            };
+        }));
+
+        it('should use the contact group identifier to get a contact group', function () {
+            var controller = createController();
+
+            expect(mockContactGroupsResource.get).toHaveBeenCalledWith({ contactGroupIdentifier: contactGroupIdentifier }, jasmine.any(Function));
+        });
+
+        it('should set a contact group on the scope when given a contact group', function () {
+            var controller = createController();
+
+            expect($scope.contactGroup).toBe(contactGroup);
+        });
+
+        it('should set the original name of the contact group on the scope when given a contact group', function () {
+            mockContactGroupsResource.get = function (x, callback) {
+                callback(contactGroup);
+                return contactGroup;
+            };
+
+            var controller = createController();
+
+            expect($scope.originalName).toBe(contactGroup.Name);
+        });
+
+        it('should redirect to the list view when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect($location.path()).toBe('/contactGroups');
+        });
+
+        it('should add an info alert when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect(mockAlertsService.addInfo).toHaveBeenCalledWith('Renaming the contact group has been cancelled.');
+        });
+
+        it('should update the contact group when save is clicked', function () {
+            var controller = createController();
+
+            $scope.save();
+
+            expect(contactGroup.$update).toHaveBeenCalled();
+        });
+
+        it('should redirect to the list view when save is clicked and the operation is successful', function () {
+
+            var controller = createController();
+
+            $scope.save();
+
+            expect($location.path()).toBe('/contactGroups');
+        });
+
+        it('should add a success alert when save is clicked and the operation is successful', function () {
+            var controller = createController();
+
+            $scope.save();
+
+            expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('The contact group has been renamed.');
+        });
+    });
+
     describe('deleteContactGroupController', function () {
         var $scope, $routeParams, $location, createController;
 
