@@ -1,6 +1,6 @@
 ﻿describe('Contacts App', function () {
 
-    var mockAlertsService, mockContactsResource;
+    var mockAlertsService, mockContactGroupsResource, mockContactsResource;
 
     beforeEach(module('eyContactsApp', function($provide) {
         mockAlertsService = {
@@ -44,6 +44,21 @@
         mockContactsResource.prototype.setPrimaryEmailAddress = jasmine.createSpy();
 
         $provide.value('Contacts', mockContactsResource);
+
+        mockContactGroupsResource = function() {
+            this.Name = null;
+            this.Members = [];
+        };
+
+        mockContactGroupsResource.query = function () {
+            return [];
+        };
+
+        mockContactGroupsResource.prototype.$save = function (callback) {
+            callback();
+        };
+
+        $provide.value('ContactGroups', mockContactGroupsResource);
     }));
 
     describe('listController', function () {
@@ -325,4 +340,115 @@
         });
 
     });
+    
+    describe('listContactGroupsController', function () {
+        var $scope, createController;
+
+        beforeEach(inject(function ($injector) {
+            $scope = $injector.get('$rootScope');
+
+            var $controller = $injector.get('$controller');
+
+            createController = function () {
+                return $controller('listContactGroupsController', { $scope: $scope });
+            };
+        }));
+
+        it('should set an array of contact groups on the scope when given an array of contact groups', function () {
+            var contactGroups = [{ Name: 'My Contacts' }, { Name: 'Your Contacts' }];
+            mockContactGroupsResource.query = function () { return contactGroups; };
+
+            var controller = createController();
+
+            expect($scope.contactGroups).toBe(contactGroups);
+        });
+
+        it('should display alerts in all cases', function () {
+            var controller = createController();
+
+            expect(mockAlertsService.displayAlerts).toHaveBeenCalledWith($scope);
+        });
+    });
+
+    describe('createContactGroupController', function () {
+        var $scope, $location, createController;
+
+        var contactGroup = {
+            $save: function (callback) {
+                callback();
+            }
+        };
+
+        beforeEach(inject(function ($injector) {
+            mockContactGroupsResource.create = function () { return contactGroup; };
+
+            $scope = $injector.get('$rootScope');
+
+            $location = $injector.get('$location');
+            $location.path('/contactGroups/create');
+
+            var $controller = $injector.get('$controller');
+
+            createController = function () {
+                return $controller('createContactGroupController', { $scope: $scope, $location: $location });
+            };
+        }));
+
+        it('should use the factory method to create an empty contact group in all cases', function () {
+            spyOn(mockContactGroupsResource, 'create').andCallThrough();
+
+            var controller = createController();
+
+            expect(mockContactGroupsResource.create).toHaveBeenCalled();
+        });
+
+        it('should set an empty contact group on the scope in all cases', function () {
+            var controller = createController();
+
+            expect($scope.contactGroup).toBe(contactGroup);
+        });
+
+        it('should save the contact group when save is clicked', function () {
+            spyOn(contactGroup, '$save').andCallThrough();
+
+            var controller = createController();
+
+            $scope.save();
+
+            expect(contactGroup.$save).toHaveBeenCalled();
+        });
+
+        it('should redirect to the list view when save is clicked and the operation is successful', function () {
+            var controller = createController();
+
+            $scope.save();
+
+            expect($location.path()).toBe('/');
+        });
+
+        it('should add a success alert when save is clicked and the operation is successful', function () {
+            var controller = createController();
+
+            $scope.save();
+
+            expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('A new contact group has been created.');
+        });
+
+        it('should redirect to the list view when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect($location.path()).toBe('/contactGroups');
+        });
+
+        it('should add an info alert when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect(mockAlertsService.addInfo).toHaveBeenCalledWith('Creation of a new contact group has been cancelled.');
+        });
+    });
+
 });

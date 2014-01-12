@@ -13,7 +13,8 @@ namespace Web
             bundles.Add(new ScriptBundle("~/bundles/alerts").Include(
                 "~/Content/Alerts/Alerts.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/contacts").Include(
+            bundles.Add(new ScriptBundle("~/bundles/contactsApp").Include(
+                "~/Content/ContactGroups/ContactGroups.js",
                 "~/Content/Contacts/Contacts.js",
                 "~/Content/Contacts/ContactsApp.js"));
         }

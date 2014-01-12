@@ -1,11 +1,16 @@
 ﻿var contactsApp = angular.module('eyContactsApp', [
     'ngRoute',
     'eyAlerts',
+    'eyContactGroups',
     'eyContacts'
 ]);
 
 contactsApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
+        when('/contacts', {
+            templateUrl: '/Content/Contacts/ListContactsView.html',
+            controller: 'listController'
+        }).
         when('/create', {
             templateUrl: '/Content/Contacts/CreateContactView.html',
             controller: 'createController'
@@ -18,9 +23,16 @@ contactsApp.config(['$routeProvider', function($routeProvider) {
             templateUrl: '/Content/Contacts/DeleteContactView.html',
             controller: 'deleteController'
         }).
+        when('/contactGroups', {
+            templateUrl: '/Content/ContactGroups/ListContactGroupsView.html',
+            controller: 'listContactGroupsController'
+        }).
+        when('/contactGroups/create', {
+            templateUrl: '/Content/ContactGroups/CreateContactGroupView.html',
+            controller: 'createContactGroupController'
+        }).
         otherwise({
-            templateUrl: '/Content/Contacts/ListContactsView.html',
-            controller: 'listController'
+            redirectTo: '/contactGroups'
         });
 }]);
 
@@ -87,3 +99,25 @@ contactsApp.directive('eyEditContact', function () {
         scope: { contact: '=' },
     };
 });
+
+contactsApp.controller('listContactGroupsController', ['$scope', 'alerts', 'ContactGroups', function ($scope, alerts, ContactGroups) {
+    $scope.contactGroups = ContactGroups.query();
+
+    alerts.displayAlerts($scope);
+}]);
+
+contactsApp.controller('createContactGroupController', ['$scope', '$location', 'alerts', 'ContactGroups', function ($scope, $location, alerts, ContactGroups) {
+    $scope.contactGroup = ContactGroups.create();
+
+    $scope.save = function () {
+        $scope.contactGroup.$save(function () {
+            alerts.addSuccess('A new contact group has been created.');
+            $location.path('/');
+        });
+    };
+
+    $scope.cancel = function () {
+        alerts.addInfo('Creation of a new contact group has been cancelled.');
+        $location.path('/contactGroups');
+    };
+}]);

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using EthanYoung.ContactRepository.ContactGroups;
 using EthanYoung.ContactRepository.Contacts;
 using NUnit.Framework;
 using Web.Models;
@@ -190,6 +192,66 @@ namespace EthanYoung.ContactRepository.Tests.UnitTests
             Mapper.Map(contactModel, contact);
 
             Assert.AreEqual(0, contact.PhoneNumbers.Count);
+        }
+
+        [Test]
+        public void GivenAContactGroup_Map_CreatesAContactGroupModelWithTheRightMembers()
+        {
+            var contactGroup = new ContactGroup
+            {
+                Identifier = Guid.NewGuid(),
+                Name = "My Contacts"
+            };
+            contactGroup.AddMember(Guid.NewGuid());
+            contactGroup.AddMember(Guid.NewGuid());
+
+            AutoMapperConfiguration.Configure();
+
+            var contactGroupModel = Mapper.Map<IContactGroup, ContactGroupModel>(contactGroup);
+            
+            Assert.AreEqual(2, contactGroupModel.Members.Count);
+            Assert.IsTrue(contactGroupModel.Members.Any(x => x.ContactIdentifier == contactGroup.Members[0].ContactIdentifier));
+            Assert.IsTrue(contactGroupModel.Members.Any(x => x.ContactIdentifier == contactGroup.Members[1].ContactIdentifier));
+        }
+
+        [Test]
+        public void GivenAContactGroupModel_Map_CreatesAContactGroupWithTheRightMembers()
+        {
+            var contactGroupModel = new ContactGroupModel
+            {
+                Name = "My Contacts",
+                Members = new List<ContactGroupMemberModel>
+                {
+                    new ContactGroupMemberModel {ContactIdentifier = Guid.NewGuid()},
+                    new ContactGroupMemberModel {ContactIdentifier = Guid.NewGuid()}
+                }
+            };
+
+            AutoMapperConfiguration.Configure();
+
+            var contactGroup = Mapper.Map<ContactGroupModel, ContactGroup>(contactGroupModel);
+
+            Assert.AreEqual(2, contactGroup.Members.Count);
+            Assert.IsTrue(contactGroup.IsMember(contactGroupModel.Members[0].ContactIdentifier));
+            Assert.IsTrue(contactGroup.IsMember(contactGroupModel.Members[1].ContactIdentifier));
+        }
+
+        [Test]
+        public void GivenAContactGroupModelWithNoMembersAndAContactGroupWithMembers_Map_RemovesTheMembers()
+        {
+            var contactGroupModel = new ContactGroupModel
+            {
+                Name = "My Contacts",
+            };
+
+            var contactGroup = new ContactGroup();
+            contactGroup.AddMember(Guid.NewGuid());
+
+            AutoMapperConfiguration.Configure();
+
+            Mapper.Map<ContactGroupModel, ContactGroup>(contactGroupModel, contactGroup);
+
+            Assert.AreEqual(0, contactGroup.Members.Count);
         }
     }
 }

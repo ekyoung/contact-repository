@@ -26,6 +26,11 @@ namespace EthanYoung.ContactRepository.ContactGroups
         {
             return _members.Any(x => x.ContactIdentifier == contactIdentifier);
         }
+
+        public void ClearMembers()
+        {
+            _members.Clear();
+        }
     }
 
     public interface IContactGroup
@@ -36,5 +41,6 @@ namespace EthanYoung.ContactRepository.ContactGroups
         ReadOnlyCollection<ContactGroupMember> Members { get; }
         void AddMember(Guid contactIdentifier);
         bool IsMember(Guid contactIdentifier);
+        void ClearMembers();
     }
 }

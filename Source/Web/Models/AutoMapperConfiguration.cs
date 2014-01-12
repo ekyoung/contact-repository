@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using EthanYoung.ContactRepository;
+using EthanYoung.ContactRepository.ContactGroups;
 using EthanYoung.ContactRepository.Contacts;
 
 namespace Web.Models
@@ -19,14 +20,24 @@ namespace Web.Models
                 .ForMember(dest => dest.PhoneNumbers, opt => opt.MapFrom(src => src.PhoneNumbers));
 
             Mapper.CreateMap<ContactModel, Contact>()
-                .AfterMap(MapEncapsulatedCollections)
+                .AfterMap(MapEncapsulatedCollectionsOfContact)
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => new Name(src.FirstName, src.LastName)))
                 .ForMember(dest => dest.PrimaryEmailAddress, opt => opt.Ignore())
                 .ForMember(dest => dest.PrimaryPhoneNumber, opt => opt.Ignore());
+
+            Mapper.CreateMap<ContactGroupMember, ContactGroupMemberModel>();
+
+            Mapper.CreateMap<IContactGroup, ContactGroupModel>()
+                .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.Members));
+
+            Mapper.CreateMap<ContactGroupModel, ContactGroup>()
+                .AfterMap(MapEncapsulatedCollectionsOfContactGroup)
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Members, opt => opt.Ignore());
         }
 
-        private static void MapEncapsulatedCollections(ContactModel src, Contact dest)
+        private static void MapEncapsulatedCollectionsOfContact(ContactModel src, Contact dest)
         {
             dest.ClearEmailAddresses();
             src.EmailAddresses.Each(x => dest.SetEmailAddress(new EmailAddress(x.EmailAddress), x.NickName));
@@ -43,6 +54,12 @@ namespace Web.Models
             {
                 dest.PrimaryPhoneNumber = new PhoneNumber(primaryPhoneNumber.PhoneNumber);
             }
+        }
+
+        private static void MapEncapsulatedCollectionsOfContactGroup(ContactGroupModel src, ContactGroup dest)
+        {
+            dest.ClearMembers();
+            src.Members.Each(x => dest.AddMember(x.ContactIdentifier));
         }
     }
 }
