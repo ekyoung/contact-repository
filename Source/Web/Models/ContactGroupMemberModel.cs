@@ -6,6 +6,7 @@ namespace Web.Models
     [DataContract]
     public class ContactGroupMemberModel
     {
+        [DataMember]
         public Guid ContactIdentifier { get; set; }
     }
 }
