@@ -49,7 +49,7 @@ namespace Web.Controllers
         }
 
         // PUT api/contacts/{guid}
-        [HttpPost]
+        [HttpPut]
         [ActionName("VerbDefault")]
         public void Put(Guid identifier, [FromBody]ContactModel contactModel)
         {
