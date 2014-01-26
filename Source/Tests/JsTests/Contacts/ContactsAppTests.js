@@ -76,7 +76,7 @@
         $provide.value('ContactGroups', mockContactGroupsResource);
     }));
 
-    describe('listController', function () {
+    describe('listContactsController', function () {
         var $scope, createController;
 
         beforeEach(inject(function ($injector) {
@@ -85,7 +85,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('listController', { $scope: $scope });
+                return $controller('listContactsController', { $scope: $scope });
             };
         }));
 
@@ -105,7 +105,7 @@
         });
     });
 
-    describe('createController', function() {
+    describe('createContactController', function() {
         var $scope, createController;
 
         var contact = {
@@ -122,7 +122,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('createController', { $scope: $scope });
+                return $controller('createContactController', { $scope: $scope });
             };
         }));
 
@@ -189,7 +189,7 @@
         });
     });
     
-    describe('editController', function () {
+    describe('editContactController', function () {
         var $scope, $routeParams, createController;
 
         var contactIdentifier = 'id1';
@@ -213,7 +213,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('editController', { $scope: $scope, $routeParams: $routeParams });
+                return $controller('editContactController', { $scope: $scope, $routeParams: $routeParams });
             };
         }));
 
@@ -288,7 +288,7 @@
         });
     });
 
-    describe('deleteController', function() {
+    describe('deleteContactController', function() {
         var $scope, $routeParams, createController;
 
         var contactIdentifier = 'id1';
@@ -307,7 +307,7 @@
             var $controller = $injector.get('$controller');
 
             createController = function () {
-                return $controller('deleteController', { $scope: $scope, $routeParams: $routeParams });
+                return $controller('deleteContactController', { $scope: $scope, $routeParams: $routeParams });
             };
         }));
 

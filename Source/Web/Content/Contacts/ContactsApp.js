@@ -10,19 +10,19 @@ contactsApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/contacts', {
             templateUrl: '/Content/Contacts/ListContactsView.html',
-            controller: 'listController'
+            controller: 'listContactsController'
         }).
         when('/create', {
             templateUrl: '/Content/Contacts/CreateContactView.html',
-            controller: 'createController'
+            controller: 'createContactController'
         }).
         when('/edit/:contactIdentifier', {
             templateUrl: '/Content/Contacts/EditContactView.html',
-            controller: 'editController'
+            controller: 'editContactController'
         }).
         when('/delete/:contactIdentifier', {
             templateUrl: '/Content/Contacts/DeleteContactView.html',
-            controller: 'deleteController'
+            controller: 'deleteContactController'
         }).
         when('/contactGroups', {
             templateUrl: '/Content/ContactGroups/ListContactGroupsView.html',
@@ -49,13 +49,13 @@ contactsApp.config(['$routeProvider', function($routeProvider) {
         });
 }]);
 
-contactsApp.controller('listController', ['$scope', 'alerts', 'Contacts', function ($scope, alerts, Contacts) {
+contactsApp.controller('listContactsController', ['$scope', 'alerts', 'Contacts', function ($scope, alerts, Contacts) {
     $scope.contacts = Contacts.query();
 
     alerts.displayAlerts($scope);
 }]);
 
-contactsApp.controller('createController', ['$scope', 'tasks', 'alerts', 'Contacts', function ($scope, tasks, alerts, Contacts) {
+contactsApp.controller('createContactController', ['$scope', 'tasks', 'alerts', 'Contacts', function ($scope, tasks, alerts, Contacts) {
     tasks.setDefaultOrigin('/contacts');
     
     $scope.contact = Contacts.create();
@@ -73,7 +73,7 @@ contactsApp.controller('createController', ['$scope', 'tasks', 'alerts', 'Contac
     };
 }]);
 
-contactsApp.controller('editController', ['$scope', '$routeParams', 'tasks', 'alerts', 'Contacts', function ($scope, $routeParams, tasks, alerts, Contacts) {
+contactsApp.controller('editContactController', ['$scope', '$routeParams', 'tasks', 'alerts', 'Contacts', function ($scope, $routeParams, tasks, alerts, Contacts) {
     tasks.setDefaultOrigin('/contacts');
     
     $scope.contact = Contacts.get({ contactIdentifier: $routeParams.contactIdentifier }, function (contact) {
@@ -93,7 +93,7 @@ contactsApp.controller('editController', ['$scope', '$routeParams', 'tasks', 'al
     };
 }]);
 
-contactsApp.controller('deleteController', ['$scope', '$routeParams', 'tasks', 'alerts', 'Contacts', function ($scope, $routeParams, tasks, alerts, Contacts) {
+contactsApp.controller('deleteContactController', ['$scope', '$routeParams', 'tasks', 'alerts', 'Contacts', function ($scope, $routeParams, tasks, alerts, Contacts) {
     tasks.setDefaultOrigin('/contacts');
     
     $scope.contact = Contacts.get({ contactIdentifier: $routeParams.contactIdentifier });
