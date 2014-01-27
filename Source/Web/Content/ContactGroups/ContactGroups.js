@@ -23,5 +23,9 @@ eyContactGroups.factory('ContactGroups', ['$resource', 'apiRootUrl', function ($
         });
     };
 
+    ContactGroups.prototype.addMember = function(contactIdentifier) {
+        this.Members.push({ ContactIdentifier: contactIdentifier });
+    };
+    
     return ContactGroups;
 }]);

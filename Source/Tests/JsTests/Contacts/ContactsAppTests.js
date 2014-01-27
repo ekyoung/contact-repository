@@ -74,6 +74,12 @@
         };
 
         $provide.value('ContactGroups', mockContactGroupsResource);
+
+        $provide.value('guids', {
+            create: function() {
+                return 'newGuid';
+            }
+        });
     }));
 
     describe('listContactsController', function () {
@@ -713,4 +719,125 @@
         });
     });
 
+    describe('addContactGroupMemberController', function() {
+        var $scope, $routeParams, createController;
+
+        var contactGroupIdentifier = 'id1';
+        var contactGroup = {
+            Identifier: contactGroupIdentifier,
+            Name: 'My Contacts',
+            addMember: jasmine.createSpy(),
+            $update: function (callback) { callback(); }
+        };
+        var contact = {
+            $save: function (callback) {
+                callback();
+            }
+        };
+
+        beforeEach(inject(function ($injector) {
+            contactGroup.Members = [];
+            spyOn(contactGroup, '$update').andCallThrough();
+            mockContactGroupsResource.get = function () { return contactGroup; };
+            spyOn(mockContactGroupsResource, 'get').andCallThrough();
+
+            mockContactsResource.create = function () { return contact; };
+
+            $scope = $injector.get('$rootScope');
+
+            $routeParams = $injector.get('$routeParams');
+            $routeParams.contactGroupIdentifier = contactGroupIdentifier;
+
+            var $controller = $injector.get('$controller');
+
+            createController = function () {
+                return $controller('addContactGroupMemberController', { $scope: $scope, $routeParams: $routeParams });
+            };
+        }));
+
+        it('should set the default origin to the contact group overview page', function () {
+            var controller = createController();
+
+            expect(mockTasksService.setDefaultOrigin).toHaveBeenCalledWith('/contactGroups/' + contactGroupIdentifier);
+        });
+
+        it('should set a contact group on the scope when given a contact group', function () {
+            var controller = createController();
+
+            expect($scope.contactGroup).toBe(contactGroup);
+        });
+
+        it('should use the factory method to create an empty contact in all cases', function () {
+            spyOn(mockContactsResource, 'create').andCallThrough();
+
+            var controller = createController();
+
+            expect(mockContactsResource.create).toHaveBeenCalled();
+        });
+
+        it('should set an empty contact on the scope in all cases', function () {
+            var controller = createController();
+
+            expect($scope.contact).toBe(contact);
+        });
+
+        it('should save the contact when save is clicked', function () {
+            spyOn(contact, '$save').andCallThrough();
+
+            var controller = createController();
+
+            $scope.save();
+
+            expect(contact.$save).toHaveBeenCalled();
+        });
+
+        it('should add the new contact as a member of the contact group when saving the contact is successful', function() {
+            var controller = createController();
+
+            $scope.save();
+
+            expect(contact.Identifier).toBe('newGuid');
+            expect(contactGroup.addMember).toHaveBeenCalledWith('newGuid');
+        });
+
+        it('should update the contact group when saving the contact is successful', function() {
+            var controller = createController();
+
+            $scope.save();
+
+            expect(contactGroup.$update).toHaveBeenCalled();
+        });
+
+        it('should redirect back when updating the contact group is successful', function() {
+            var controller = createController();
+
+            $scope.save();
+
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
+        });
+
+        it('should add an info alert when updating the contact group is successful', function() {
+            var controller = createController();
+
+            $scope.save();
+
+            expect(mockAlertsService.addInfo).toHaveBeenCalledWith('A new member has been added to the contact group.');
+        });
+
+        it('should redirect back when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
+        });
+
+        it('should add an info alert when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect(mockAlertsService.addInfo).toHaveBeenCalledWith('Addition of a new member to the contact group has been cancelled.');
+        });
+    });
 });

@@ -177,6 +177,7 @@
     <Content Include="Content\bootstrap-3.0.2\js\bootstrap.js" />
     <Content Include="Content\bootstrap-3.0.2\js\bootstrap.min.js" />
     <Content Include="Content\Common\Main.css" />
+    <Content Include="Content\ContactGroups\AddContactGroupMemberView.html" />
     <Content Include="Content\ContactGroups\ContactGroupOverview.html" />
     <Content Include="Content\ContactGroups\ContactGroups.js" />
     <Content Include="Content\ContactGroups\RenameContactGroupView.html" />
@@ -191,6 +192,7 @@
     <Content Include="Content\Contacts\ListContactsView.html" />
     <Content Include="Content\Contacts\ContactsApp.js" />
     <Content Include="Content\Contacts\EditContactView.html" />
+    <Content Include="Content\Guids\Guids.js" />
     <Content Include="Content\Tasks\Tasks.js" />
     <Content Include="Global.asax" />
     <Content Include="Content\bootstrap-3.0.2\fonts\glyphicons-halflings-regular.eot" />

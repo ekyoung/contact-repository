@@ -3,6 +3,7 @@ Contact Group: {{contactGroup.Name}}
 <h1>Contact Group Overview</h1>
 <div class="panel panel-default">
     <div class="panel-heading">
+        <a ng-href="#/contactGroups/addMember/{{contactGroup.Identifier}}" class="btn btn-primary btn-xs pull-right">Add New Contact</a>
         Contacts
     </div>
     <ey-contact-list contacts="contactGroupMembers"></ey-contact-list>

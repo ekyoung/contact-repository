@@ -12,6 +12,7 @@ namespace Web
 
             bundles.Add(new ScriptBundle("~/bundles/commonApp").Include(
                 "~/Content/Alerts/Alerts.js",
+                "~/Content/Guids/Guids.js",
                 "~/Content/Tasks/Tasks.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/contactsApp").Include(

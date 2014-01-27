@@ -1,6 +1,7 @@
 ﻿var contactsApp = angular.module('eyContactsApp', [
     'ngRoute',
     'eyAlerts',
+    'eyGuids',
     'eyTasks',
     'eyContactGroups',
     'eyContacts'
@@ -43,6 +44,10 @@ contactsApp.config(['$routeProvider', function($routeProvider) {
         when('/contactGroups/delete/:contactGroupIdentifier', {
             templateUrl: '/Content/ContactGroups/DeleteContactGroupView.html',
             controller: 'deleteContactGroupController'
+        }).
+        when('/contactGroups/addMember/:contactGroupIdentifier', {
+            templateUrl: '/Content/ContactGroups/AddContactGroupMemberView.html',
+            controller: 'addContactGroupMemberController'
         }).
         otherwise({
             redirectTo: '/contactGroups'
@@ -192,6 +197,31 @@ contactsApp.controller('deleteContactGroupController', ['$scope', '$routeParams'
 
     $scope.cancel = function () {
         alerts.addInfo('Deletion of the contact group has been cancelled.');
+        tasks.redirectBack();
+    };
+}]);
+
+contactsApp.controller('addContactGroupMemberController', ['$scope', '$routeParams', 'tasks', 'alerts', 'ContactGroups', 'Contacts', 'guids', function($scope, $routeParams, tasks, alerts, ContactGroups, Contacts, guids) {
+    tasks.setDefaultOrigin('/contactGroups/' + $routeParams.contactGroupIdentifier);
+
+    $scope.contactGroup = ContactGroups.get({ contactGroupIdentifier: $routeParams.contactGroupIdentifier });
+
+    $scope.contact = Contacts.create();
+
+    $scope.save = function () {
+        var contactIdentifier = guids.create();
+        $scope.contact.Identifier = contactIdentifier;
+        $scope.contact.$save(function() {
+            $scope.contactGroup.addMember(contactIdentifier);
+            $scope.contactGroup.$update(function () {
+                alerts.addInfo('A new member has been added to the contact group.');
+                tasks.redirectBack();
+            });
+        });
+    };
+
+    $scope.cancel = function () {
+        alerts.addInfo('Addition of a new member to the contact group has been cancelled.');
         tasks.redirectBack();
     };
 }]);
