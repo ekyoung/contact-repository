@@ -840,4 +840,109 @@
             expect(mockAlertsService.addInfo).toHaveBeenCalledWith('Addition of a new member to the contact group has been cancelled.');
         });
     });
+
+    describe('removeContactGroupMemberController', function() {
+        var $scope, $routeParams, createController;
+
+        var contactGroupIdentifier = 'id1';
+        var contactGroup = {
+            Identifier: contactGroupIdentifier,
+            Name: 'My Contacts',
+            removeMember: jasmine.createSpy(),
+            $update: function (callback) { callback(); }
+        };
+
+        var contactIdentifier = 'id2';
+        var contact = {
+            Identifier: contactIdentifier,
+            FirstName: 'Joe',
+            LastName: 'One'
+        };
+
+        beforeEach(inject(function ($injector) {
+            mockContactGroupsResource.get = function () { return contactGroup; };
+            spyOn(contactGroup, '$update').andCallThrough();
+
+            mockContactsResource.get = function () { return contact; };
+
+            $scope = $injector.get('$rootScope');
+
+            $routeParams = $injector.get('$routeParams');
+            $routeParams.contactGroupIdentifier = contactGroupIdentifier;
+            $routeParams.contactIdentifier = contactIdentifier;
+
+            var $controller = $injector.get('$controller');
+
+            createController = function () {
+                return $controller('removeContactGroupMemberController', { $scope: $scope, $routeParams: $routeParams });
+            };
+        }));
+
+        it('should set the default origin to the contact group overview page', function () {
+            var controller = createController();
+
+            expect(mockTasksService.setDefaultOrigin).toHaveBeenCalledWith('/contactGroups/' + contactGroupIdentifier);
+        });
+
+        it('should set a contact group on the scope when given a contact group', function () {
+            var controller = createController();
+
+            expect($scope.contactGroup).toBe(contactGroup);
+        });
+
+        it('should set a contact on the scope when given a contact', function() {
+            var controller = createController();
+
+            expect($scope.contact).toBe(contact);
+        });
+
+        it('should remove the contact from the group when continue is clicked', function() {
+            var controller = createController();
+
+            $scope.continue();
+
+            expect(contactGroup.removeMember).toHaveBeenCalledWith(contactIdentifier);
+        });
+
+        it('should update the contact group when continue is clicked', function () {
+            var controller = createController();
+
+            $scope.continue();
+
+            expect(contactGroup.$update).toHaveBeenCalled();
+        });
+
+        it('should redirect back when continue is clicked and the operation is successful', function () {
+
+            var controller = createController();
+
+            $scope.continue();
+
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
+        });
+
+        it('should add a success alert when continue is clicked and the operation is successful', function () {
+            var controller = createController();
+
+            $scope.continue();
+
+            expect(mockAlertsService.addSuccess).toHaveBeenCalledWith('The contact has been removed from the contact group.');
+        });
+
+        it('should redirect back when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect(mockTasksService.redirectBack).toHaveBeenCalled();
+        });
+
+        it('should add an info alert when cancel is clicked', function () {
+            var controller = createController();
+
+            $scope.cancel();
+
+            expect(mockAlertsService.addInfo).toHaveBeenCalledWith('Removal of a contact from the contact group has been cancelled.');
+        });
+    });
 });

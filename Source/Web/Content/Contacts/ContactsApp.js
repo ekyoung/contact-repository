@@ -49,6 +49,10 @@ contactsApp.config(['$routeProvider', function($routeProvider) {
             templateUrl: '/Content/ContactGroups/AddContactGroupMemberView.html',
             controller: 'addContactGroupMemberController'
         }).
+        when('/contactGroups/:contactGroupIdentifier/removeMember/:contactIdentifier', {
+            templateUrl: '/Content/ContactGroups/RemoveContactGroupMemberView.html',
+            controller: 'removeContactGroupMemberController'
+        }).
         otherwise({
             redirectTo: '/contactGroups'
         });
@@ -222,6 +226,28 @@ contactsApp.controller('addContactGroupMemberController', ['$scope', '$routePara
 
     $scope.cancel = function () {
         alerts.addInfo('Addition of a new member to the contact group has been cancelled.');
+        tasks.redirectBack();
+    };
+}]);
+
+contactsApp.controller('removeContactGroupMemberController', ['$scope', '$routeParams', 'tasks', 'alerts', 'ContactGroups', 'Contacts', function($scope, $routeParams, tasks, alerts, ContactGroups, Contacts) {
+    tasks.setDefaultOrigin('/contactGroups/' + $routeParams.contactGroupIdentifier);
+
+    $scope.contactGroup = ContactGroups.get({ contactGroupIdentifier: $routeParams.contactGroupIdentifier });
+
+    $scope.contact = Contacts.get({ contactIdentifier: $routeParams.contactIdentifier });
+
+    $scope.continue = function () {
+        $scope.contactGroup.removeMember($routeParams.contactIdentifier);
+        
+        $scope.contactGroup.$update(function () {
+            alerts.addSuccess('The contact has been removed from the contact group.');
+            tasks.redirectBack();
+        });
+    };
+
+    $scope.cancel = function () {
+        alerts.addInfo('Removal of a contact from the contact group has been cancelled.');
         tasks.redirectBack();
     };
 }]);

@@ -180,6 +180,7 @@
     <Content Include="Content\ContactGroups\AddContactGroupMemberView.html" />
     <Content Include="Content\ContactGroups\ContactGroupOverview.html" />
     <Content Include="Content\ContactGroups\ContactGroups.js" />
+    <Content Include="Content\ContactGroups\RemoveContactGroupMemberView.html" />
     <Content Include="Content\ContactGroups\RenameContactGroupView.html" />
     <Content Include="Content\ContactGroups\CreateContactGroupView.html" />
     <Content Include="Content\ContactGroups\DeleteContactGroupView.html" />

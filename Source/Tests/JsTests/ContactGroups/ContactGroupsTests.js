@@ -40,5 +40,21 @@
             expect(instance.Members.length).toBe(1);
             expect(instance.Members[0].ContactIdentifier).toBe(contactIdentifier);
         });
+
+        it('should remove a contact group member when removeMember is called with a contact identifier', function() {
+            var contactIdentifier1 = 'id1';
+            var contactIdentifier2 = 'id2';
+            var contactIdentifier3 = 'id3';
+
+            instance.addMember(contactIdentifier1);
+            instance.addMember(contactIdentifier2);
+            instance.addMember(contactIdentifier3);
+            
+            instance.removeMember(contactIdentifier2);
+
+            expect(instance.Members.length).toBe(2);
+            expect(instance.Members[0].ContactIdentifier).toBe(contactIdentifier1);
+            expect(instance.Members[1].ContactIdentifier).toBe(contactIdentifier3);
+        });
     });
 });

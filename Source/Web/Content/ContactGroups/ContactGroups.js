@@ -26,6 +26,15 @@ eyContactGroups.factory('ContactGroups', ['$resource', 'apiRootUrl', function ($
     ContactGroups.prototype.addMember = function(contactIdentifier) {
         this.Members.push({ ContactIdentifier: contactIdentifier });
     };
+
+    ContactGroups.prototype.removeMember = function(contactIdentifier) {
+        for (var i = 0; i < this.Members.length; i++) {
+            if (this.Members[i].ContactIdentifier == contactIdentifier) {
+                this.Members.splice(i, 1);
+                return;
+            }
+        }
+    };
     
     return ContactGroups;
 }]);
