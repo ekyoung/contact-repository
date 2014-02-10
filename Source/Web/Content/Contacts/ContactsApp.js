@@ -37,15 +37,15 @@ contactsApp.config(['$routeProvider', function($routeProvider) {
             templateUrl: '/Content/ContactGroups/ContactGroupOverview.html',
             controller: 'contactGroupOverviewController'
         }).
-        when('/contactGroups/rename/:contactGroupIdentifier', {
+        when('/contactGroups/:contactGroupIdentifier/rename', {
             templateUrl: '/Content/ContactGroups/RenameContactGroupView.html',
             controller: 'renameContactGroupController'
         }).
-        when('/contactGroups/delete/:contactGroupIdentifier', {
+        when('/contactGroups/:contactGroupIdentifier/delete', {
             templateUrl: '/Content/ContactGroups/DeleteContactGroupView.html',
             controller: 'deleteContactGroupController'
         }).
-        when('/contactGroups/addMember/:contactGroupIdentifier', {
+        when('/contactGroups/:contactGroupIdentifier/addMember', {
             templateUrl: '/Content/ContactGroups/AddContactGroupMemberView.html',
             controller: 'addContactGroupMemberController'
         }).
