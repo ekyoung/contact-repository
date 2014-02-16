@@ -61,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapping\BootstrappingService.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201402160952_AddPrimaryKeyToContactGroupMembersTable.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201402161007_CreateContactGroupMemberRelationshipsTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201401102110_CreateContactGroupMembersTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201401101942_CreateContactGroupsTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201401062133_CreateContactPhoneNumbersTable.cs" />
