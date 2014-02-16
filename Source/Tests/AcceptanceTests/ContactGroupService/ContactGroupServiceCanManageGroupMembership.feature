@@ -27,6 +27,22 @@ Scenario: Add One Member To a Group With Relationships
 	  | Friend       |
 	  | Coworker     |
 
+Scenario: Update Member Relationships
+	And I add the contact to the contact group with relationships
+	  | Relationship |
+	  | Friend       |
+	  | Coworker     |
+	And I save the contact group
+	And I add relationship "Family" to the contact within the contact group
+	And I remove relationship "Coworker" from the contact within the contact group
+	And I save the contact group
+	When I retrieve the contact group
+	Then the contact is a member of the retrieved contact group
+	And the contact has the following relationships within the retrieved contact group
+	  | Relationship |
+	  | Friend       |
+	  | Family       |
+
 Scenario: Retrieve Members Of a Group
 	And I add the contact to the contact group
 	And I save the contact group

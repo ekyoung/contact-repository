@@ -84,6 +84,12 @@
     </select>
   
     <delete id="DeleteContactGroupMembersByContactGroupId" parameterClass="long">
+      DELETE ContactGroupMemberRelationships
+      FROM ContactGroupMemberRelationships cgmr
+      INNER JOIN ContactGroupMembers cgm
+        ON cgmr.ContactGroupMemberId = cgm.ContactGroupMemberId
+      WHERE cgm.ContactGroupId = #value#
+      
       DELETE FROM ContactGroupMembers
       WHERE ContactGroupId = #value#
     </delete>

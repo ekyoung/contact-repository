@@ -60,6 +60,18 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
             _contactGroup.AddMember(_contactContext.Contact.Identifier, relationships.Rows.Select(x => x["Relationship"]));
         }
 
+        [Given(@"I add relationship ""(.*)"" to the contact within the contact group")]
+        public void GivenIAddRelationshipToTheContactWithinTheContactGroup(string relationship)
+        {
+            _contactGroup.GetMember(_contactContext.Contact.Identifier).AddRelationship(relationship);
+        }
+
+        [Given(@"I remove relationship ""(.*)"" from the contact within the contact group")]
+        public void GivenIRemoveRelationshipFromTheContactWithinTheContactGroup(string relationship)
+        {
+            _contactGroup.GetMember(_contactContext.Contact.Identifier).RemoveRelationship(relationship);
+        }
+
         [Given(@"I save the contact group")]
         public void GivenISaveTheContactGroup()
         {

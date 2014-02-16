@@ -19,5 +19,10 @@ namespace EthanYoung.ContactRepository.ContactGroups
         {
             _relationships.Add(relationship);
         }
+
+        public void RemoveRelationship(string relationship)
+        {
+            _relationships.Remove(relationship);
+        }
     }
 }
