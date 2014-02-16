@@ -14,4 +14,10 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
             SqlMapper.Delete("DeleteContactEmailAddressesByContactId", contactId);
         }
     }
+
+    public interface IContactEmailAddressQueryExecutor
+    {
+        void Insert(ContactEmailAddress contactEmailAddress);
+        void DeleteByContactId(long contactId);
+    }
 }

@@ -31,4 +31,13 @@ namespace EthanYoung.ContactRepository.Persistence.Contacts
             SqlMapper.Delete("DeleteContactByIdentifier", identifier);
         }
     }
+
+    public interface IContactQueryExecutor
+    {
+        void Insert(IContact contact);
+        void Update(IContact contact);
+        List<IContact> SelectAll();
+        IContact SelectByIdentifier(Guid identifier);
+        void DeleteByIdentifier(Guid identifier);
+    }
 }
