@@ -22,9 +22,29 @@ namespace EthanYoung.ContactRepository.ContactGroups
             _members.Add(new ContactGroupMember {ContactIdentifier = contactIdentifier});
         }
 
+        public void AddMember(Guid contactIdentifier, IEnumerable<string> relationships)
+        {
+            var member = new ContactGroupMember
+            {
+                ContactIdentifier = contactIdentifier
+            };
+
+            foreach (var relationship in relationships)
+            {
+                member.AddRelationship(relationship);
+            }
+
+            _members.Add(member);
+        }
+
+        public ContactGroupMember GetMember(Guid contactIdentifier)
+        {
+            return _members.FirstOrDefault(x => x.ContactIdentifier == contactIdentifier);
+        }
+
         public bool IsMember(Guid contactIdentifier)
         {
-            return _members.Any(x => x.ContactIdentifier == contactIdentifier);
+            return GetMember(contactIdentifier) != null;
         }
 
         public void ClearMembers()
@@ -40,6 +60,8 @@ namespace EthanYoung.ContactRepository.ContactGroups
         string Name { get; set; }
         ReadOnlyCollection<ContactGroupMember> Members { get; }
         void AddMember(Guid contactIdentifier);
+        void AddMember(Guid contactIdentifier, IEnumerable<string> relationships);
+        ContactGroupMember GetMember(Guid contactIdentifier);
         bool IsMember(Guid contactIdentifier);
         void ClearMembers();
     }

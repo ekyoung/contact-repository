@@ -54,6 +54,12 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
             _contactGroup.AddMember(_contactContext.Contact.Identifier);
         }
 
+        [Given(@"I add the contact to the contact group with relationships")]
+        public void GivenIAddTheContactToTheContactGroupWithRelationships(Table relationships)
+        {
+            _contactGroup.AddMember(_contactContext.Contact.Identifier, relationships.Rows.Select(x => x["Relationship"]));
+        }
+
         [Given(@"I save the contact group")]
         public void GivenISaveTheContactGroup()
         {
@@ -100,6 +106,18 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
         public void ThenTheListOfRetrievedMembersContainsTheContact()
         {
             Assert.IsTrue(_retrievedContactGroupMembers.Any(x => x.Identifier == _contactContext.Contact.Identifier));
+        }
+
+        [Then(@"the contact has the following relationships within the retrieved contact group")]
+        public void ThenTheContactHasTheFollowingRelationshipsWithinTheRetrievedContactGroup(Table relationships)
+        {
+            var member = _retrievedContactGroup.GetMember(_contactContext.Contact.Identifier);
+            
+            Assert.AreEqual(relationships.Rows.Count, member.Relationships.Count);
+            foreach (var relationship in relationships.Rows.Select(x => x["Relationship"]))
+            {
+                Assert.IsTrue(member.Relationships.Contains(relationship));
+            }
         }
     }
 }

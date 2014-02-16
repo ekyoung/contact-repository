@@ -4,6 +4,7 @@
     <typeAlias alias="ContactGroup" type="EthanYoung.ContactRepository.ContactGroups.ContactGroup, EthanYoung.ContactRepository"/>
     <typeAlias alias="PersistedContactGroup" type="EthanYoung.ContactRepository.Persistence.ContactGroups.PersistedContactGroup, EthanYoung.ContactRepository"/>
     <typeAlias alias="ContactGroupMember" type="EthanYoung.ContactRepository.ContactGroups.ContactGroupMember, EthanYoung.ContactRepository"/>
+    <typeAlias alias="PersistedContactGroupMember" type="EthanYoung.ContactRepository.Persistence.ContactGroups.PersistedContactGroupMember, EthanYoung.ContactRepository"/>
   </alias>
   
   <typeHandlers>
@@ -16,9 +17,11 @@
       <result property="Name" column="Name"/>
       <result property="PersistedMembers" column="ContactGroupId" select="SelectContactGroupMembersByContactGroupId" />
     </resultMap>
-    <resultMap id="ContactGroupMemberRM" class="ContactGroupMember">
+    <resultMap id="ContactGroupMemberRM" class="PersistedContactGroupMember">
+      <result property="Id" column="ContactGroupMemberId"/>
       <result property="ContactGroupId" column="ContactGroupId"/>
       <result property="ContactIdentifier" column="ContactIdentifier"/>
+      <result property="PersistedRelationships" column="ContactGroupMemberId" select="SelectContactGroupMemberRelationshipsByContactGroupMemberId" />
     </resultMap>
   </resultMaps>
 
@@ -69,6 +72,9 @@
     <!-- ContactGroupMembers -->
     <insert id="InsertContactGroupMember" parameterMap="ContactGroupMemberPM">
       <generate table="ContactGroupMembers" />
+      <selectKey resultClass="long" type="post" property="Id">
+        SELECT @@IDENTITY as value
+      </selectKey>
     </insert>
   
     <select id="SelectContactGroupMembersByContactGroupId" resultMap="ContactGroupMemberRM" parameterClass="long">
@@ -81,5 +87,17 @@
       DELETE FROM ContactGroupMembers
       WHERE ContactGroupId = #value#
     </delete>
+  
+    <!-- ContactGroupMemberRelationships -->
+    <insert id="InsertContactGroupMemberRelationship" parameterClass="hashmap">
+      INSERT INTO ContactGroupMemberRelationships (ContactGroupMemberId, Relationship)
+      VALUES (#ContactGroupMemberId#, #Relationship#)
+    </insert>
+    
+    <select id="SelectContactGroupMemberRelationshipsByContactGroupMemberId" resultClass="string" parameterClass="long">
+      SELECT Relationship
+      FROM ContactGroupMemberRelationships
+      WHERE ContactGroupMemberId = #value#
+    </select>
   </statements>
 </sqlMap>

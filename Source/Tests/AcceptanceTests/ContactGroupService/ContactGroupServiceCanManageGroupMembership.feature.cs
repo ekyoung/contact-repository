@@ -65,27 +65,72 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
             testRunner.CollectScenarioErrors();
         }
         
-        [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Add One Member To a Group")]
-        public virtual void AddOneMemberToAGroup()
+        public virtual void FeatureBackground()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add One Member To a Group", ((string[])(null)));
 #line 6
-this.ScenarioSetup(scenarioInfo);
 #line 7
  testRunner.Given("I create a contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
  testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 9
  testRunner.And("I create a contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 10
- testRunner.And("I add the contact to the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Add One Member To a Group")]
+        public virtual void AddOneMemberToAGroup()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add One Member To a Group", ((string[])(null)));
 #line 11
- testRunner.And("I save the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
 #line 12
- testRunner.When("I retrieve the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("I add the contact to the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 13
+ testRunner.And("I save the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 14
+ testRunner.When("I retrieve the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
  testRunner.Then("the contact is a member of the retrieved contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Add One Member To a Group With Relationships")]
+        public virtual void AddOneMemberToAGroupWithRelationships()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add One Member To a Group With Relationships", ((string[])(null)));
+#line 17
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Relationship"});
+            table1.AddRow(new string[] {
+                        "Friend"});
+            table1.AddRow(new string[] {
+                        "Coworker"});
+#line 18
+ testRunner.And("I add the contact to the contact group with relationships", ((string)(null)), table1, "And ");
+#line 22
+ testRunner.And("I save the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 23
+ testRunner.When("I retrieve the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 24
+ testRunner.Then("the contact is a member of the retrieved contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Relationship"});
+            table2.AddRow(new string[] {
+                        "Friend"});
+            table2.AddRow(new string[] {
+                        "Coworker"});
+#line 25
+ testRunner.And("the contact has the following relationships within the retrieved contact group", ((string)(null)), table2, "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -95,21 +140,17 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void RetrieveMembersOfAGroup()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Retrieve Members Of a Group", ((string[])(null)));
-#line 15
+#line 30
 this.ScenarioSetup(scenarioInfo);
-#line 16
- testRunner.Given("I create a contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 17
- testRunner.And("I save the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 18
- testRunner.And("I create a contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 19
+#line 6
+this.FeatureBackground();
+#line 31
  testRunner.And("I add the contact to the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 20
+#line 32
  testRunner.And("I save the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 21
+#line 33
  testRunner.When("I retrieve the members of the contact group", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 22
+#line 34
  testRunner.Then("the list of retrieved members contains the contact", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

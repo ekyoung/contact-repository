@@ -88,9 +88,11 @@
     <Compile Include="Persistence\ContactGroups\ContactGroupMemberQueryExecutor.cs" />
     <Compile Include="Persistence\ContactGroups\ContactGroupQueryExecutor.cs" />
     <Compile Include="Persistence\ContactGroups\ContactGroupRepository.cs" />
+    <Compile Include="Persistence\ContactGroups\ContactGroupMemberRelationshipQueryExecutor.cs" />
     <Compile Include="Persistence\ContactGroups\IContactGroupMemberQueryExecutor.cs" />
     <Compile Include="Persistence\ContactGroups\IContactGroupQueryExecutor.cs" />
     <Compile Include="Persistence\ContactGroups\PersistedContactGroup.cs" />
+    <Compile Include="Persistence\ContactGroups\PersistedContactGroupMember.cs" />
     <Compile Include="Persistence\Contacts\ContactEmailAddressQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\ContactPhoneNumberQueryExecutor.cs" />
     <Compile Include="Persistence\Contacts\IContactPhoneNumberQueryExecutor.cs" />

@@ -8,11 +8,13 @@ namespace EthanYoung.ContactRepository.Persistence.ContactGroups
     {
         private readonly IContactGroupQueryExecutor _contactGroupQueryExecutor;
         private readonly IContactGroupMemberQueryExecutor _contactGroupMemberQueryExecutor;
+        private readonly IContactGroupMemberRelationshipQueryExecutor _contactGroupMemberRelationshipQueryExecutor;
 
-        public ContactGroupRepository(IContactGroupQueryExecutor contactGroupQueryExecutor, IContactGroupMemberQueryExecutor contactGroupMemberQueryExecutor)
+        public ContactGroupRepository(IContactGroupQueryExecutor contactGroupQueryExecutor, IContactGroupMemberQueryExecutor contactGroupMemberQueryExecutor, IContactGroupMemberRelationshipQueryExecutor contactGroupMemberRelationshipQueryExecutor)
         {
             _contactGroupQueryExecutor = contactGroupQueryExecutor;
             _contactGroupMemberQueryExecutor = contactGroupMemberQueryExecutor;
+            _contactGroupMemberRelationshipQueryExecutor = contactGroupMemberRelationshipQueryExecutor;
         }
 
         public void Save(IContactGroup contactGroup)
@@ -31,6 +33,11 @@ namespace EthanYoung.ContactRepository.Persistence.ContactGroups
             {
                 member.ContactGroupId = contactGroup.Id.Value;
                 _contactGroupMemberQueryExecutor.Insert(member);
+
+                foreach (var relationship in member.Relationships)
+                {
+                    _contactGroupMemberRelationshipQueryExecutor.Insert(member.Id.Value, relationship);
+                }
             }
         }
 
