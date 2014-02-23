@@ -27,6 +27,8 @@ namespace Web.Models
                 .ForMember(dest => dest.PrimaryPhoneNumber, opt => opt.Ignore());
 
             Mapper.CreateMap<ContactGroupMember, ContactGroupMemberModel>();
+            Mapper.CreateMap<string, RelationshipModel>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src));
 
             Mapper.CreateMap<IContactGroup, ContactGroupModel>()
                 .ForMember(dest => dest.Members, opt => opt.MapFrom(src => src.Members));
@@ -67,7 +69,7 @@ namespace Web.Models
             contactGroup.AddMember(contactGroupMemberModel.ContactIdentifier);
             foreach (var relationship in contactGroupMemberModel.Relationships)
             {
-                contactGroup.GetMember(contactGroupMemberModel.ContactIdentifier).AddRelationship(relationship);
+                contactGroup.GetMember(contactGroupMemberModel.ContactIdentifier).AddRelationship(relationship.Name);
             }
         }
     }

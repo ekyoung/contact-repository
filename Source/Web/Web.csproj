@@ -167,6 +167,7 @@
     <Compile Include="Models\ContactGroupModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\ContactPhoneNumberModel.cs" />
+    <Compile Include="Models\RelationshipModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +181,7 @@
     <Content Include="Content\ContactGroups\AddContactGroupMemberView.html" />
     <Content Include="Content\ContactGroups\ContactGroupOverview.html" />
     <Content Include="Content\ContactGroups\ContactGroups.js" />
+    <Content Include="Content\ContactGroups\EditContactGroupMemberView.html" />
     <Content Include="Content\ContactGroups\RemoveContactGroupMemberView.html" />
     <Content Include="Content\ContactGroups\RenameContactGroupView.html" />
     <Content Include="Content\ContactGroups\CreateContactGroupView.html" />

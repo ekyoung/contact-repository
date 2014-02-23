@@ -49,6 +49,10 @@ contactsApp.config(['$routeProvider', function($routeProvider) {
             templateUrl: '/Content/ContactGroups/AddContactGroupMemberView.html',
             controller: 'addContactGroupMemberController'
         }).
+        when('/contactGroups/:contactGroupIdentifier/editMember/:contactIdentifier', {
+            templateUrl: '/Content/ContactGroups/EditContactGroupMemberView.html',
+            controller: 'editContactGroupMemberController'
+        }).
         when('/contactGroups/:contactGroupIdentifier/removeMember/:contactIdentifier', {
             templateUrl: '/Content/ContactGroups/RemoveContactGroupMemberView.html',
             controller: 'removeContactGroupMemberController'
@@ -226,6 +230,30 @@ contactsApp.controller('addContactGroupMemberController', ['$scope', '$routePara
 
     $scope.cancel = function () {
         alerts.addInfo('Addition of a new member to the contact group has been cancelled.');
+        tasks.redirectBack();
+    };
+}]);
+
+contactsApp.controller('editContactGroupMemberController', ['$scope', '$routeParams', 'tasks', 'alerts', 'ContactGroups', 'Contacts', function ($scope, $routeParams, tasks, alerts, ContactGroups, Contacts) {
+    tasks.setDefaultOrigin('/contactGroups/' + $routeParams.contactGroupIdentifier);
+
+    $scope.contact = Contacts.get({ contactIdentifier: $routeParams.contactIdentifier }, function (contact) {
+        $scope.originalName = contact.FirstName + ' ' + contact.LastName;
+    });
+
+    $scope.contactGroup = ContactGroups.get({ contactGroupIdentifier: $routeParams.contactGroupIdentifier });
+
+    $scope.save = function () {
+        $scope.contact.$update(function() {
+            $scope.contactGroup.$update(function () {
+                alerts.addSuccess('Changes to the contact group member have been saved.');
+                tasks.redirectBack();
+            });
+        });
+    };
+
+    $scope.cancel = function () {
+        alerts.addInfo('Changes to the contact group member have been cancelled.');
         tasks.redirectBack();
     };
 }]);

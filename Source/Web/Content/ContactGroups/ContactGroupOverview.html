@@ -23,7 +23,7 @@ Contact Group: {{contactGroup.Name}}
             <tr ng-repeat="contact in contactGroupMembers">
                 <td>
                     <div class="btn-group">
-                        <a ey-start-task="/edit/{{contact.Identifier}}" class="btn btn-primary btn-xs">Edit</a>
+                        <a ey-start-task="/contactGroups/{{contactGroup.Identifier}}/editMember/{{contact.Identifier}}" class="btn btn-primary btn-xs">Edit</a>
                         <a class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                         </a>

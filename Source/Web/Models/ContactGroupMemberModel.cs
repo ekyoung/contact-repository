@@ -11,6 +11,6 @@ namespace Web.Models
         public Guid ContactIdentifier { get; set; }
 
         [DataMember]
-        public List<string> Relationships { get; set; }
+        public List<RelationshipModel> Relationships { get; set; }
     }
 }
