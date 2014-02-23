@@ -202,7 +202,10 @@ namespace EthanYoung.ContactRepository.Tests.UnitTests
                 Identifier = Guid.NewGuid(),
                 Name = "My Contacts"
             };
-            contactGroup.AddMember(Guid.NewGuid());
+            Guid contactIdentifier1 = Guid.NewGuid();
+            contactGroup.AddMember(contactIdentifier1);
+            contactGroup.GetMember(contactIdentifier1).AddRelationship("Coworker");
+            contactGroup.GetMember(contactIdentifier1).AddRelationship("Friend");
             contactGroup.AddMember(Guid.NewGuid());
 
             AutoMapperConfiguration.Configure();
@@ -211,6 +214,8 @@ namespace EthanYoung.ContactRepository.Tests.UnitTests
             
             Assert.AreEqual(2, contactGroupModel.Members.Count);
             Assert.IsTrue(contactGroupModel.Members.Any(x => x.ContactIdentifier == contactGroup.Members[0].ContactIdentifier));
+            Assert.IsTrue(contactGroupModel.Members.First(x => x.ContactIdentifier == contactIdentifier1).Relationships.Contains("Coworker"));
+            Assert.IsTrue(contactGroupModel.Members.First(x => x.ContactIdentifier == contactIdentifier1).Relationships.Contains("Friend"));
             Assert.IsTrue(contactGroupModel.Members.Any(x => x.ContactIdentifier == contactGroup.Members[1].ContactIdentifier));
         }
 
@@ -222,8 +227,8 @@ namespace EthanYoung.ContactRepository.Tests.UnitTests
                 Name = "My Contacts",
                 Members = new List<ContactGroupMemberModel>
                 {
-                    new ContactGroupMemberModel {ContactIdentifier = Guid.NewGuid()},
-                    new ContactGroupMemberModel {ContactIdentifier = Guid.NewGuid()}
+                    new ContactGroupMemberModel {ContactIdentifier = Guid.NewGuid(), Relationships = new List<string>{"Coworker", "Friend"}},
+                    new ContactGroupMemberModel {ContactIdentifier = Guid.NewGuid(), Relationships = new List<string>()}
                 }
             };
 
@@ -233,7 +238,10 @@ namespace EthanYoung.ContactRepository.Tests.UnitTests
 
             Assert.AreEqual(2, contactGroup.Members.Count);
             Assert.IsTrue(contactGroup.IsMember(contactGroupModel.Members[0].ContactIdentifier));
+            Assert.IsTrue(contactGroup.GetMember(contactGroupModel.Members[0].ContactIdentifier).Relationships.Contains("Coworker"));
+            Assert.IsTrue(contactGroup.GetMember(contactGroupModel.Members[0].ContactIdentifier).Relationships.Contains("Friend"));
             Assert.IsTrue(contactGroup.IsMember(contactGroupModel.Members[1].ContactIdentifier));
+            Assert.AreEqual(0, contactGroup.GetMember(contactGroupModel.Members[1].ContactIdentifier).Relationships.Count);
         }
 
         [Test]

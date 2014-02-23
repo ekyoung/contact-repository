@@ -59,7 +59,16 @@ namespace Web.Models
         private static void MapEncapsulatedCollectionsOfContactGroup(ContactGroupModel src, ContactGroup dest)
         {
             dest.ClearMembers();
-            src.Members.Each(x => dest.AddMember(x.ContactIdentifier));
+            src.Members.Each(x => AddMemberToContactGroup(dest, x));
+        }
+
+        private static void AddMemberToContactGroup(ContactGroup contactGroup, ContactGroupMemberModel contactGroupMemberModel)
+        {
+            contactGroup.AddMember(contactGroupMemberModel.ContactIdentifier);
+            foreach (var relationship in contactGroupMemberModel.Relationships)
+            {
+                contactGroup.GetMember(contactGroupMemberModel.ContactIdentifier).AddRelationship(relationship);
+            }
         }
     }
 }
