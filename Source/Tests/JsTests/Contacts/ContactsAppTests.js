@@ -738,7 +738,10 @@
         beforeEach(inject(function ($injector) {
             contactGroup.Members = [];
             spyOn(contactGroup, '$update').andCallThrough();
-            mockContactGroupsResource.get = function () { return contactGroup; };
+            mockContactGroupsResource.get = function (x, callback) {
+                callback(contactGroup);
+                return contactGroup;
+            };
             spyOn(mockContactGroupsResource, 'get').andCallThrough();
 
             mockContactsResource.create = function () { return contact; };
@@ -761,12 +764,6 @@
             expect(mockTasksService.setDefaultOrigin).toHaveBeenCalledWith('/contactGroups/' + contactGroupIdentifier);
         });
 
-        it('should set a contact group on the scope when given a contact group', function () {
-            var controller = createController();
-
-            expect($scope.contactGroup).toBe(contactGroup);
-        });
-
         it('should use the factory method to create an empty contact in all cases', function () {
             spyOn(mockContactsResource, 'create').andCallThrough();
 
@@ -781,6 +778,24 @@
             expect($scope.contact).toBe(contact);
         });
 
+        it('should set the identifier of the contact to a new guid in all cases', function () {
+            var controller = createController();
+
+            expect(contact.Identifier).toBe('newGuid');
+        });
+
+        it('should set a contact group on the scope when given a contact group', function () {
+            var controller = createController();
+
+            expect($scope.contactGroup).toBe(contactGroup);
+        });
+
+        it('should add the new contact as a member of the contact group in all cases', function () {
+            var controller = createController();
+
+            expect(contactGroup.addMember).toHaveBeenCalledWith('newGuid');
+        });
+
         it('should save the contact when save is clicked', function () {
             spyOn(contact, '$save').andCallThrough();
 
@@ -789,15 +804,6 @@
             $scope.save();
 
             expect(contact.$save).toHaveBeenCalled();
-        });
-
-        it('should add the new contact as a member of the contact group when saving the contact is successful', function() {
-            var controller = createController();
-
-            $scope.save();
-
-            expect(contact.Identifier).toBe('newGuid');
-            expect(contactGroup.addMember).toHaveBeenCalledWith('newGuid');
         });
 
         it('should update the contact group when saving the contact is successful', function() {

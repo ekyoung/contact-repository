@@ -212,15 +212,17 @@ contactsApp.controller('deleteContactGroupController', ['$scope', '$routeParams'
 contactsApp.controller('addContactGroupMemberController', ['$scope', '$routeParams', 'tasks', 'alerts', 'ContactGroups', 'Contacts', 'guids', function($scope, $routeParams, tasks, alerts, ContactGroups, Contacts, guids) {
     tasks.setDefaultOrigin('/contactGroups/' + $routeParams.contactGroupIdentifier);
 
-    $scope.contactGroup = ContactGroups.get({ contactGroupIdentifier: $routeParams.contactGroupIdentifier });
-
     $scope.contact = Contacts.create();
+    var contactIdentifier = guids.create();
+    $scope.contact.Identifier = contactIdentifier;
+
+    $scope.contactGroup = ContactGroups.get({ contactGroupIdentifier: $routeParams.contactGroupIdentifier }, function(contactGroup) {
+        contactGroup.addMember(contactIdentifier);
+    });
+
 
     $scope.save = function () {
-        var contactIdentifier = guids.create();
-        $scope.contact.Identifier = contactIdentifier;
         $scope.contact.$save(function() {
-            $scope.contactGroup.addMember(contactIdentifier);
             $scope.contactGroup.$update(function () {
                 alerts.addInfo('A new member has been added to the contact group.');
                 tasks.redirectBack();
@@ -279,3 +281,11 @@ contactsApp.controller('removeContactGroupMemberController', ['$scope', '$routeP
         tasks.redirectBack();
     };
 }]);
+
+contactsApp.directive('eyEditContactGroupMemberRelationships', function () {
+    return {
+        templateUrl: '/Content/ContactGroups/EditContactGroupMemberRelationships.html',
+        restrict: 'E',
+        scope: { contactGroupMember: '=' },
+    };
+});
