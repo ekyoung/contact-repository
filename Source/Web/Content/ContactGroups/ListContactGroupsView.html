@@ -2,7 +2,7 @@
 <h1>Contact Groups</h1>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <a href="#/contactGroups/create" class="btn btn-primary btn-xs pull-right">Create</a>
+        <a href="#/contactGroups/create" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-plus"></span> Add a New Contact Group</a>
         &nbsp;
     </div>
     <div class="panel-body" ng-hide="contactGroups.length">
@@ -20,13 +20,13 @@
             <tr ng-repeat="contactGroup in contactGroups">
                 <td>
                     <div class="btn-group">
-                        <a ey-start-task="/contactGroups/{{contactGroup.Identifier}}" class="btn btn-primary btn-xs">View Overview</a>
+                        <a ey-start-task="/contactGroups/{{contactGroup.Identifier}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-eye-open"></span> View Overview</a>
                         <a class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" ey-start-task="/contactGroups/{{contactGroup.Identifier}}/rename">Rename</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" ey-start-task="/contactGroups/{{contactGroup.Identifier}}/delete">Delete</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" ey-start-task="/contactGroups/{{contactGroup.Identifier}}/rename"><span class="glyphicon glyphicon-pencil"></span> Rename</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" ey-start-task="/contactGroups/{{contactGroup.Identifier}}/delete"><span class="glyphicon glyphicon-remove"></span> Delete</a></li>
                         </ul>
                     </div>
                 </td>
