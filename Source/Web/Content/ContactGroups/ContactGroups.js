@@ -3,8 +3,39 @@
 ]);
 
 eyContactGroups.factory('ContactGroups', ['$resource', 'apiRootUrl', function ($resource, apiRootUrl) {
+    var ContactGroupMember = function(contactIdentifier) {
+        this.ContactIdentifier = contactIdentifier;
+        this.Relationships = [];
+    };
+
+    ContactGroupMember.prototype.addRelationship = function(relationshipName) {
+        this.Relationships.push({ Name: relationshipName });
+    };
+
+    ContactGroupMember.prototype.removeRelationship = function(relationship) {
+        var index = this.Relationships.indexOf(relationship);
+
+        if (index >= 0) {
+            this.Relationships.splice(index, 1);
+        }
+    };
+    
     var ContactGroups = $resource(apiRootUrl + '/contactGroups/:contactGroupIdentifier', null,
         {
+            'get': {
+                method: 'GET',
+                transformResponse: function (data, headersGetter) {
+                    var contactGroup = angular.fromJson(data);
+                    angular.forEach(contactGroup.Members, function (item, idx) {
+                        var contactGroupMember = new ContactGroupMember(item.ContactIdentifier);
+                        angular.forEach(item.Relationships, function(relationship, idx) {
+                            contactGroupMember.addRelationship(relationship.Name);
+                        });
+                        contactGroup.Members[idx] = contactGroupMember;
+                    });
+                    return contactGroup;
+                }
+            },
             'update': {
                 method: 'PUT',
                 params: { contactGroupIdentifier: '@Identifier' }
@@ -24,7 +55,7 @@ eyContactGroups.factory('ContactGroups', ['$resource', 'apiRootUrl', function ($
     };
 
     ContactGroups.prototype.addMember = function(contactIdentifier) {
-        this.Members.push({ ContactIdentifier: contactIdentifier });
+        this.Members.push(new ContactGroupMember(contactIdentifier));
     };
 
     ContactGroups.prototype.removeMember = function(contactIdentifier) {

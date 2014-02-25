@@ -24,7 +24,7 @@
             expect(instance.Members.length).toBe(0);
         });
     });
-
+    
     describe('ContactGroups instance', function() {
         var instance;
 
@@ -55,6 +55,33 @@
             expect(instance.Members.length).toBe(2);
             expect(instance.Members[0].ContactIdentifier).toBe(contactIdentifier1);
             expect(instance.Members[1].ContactIdentifier).toBe(contactIdentifier3);
+        });
+    });
+
+    describe('ContactGroupMember', function () {
+        var contactGroupMember;
+
+        beforeEach(inject(function ($injector) {
+            var contactGroup = $injector.get('ContactGroups').create();
+            contactGroup.addMember('id1');
+            contactGroupMember = contactGroup.Members[0];
+        }));
+
+        it('should add a relationship when addRelationship is called with a relationship name', function() {
+            var relationshipName = 'Friend';
+
+            contactGroupMember.addRelationship(relationshipName);
+
+            expect(contactGroupMember.Relationships.length).toBe(1);
+            expect(contactGroupMember.Relationships[0].Name).toBe(relationshipName);
+        });
+
+        it('should remove a relationship when removeRelationship is called with a relationship', function() {
+            contactGroupMember.addRelationship('Friend');
+
+            contactGroupMember.removeRelationship(contactGroupMember.Relationships[0]);
+            
+            expect(contactGroupMember.Relationships.length).toBe(0);
         });
     });
 });
