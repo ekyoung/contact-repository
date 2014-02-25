@@ -401,7 +401,7 @@
     });
 
     describe('createContactGroupController', function () {
-        var $scope, createController;
+        var $location, $scope, createController;
 
         var contactGroup = {
             $save: function (callback) {
@@ -411,6 +411,9 @@
 
         beforeEach(inject(function ($injector) {
             mockContactGroupsResource.create = function () { return contactGroup; };
+
+            $location = $injector.get('$location');
+            $location.path('/contactGroups/create');
 
             $scope = $injector.get('$rootScope');
 
@@ -441,6 +444,12 @@
             expect($scope.contactGroup).toBe(contactGroup);
         });
 
+        it('should set the identifier of the contact group to a new guid in all cases', function() {
+            var controller = createController();
+
+            expect(contactGroup.Identifier).toBe('newGuid');
+        });
+
         it('should save the contact group when save is clicked', function () {
             spyOn(contactGroup, '$save').andCallThrough();
 
@@ -451,12 +460,12 @@
             expect(contactGroup.$save).toHaveBeenCalled();
         });
 
-        it('should redirect back when save is clicked and the operation is successful', function () {
+        it('should redirect to contact group overview when save is clicked and the operation is successful', function () {
             var controller = createController();
 
             $scope.save();
 
-            expect(mockTasksService.redirectBack).toHaveBeenCalled();
+            expect($location.path()).toBe('/contactGroups/newGuid');
         });
 
         it('should add a success alert when save is clicked and the operation is successful', function () {

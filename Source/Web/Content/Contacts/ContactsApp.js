@@ -146,15 +146,17 @@ contactsApp.controller('listContactGroupsController', ['$scope', 'alerts', 'Cont
     alerts.displayAlerts($scope);
 }]);
 
-contactsApp.controller('createContactGroupController', ['$scope', 'tasks', 'alerts', 'ContactGroups', function ($scope, tasks, alerts, ContactGroups) {
+contactsApp.controller('createContactGroupController', ['$location', '$scope', 'tasks', 'alerts', 'ContactGroups', 'guids', function ($location, $scope, tasks, alerts, ContactGroups, guids) {
     tasks.setDefaultOrigin('/contactGroups');
     
     $scope.contactGroup = ContactGroups.create();
+    var contactGroupIdentifier = guids.create();
+    $scope.contactGroup.Identifier = contactGroupIdentifier;
 
     $scope.save = function () {
         $scope.contactGroup.$save(function () {
             alerts.addSuccess('A new contact group has been created.');
-            tasks.redirectBack();
+            $location.path('/contactGroups/' + contactGroupIdentifier);
         });
     };
 
