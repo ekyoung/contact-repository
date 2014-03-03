@@ -77,8 +77,7 @@ module.exports = function(config) {
 
         plugins: [
             'karma-jasmine',
-            'karma-phantomjs-launcher',
-            'karma-teamcity-reporter'
+            'karma-phantomjs-launcher'
         ]
     });
 };
