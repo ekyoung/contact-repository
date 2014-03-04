@@ -42,6 +42,8 @@
 
     <NUnit Assemblies="@(TestAssemblies)" ExcludeCategory="Requires Process Isolation" ToolPath="$(NUnitPath)" Condition=" '$(teamcity_dotnet_nunitlauncher_msbuild_task)' == '' " />
     <NUnitTeamCity Assemblies="@(TestAssemblies)" ExcludeCategory="Requires Process Isolation" NUnitVersion="NUnit-2.6.2" Condition=" '$(teamcity_dotnet_nunitlauncher_msbuild_task)' != '' " />
+
+    <Exec Command="karma start $(SolutionDir)\Tests\JsTests\teamCity.config.js"/>
   </Target>
 
   <Target Name="Deploy">
