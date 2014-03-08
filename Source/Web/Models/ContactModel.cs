@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Web.Models
@@ -14,7 +13,7 @@ namespace Web.Models
         }
 
         [DataMember]
-        public Guid Identifier { get; set; }
+        public string Identifier { get; set; }
 
         [DataMember]
         public string FirstName { get; set; }

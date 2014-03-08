@@ -199,14 +199,14 @@ namespace EthanYoung.ContactRepository.Tests.UnitTests
         {
             var contactGroup = new ContactGroup
             {
-                Identifier = Guid.NewGuid(),
+                Identifier = Guid.NewGuid().ToString(),
                 Name = "My Contacts"
             };
-            Guid contactIdentifier1 = Guid.NewGuid();
+            string contactIdentifier1 = Guid.NewGuid().ToString();
             contactGroup.AddMember(contactIdentifier1);
             contactGroup.GetMember(contactIdentifier1).AddRelationship("Coworker");
             contactGroup.GetMember(contactIdentifier1).AddRelationship("Friend");
-            contactGroup.AddMember(Guid.NewGuid());
+            contactGroup.AddMember(Guid.NewGuid().ToString());
 
             AutoMapperConfiguration.Configure();
 
@@ -227,8 +227,8 @@ namespace EthanYoung.ContactRepository.Tests.UnitTests
                 Name = "My Contacts",
                 Members = new List<ContactGroupMemberModel>
                 {
-                    new ContactGroupMemberModel {ContactIdentifier = Guid.NewGuid(), Relationships = new List<RelationshipModel>{new RelationshipModel{Name = "Coworker"}, new RelationshipModel {Name = "Friend"}}},
-                    new ContactGroupMemberModel {ContactIdentifier = Guid.NewGuid(), Relationships = new List<RelationshipModel>()}
+                    new ContactGroupMemberModel {ContactIdentifier = Guid.NewGuid().ToString(), Relationships = new List<RelationshipModel>{new RelationshipModel{Name = "Coworker"}, new RelationshipModel {Name = "Friend"}}},
+                    new ContactGroupMemberModel {ContactIdentifier = Guid.NewGuid().ToString(), Relationships = new List<RelationshipModel>()}
                 }
             };
 
@@ -253,11 +253,11 @@ namespace EthanYoung.ContactRepository.Tests.UnitTests
             };
 
             var contactGroup = new ContactGroup();
-            contactGroup.AddMember(Guid.NewGuid());
+            contactGroup.AddMember(Guid.NewGuid().ToString());
 
             AutoMapperConfiguration.Configure();
 
-            Mapper.Map<ContactGroupModel, ContactGroup>(contactGroupModel, contactGroup);
+            Mapper.Map(contactGroupModel, contactGroup);
 
             Assert.AreEqual(0, contactGroup.Members.Count);
         }

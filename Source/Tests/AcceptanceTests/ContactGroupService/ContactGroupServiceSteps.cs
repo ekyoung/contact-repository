@@ -37,7 +37,7 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactGroupService
         {
             _contactGroup = new ContactGroup
             {
-                Identifier = Guid.NewGuid(),
+                Identifier = Guid.NewGuid().ToString(),
                 Name = "My Contacts"
             };
         }

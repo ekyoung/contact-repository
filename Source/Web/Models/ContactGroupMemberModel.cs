@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Web.Models
@@ -8,7 +7,7 @@ namespace Web.Models
     public class ContactGroupMemberModel
     {
         [DataMember]
-        public Guid ContactIdentifier { get; set; }
+        public string ContactIdentifier { get; set; }
 
         [DataMember]
         public List<RelationshipModel> Relationships { get; set; }

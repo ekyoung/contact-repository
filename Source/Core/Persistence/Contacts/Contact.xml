@@ -75,19 +75,19 @@
       <generate table="Contacts" by="ContactId" />
     </update>
 
-    <select id="SelectAllContacts" resultMap="ContactRM" parameterClass="guid">
+    <select id="SelectAllContacts" resultMap="ContactRM">
       SELECT *
       FROM Contacts (NOLOCK)
       ORDER BY LastName, FirstName
     </select>
     
-    <select id="SelectContactByIdentifier" resultMap="ContactRM" parameterClass="guid">
+    <select id="SelectContactByIdentifier" resultMap="ContactRM" parameterClass="string">
       SELECT *
       FROM Contacts (NOLOCK)
       WHERE ContactIdentifier = #value#
     </select>
   
-    <delete id="DeleteContactByIdentifier" parameterClass="guid">
+    <delete id="DeleteContactByIdentifier" parameterClass="string">
       <![CDATA[
       DELETE ContactEmailAddresses
       FROM ContactEmailAddresses cea

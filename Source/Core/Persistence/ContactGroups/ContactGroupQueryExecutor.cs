@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using EthanYoung.ContactRepository.ContactGroups;
 
 namespace EthanYoung.ContactRepository.Persistence.ContactGroups
@@ -21,12 +20,12 @@ namespace EthanYoung.ContactRepository.Persistence.ContactGroups
             return (List<IContactGroup>)SqlMapper.QueryForList<IContactGroup>("SelectAllContactGroups", null);
         }
 
-        public IContactGroup SelectByIdentifier(Guid identifier)
+        public IContactGroup SelectByIdentifier(string identifier)
         {
             return SqlMapper.QueryForObject<IContactGroup>("SelectContactGroupByIdentifier", identifier);
         }
 
-        public void DeleteByIdentifier(Guid identifier)
+        public void DeleteByIdentifier(string identifier)
         {
             SqlMapper.Delete("DeleteContactGroupByIdentifier", identifier);
         }
@@ -37,7 +36,7 @@ namespace EthanYoung.ContactRepository.Persistence.ContactGroups
         void Insert(IContactGroup contactGroup);
         void Update(IContactGroup contactGroup);
         List<IContactGroup> SelectAll();
-        IContactGroup SelectByIdentifier(Guid identifier);
-        void DeleteByIdentifier(Guid identifier);
+        IContactGroup SelectByIdentifier(string identifier);
+        void DeleteByIdentifier(string identifier);
     }
 }

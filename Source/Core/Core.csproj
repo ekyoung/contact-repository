@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapping\BootstrappingService.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration2014030081505_ChangeIdentifiersFromGuidsToStrings.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201402160952_AddPrimaryKeyToContactGroupMembersTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201402161007_CreateContactGroupMemberRelationshipsTable.cs" />
     <Compile Include="Bootstrapping\Migrations\Migration201401102110_CreateContactGroupMembersTable.cs" />
@@ -123,7 +124,9 @@
     <EmbeddedResource Include="Persistence\Contacts\Contact.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Persistence\ContactGroups\ContactGroup.xml" />
+    <EmbeddedResource Include="Persistence\ContactGroups\ContactGroup.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using EthanYoung.ContactRepository.ContactGroups;
+﻿using System.Collections.Generic;
 
 namespace EthanYoung.ContactRepository.Contacts
 {
@@ -8,7 +6,7 @@ namespace EthanYoung.ContactRepository.Contacts
     {
         private readonly IContactRepository _contactRepository;
 
-        public ContactService(IContactRepository contactRepository, IContactGroupRepository contactGroupRepository)
+        public ContactService(IContactRepository contactRepository)
         {
             _contactRepository = contactRepository;
         }
@@ -23,12 +21,12 @@ namespace EthanYoung.ContactRepository.Contacts
             return _contactRepository.FindAll();
         }
 
-        public IContact FindByIdentifier(Guid identifier)
+        public IContact FindByIdentifier(string identifier)
         {
             return _contactRepository.FindByIdentifier(identifier);
         }
 
-        public void DeleteByIdentifier(Guid identifier)
+        public void DeleteByIdentifier(string identifier)
         {
             _contactRepository.DeleteByIdentifier(identifier);
         }
@@ -37,8 +35,8 @@ namespace EthanYoung.ContactRepository.Contacts
     public interface IContactService : IService
     {
         void Save(IContact contact);
-        IContact FindByIdentifier(Guid identifier);
+        IContact FindByIdentifier(string identifier);
         List<IContact> FindAll();
-        void DeleteByIdentifier(Guid identifier);
+        void DeleteByIdentifier(string identifier);
     }
 }

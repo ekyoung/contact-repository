@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace EthanYoung.ContactRepository.ContactGroups
 {
@@ -7,7 +6,7 @@ namespace EthanYoung.ContactRepository.ContactGroups
     {
         public long? Id { get; set; }
         public long? ContactGroupId { get; set; }
-        public Guid ContactIdentifier { get; set; }
+        public string ContactIdentifier { get; set; }
 
         protected readonly List<string> _relationships = new List<string>();
         public IReadOnlyList<string> Relationships

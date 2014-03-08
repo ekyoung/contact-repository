@@ -30,7 +30,7 @@ namespace EthanYoung.ContactRepository.Tests.AcceptanceTests.ContactService
         {
             _contactContext.Contact = new Contact
             {
-                Identifier = Guid.NewGuid(),
+                Identifier = Guid.NewGuid().ToString(),
                 Name = new Name("Joe", "Contact")
             };
         }

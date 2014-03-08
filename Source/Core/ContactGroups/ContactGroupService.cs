@@ -25,17 +25,17 @@ namespace EthanYoung.ContactRepository.ContactGroups
             return _contactGroupRepository.FindAll();
         }
 
-        public IContactGroup FindByIdentifier(Guid contactGroupIdentifier)
+        public IContactGroup FindByIdentifier(string contactGroupIdentifier)
         {
             return _contactGroupRepository.FindByIdentifier(contactGroupIdentifier);
         }
 
-        public void DeleteByIdentifier(Guid contactGroupIdentifier)
+        public void DeleteByIdentifier(string contactGroupIdentifier)
         {
             _contactGroupRepository.DeleteByIdentifier(contactGroupIdentifier);
         }
 
-        public List<IContact> GetMembers(Guid contactGroupIdentifier)
+        public List<IContact> GetMembers(string contactGroupIdentifier)
         {
             var contactGroup = FindByIdentifier(contactGroupIdentifier);
 
@@ -54,8 +54,8 @@ namespace EthanYoung.ContactRepository.ContactGroups
     {
         void Save(IContactGroup contactGroup);
         List<IContactGroup> FindAll();
-        IContactGroup FindByIdentifier(Guid contactGroupIdentifier);
-        void DeleteByIdentifier(Guid contactGroupIdentifier);
-        List<IContact> GetMembers(Guid contactGroupIdentifier);
+        IContactGroup FindByIdentifier(string contactGroupIdentifier);
+        void DeleteByIdentifier(string contactGroupIdentifier);
+        List<IContact> GetMembers(string contactGroupIdentifier);
     }
 }

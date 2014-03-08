@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace EthanYoung.ContactRepository.ContactGroups
 {
@@ -7,7 +6,7 @@ namespace EthanYoung.ContactRepository.ContactGroups
     {
         void Save(IContactGroup contactGroup);
         List<IContactGroup> FindAll();
-        IContactGroup FindByIdentifier(Guid identifier);
-        void DeleteByIdentifier(Guid identifier); 
+        IContactGroup FindByIdentifier(string identifier);
+        void DeleteByIdentifier(string identifier); 
     }
 }

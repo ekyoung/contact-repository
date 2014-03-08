@@ -52,19 +52,19 @@
       <generate table="ContactGroups" by="ContactGroupId" />
     </update>
 
-    <select id="SelectAllContactGroups" resultMap="ContactGroupRM" parameterClass="guid">
+    <select id="SelectAllContactGroups" resultMap="ContactGroupRM">
       SELECT *
       FROM ContactGroups (NOLOCK)
       ORDER BY Name
     </select>
     
-    <select id="SelectContactGroupByIdentifier" resultMap="ContactGroupRM" parameterClass="guid">
+    <select id="SelectContactGroupByIdentifier" resultMap="ContactGroupRM" parameterClass="string">
       SELECT *
       FROM ContactGroups (NOLOCK)
       WHERE ContactGroupIdentifier = #value#
     </select>
   
-    <delete id="DeleteContactGroupByIdentifier" parameterClass="guid">
+    <delete id="DeleteContactGroupByIdentifier" parameterClass="string">
       DELETE FROM ContactGroups
       WHERE ContactGroupIdentifier = #value#
     </delete>

@@ -30,7 +30,7 @@ namespace Web.Controllers
         // GET api/contactGroups/{guid}
         [HttpGet]
         [ActionName("VerbDefault")]
-        public ContactGroupModel Get(Guid identifier)
+        public ContactGroupModel Get(string identifier)
         {
             return Mapper.Map<IContactGroup, ContactGroupModel>(_service.FindByIdentifier(identifier));
         }
@@ -38,7 +38,7 @@ namespace Web.Controllers
         // GET api/contactGroups/{guid}/members
         [HttpGet]
         [ActionName("members")]
-        public IEnumerable<ContactModel> GetMembers(Guid identifier)
+        public IEnumerable<ContactModel> GetMembers(string identifier)
         {
             return _service.GetMembers(identifier).Select(Mapper.Map<IContact, ContactModel>);
         }
@@ -49,9 +49,9 @@ namespace Web.Controllers
         public void Post([FromBody]ContactGroupModel contactGroupModel)
         {
             var contactGroup = Mapper.Map<ContactGroupModel, ContactGroup>(contactGroupModel);
-            if (contactGroup.Identifier == Guid.Empty)
+            if (string.IsNullOrEmpty(contactGroup.Identifier))
             {
-                contactGroup.Identifier = Guid.NewGuid();
+                contactGroup.Identifier = Guid.NewGuid().ToString();
             }
 
             _service.Save(contactGroup);
@@ -70,7 +70,7 @@ namespace Web.Controllers
         // DELETE api/contactGroups/{guid}
         [HttpDelete]
         [ActionName("VerbDefault")]
-        public void Delete(Guid identifier)
+        public void Delete(string identifier)
         {
             _service.DeleteByIdentifier(identifier);
         }

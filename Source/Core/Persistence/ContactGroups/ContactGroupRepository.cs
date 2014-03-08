@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using EthanYoung.ContactRepository.ContactGroups;
 
 namespace EthanYoung.ContactRepository.Persistence.ContactGroups
@@ -46,12 +45,12 @@ namespace EthanYoung.ContactRepository.Persistence.ContactGroups
             return _contactGroupQueryExecutor.SelectAll();
         }
 
-        public IContactGroup FindByIdentifier(Guid identifier)
+        public IContactGroup FindByIdentifier(string identifier)
         {
             return _contactGroupQueryExecutor.SelectByIdentifier(identifier);
         }
 
-        public void DeleteByIdentifier(Guid identifier)
+        public void DeleteByIdentifier(string identifier)
         {
             _contactGroupQueryExecutor.DeleteByIdentifier(identifier);
         }

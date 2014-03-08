@@ -7,7 +7,7 @@ namespace EthanYoung.ContactRepository.Contacts
     public class Contact : IContact
     {
         public long? Id { get; set; }
-        public Guid Identifier { get; set; }
+        public string Identifier { get; set; }
         public Name Name { get; set; }
 
         protected readonly List<ContactEmailAddress> _emailAddresses = new List<ContactEmailAddress>();
@@ -126,7 +126,7 @@ namespace EthanYoung.ContactRepository.Contacts
     public interface IContact
     {
         long? Id { get; set; }
-        Guid Identifier { get; set; }
+        string Identifier { get; set; }
         Name Name { get; set; }
         
         EmailAddress PrimaryEmailAddress { get; set; }
