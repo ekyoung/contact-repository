@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sqlMap namespace="ContactGroup" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ibatis.apache.org/mapping">
+  <alias>
+    <typeAlias alias="ContactGroup" type="EthanYoung.ContactRepository.ContactGroups.ContactGroup, EthanYoung.ContactRepository"/>
+    <typeAlias alias="PersistedContactGroup" type="EthanYoung.ContactRepository.Persistence.ContactGroups.PersistedContactGroup, EthanYoung.ContactRepository"/>
+    <typeAlias alias="ContactGroupMember" type="EthanYoung.ContactRepository.ContactGroups.ContactGroupMember, EthanYoung.ContactRepository"/>
+    <typeAlias alias="PersistedContactGroupMember" type="EthanYoung.ContactRepository.Persistence.ContactGroups.PersistedContactGroupMember, EthanYoung.ContactRepository"/>
+  </alias>
+  
+  <typeHandlers>
+  </typeHandlers>
+
+  <resultMaps>
+    <resultMap id="ContactGroupRM" class="PersistedContactGroup">
+      <result property="Id" column="ContactGroupId"/>
+      <result property="Identifier" column="ContactGroupIdentifier"/>
+      <result property="Name" column="Name"/>
+      <result property="PersistedMembers" column="ContactGroupId" select="SelectContactGroupMembersByContactGroupId" />
+    </resultMap>
+    <resultMap id="ContactGroupMemberRM" class="PersistedContactGroupMember">
+      <result property="Id" column="ContactGroupMemberId"/>
+      <result property="ContactGroupId" column="ContactGroupId"/>
+      <result property="ContactIdentifier" column="ContactIdentifier"/>
+      <result property="PersistedRelationships" column="ContactGroupMemberId" select="SelectContactGroupMemberRelationshipsByContactGroupMemberId" />
+    </resultMap>
+  </resultMaps>
+
+  <parameterMaps>
+    <parameterMap id="ContactGroupPM" class="ContactGroup">
+      <parameter property="Identifier" column="ContactGroupIdentifier" />
+      <parameter property="Name" column="Name"/>
+    </parameterMap>
+    <parameterMap id="UpdateContactGroupPM" class="ContactGroup" extends="ContactGroupPM">
+      <parameter property="Id" column="ContactGroupId"/>
+    </parameterMap>
+    <parameterMap id="ContactGroupMemberPM" class="ContactGroupMember">
+      <parameter property="ContactGroupId" column="ContactGroupId"/>
+      <parameter property="ContactIdentifier" column="ContactIdentifier"/>
+    </parameterMap>
+  </parameterMaps>
+
+  <statements>
+    <!-- ContactGroups -->
+    <insert id="InsertContactGroup" parameterMap="ContactGroupPM">
+      <generate table="ContactGroups" />
+      <selectKey resultClass="long" type="post" property="Id">
+        SELECT @@IDENTITY as value
+      </selectKey>
+    </insert>
+
+    <update id="UpdateContactGroup" parameterMap="UpdateContactGroupPM">
+      <generate table="ContactGroups" by="ContactGroupId" />
+    </update>
+
+    <select id="SelectAllContactGroups" resultMap="ContactGroupRM">
+      SELECT *
+      FROM ContactGroups (NOLOCK)
+      ORDER BY Name
+    </select>
+    
+    <select id="SelectContactGroupByIdentifier" resultMap="ContactGroupRM" parameterClass="string">
+      SELECT *
+      FROM ContactGroups (NOLOCK)
+      WHERE ContactGroupIdentifier = #value#
+    </select>
+  
+    <delete id="DeleteContactGroupByIdentifier" parameterClass="string">
+      DELETE FROM ContactGroups
+      WHERE ContactGroupIdentifier = #value#
+    </delete>
+  
+    <!-- ContactGroupMembers -->
+    <insert id="InsertContactGroupMember" parameterMap="ContactGroupMemberPM">
+      <generate table="ContactGroupMembers" />
+      <selectKey resultClass="long" type="post" property="Id">
+        SELECT @@IDENTITY as value
+      </selectKey>
+    </insert>
+  
+    <select id="SelectContactGroupMembersByContactGroupId" resultMap="ContactGroupMemberRM" parameterClass="long">
+      SELECT *
+      FROM ContactGroupMembers (NOLOCK)
+      WHERE ContactGroupId = #value#
+    </select>
+  
+    <delete id="DeleteContactGroupMembersByContactGroupId" parameterClass="long">
+      DELETE ContactGroupMemberRelationships
+      FROM ContactGroupMemberRelationships cgmr
+      INNER JOIN ContactGroupMembers cgm
+        ON cgmr.ContactGroupMemberId = cgm.ContactGroupMemberId
+      WHERE cgm.ContactGroupId = #value#
+      
+      DELETE FROM ContactGroupMembers
+      WHERE ContactGroupId = #value#
+    </delete>
+  
+    <!-- ContactGroupMemberRelationships -->
+    <insert id="InsertContactGroupMemberRelationship" parameterClass="hashmap">
+      INSERT INTO ContactGroupMemberRelationships (ContactGroupMemberId, Relationship)
+      VALUES (#ContactGroupMemberId#, #Relationship#)
+    </insert>
+    
+    <select id="SelectContactGroupMemberRelationshipsByContactGroupMemberId" resultClass="string" parameterClass="long">
+      SELECT Relationship
+      FROM ContactGroupMemberRelationships
+      WHERE ContactGroupMemberId = #value#
+    </select>
+  </statements>
+</sqlMap>

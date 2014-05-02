@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AACDCB36-454F-4200-BBB1-46D5A97B5B16}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EthanYoung.ContactRepository</RootNamespace>
+    <AssemblyName>EthanYoung.ContactRepository</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.2.2\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.2.1\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator">
+      <HintPath>..\packages\FluentMigrator.1.1.1.0\lib\40\FluentMigrator.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentMigrator.Runner">
+      <HintPath>..\packages\FluentMigrator.Tools.1.1.1.0\tools\AnyCPU\40\FluentMigrator.Runner.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.Common">
+      <HintPath>..\..\ExternalAssemblies\IBatisNet.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="IBatisNet.DataMapper">
+      <HintPath>..\..\ExternalAssemblies\IBatisNet.DataMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bootstrapping\BootstrappingService.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration2014030081505_ChangeIdentifiersFromGuidsToStrings.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201402160952_AddPrimaryKeyToContactGroupMembersTable.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201402161007_CreateContactGroupMemberRelationshipsTable.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201401102110_CreateContactGroupMembersTable.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201401101942_CreateContactGroupsTable.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201401062133_CreateContactPhoneNumbersTable.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201312141425_CreateContactEmailAddressesTable.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migration201312071339_CreateContactsTable.cs" />
+    <Compile Include="Bootstrapping\Migrations\Migrator.cs" />
+    <Compile Include="ContactGroups\ContactGroup.cs" />
+    <Compile Include="ContactGroups\ContactGroupMember.cs" />
+    <Compile Include="ContactGroups\ContactGroupService.cs" />
+    <Compile Include="ContactGroups\IContactGroupRepository.cs" />
+    <Compile Include="Contacts\Contact.cs" />
+    <Compile Include="Contacts\ContactEmailAddress.cs" />
+    <Compile Include="Contacts\ContactPhoneNumber.cs" />
+    <Compile Include="Contacts\ContactService.cs" />
+    <Compile Include="Contacts\IContactRepository.cs" />
+    <Compile Include="DependencyInstaller.cs" />
+    <Compile Include="DependencyRegistry.cs" />
+    <Compile Include="EmailAddress.cs" />
+    <Compile Include="IRepository.cs" />
+    <Compile Include="IService.cs" />
+    <Compile Include="IValueObject.cs" />
+    <Compile Include="Name.cs" />
+    <Compile Include="Persistence\ContactGroups\ContactGroupMemberQueryExecutor.cs" />
+    <Compile Include="Persistence\ContactGroups\ContactGroupQueryExecutor.cs" />
+    <Compile Include="Persistence\ContactGroups\ContactGroupRepository.cs" />
+    <Compile Include="Persistence\ContactGroups\ContactGroupMemberRelationshipQueryExecutor.cs" />
+    <Compile Include="Persistence\ContactGroups\PersistedContactGroup.cs" />
+    <Compile Include="Persistence\ContactGroups\PersistedContactGroupMember.cs" />
+    <Compile Include="Persistence\Contacts\ContactEmailAddressQueryExecutor.cs" />
+    <Compile Include="Persistence\Contacts\ContactPhoneNumberQueryExecutor.cs" />
+    <Compile Include="Persistence\Contacts\ContactQueryExecutor.cs" />
+    <Compile Include="Persistence\Contacts\ContactRepository.cs" />
+    <Compile Include="Persistence\Contacts\PersistedContact.cs" />
+    <Compile Include="Persistence\PersistenceInstaller.cs" />
+    <Compile Include="Persistence\QueryExecutor.cs" />
+    <Compile Include="Persistence\SqlMapperFactory.cs" />
+    <Compile Include="Persistence\TypeHandlerCallbacks\EmailAddressTypeHandlerCallback.cs" />
+    <Compile Include="Persistence\TypeHandlerCallbacks\PhoneNumberTypeHandlerCallback.cs" />
+    <Compile Include="PhoneNumber.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Persistence\providers.config" />
+    <EmbeddedResource Include="Persistence\sqlMap.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Persistence\Contacts\Contact.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Persistence\ContactGroups\ContactGroup.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

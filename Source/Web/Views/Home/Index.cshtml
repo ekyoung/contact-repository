@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.AngularJsApp = "eyContactsApp";
+    ViewBag.Title = "Contact Repository";
+}
+@section head {
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-resource.js"></script>
+    @Scripts.Render("~/bundles/commonApp")
+    @Scripts.Render("~/bundles/contactsApp")
+}
+<script type="text/javascript">
+    angular.module('eyContacts')
+        .value('apiRootUrl', '/api');
+</script>
+<div ng-view></div>

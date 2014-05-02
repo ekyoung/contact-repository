@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Migrate">	
+  <UsingTask TaskName="FluentMigrator.MSBuild.Migrate" AssemblyFile="../Source/packages/FluentMigrator.Tools.1.1.1.0/tools/AnyCPU/40/FluentMigrator.MSBuild.dll" />
+
+  <PropertyGroup>
+    <DatabaseName>ContactRepositoryTests</DatabaseName>
+    <ServerName>localhost\SQLEXPRESS</ServerName>
+    <ConnectionString>Integrated Security=true;Initial Catalog=$(DatabaseName);Data Source=$(ServerName);</ConnectionString>
+    <MigrationDll>..\Source\Core\bin\Debug\EthanYoung.ContactRepository.dll</MigrationDll>
+  </PropertyGroup>
+
+  <Target Name="Migrate">
+    <Message Text="Starting FluentMigrator Migration for Contact Repository Database" />
+    <Migrate Database="sqlserver2008" 
+            Connection="$(ConnectionString)" 
+            Target="$(MigrationDll)" />
+  </Target>
+  <Target Name="RollbackAll">
+    <Message Text="Rolling back database to Version 0" />
+    <Migrate Database="sqlserver2008" 
+            Connection="$(ConnectionString)" 
+            Target="$(MigrationDll)"
+            Task="rollback:all" />
+  </Target>
+  <Target Name="RollbackOne">
+    <Message Text="Rolling back database to previous version" />
+    <Migrate Database="sqlserver2008" 
+            Connection="$(ConnectionString)" 
+            Target="$(MigrationDll)"
+            Task="rollback" />
+  </Target>
+  <Target Name="RollbackAndMigrate">
+     <CallTarget Targets="RollbackAll"/>
+     <CallTarget Targets="Migrate"/>
+  </Target>
+</Project>

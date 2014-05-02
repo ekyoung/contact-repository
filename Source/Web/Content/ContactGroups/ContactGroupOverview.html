@@ -1,0 +1,50 @@
+﻿<div ng-repeat="alert in alerts" class="alert alert-{{alert.type}}">{{alert.text}}</div>
+Contact Group: {{contactGroup.Name}}
+<h1>Contact Group Overview</h1>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a ey-start-task="/contactGroups/{{contactGroup.Identifier}}/addMember" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-plus"></span> Add a New Contact</a>
+        Contacts
+    </div>
+    <div class="panel-body" ng-hide="contactGroupMembers.length">
+        There are no contacts.
+    </div>
+    <table class="table table-condensed table-striped" ng-show="contactGroupMembers.length">
+        <thead>
+            <tr>
+                <th>Actions</th>
+                <th>First</th>
+                <th>Last</th>
+                <th>Primary Email</th>
+                <th>Primary Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="contact in contactGroupMembers">
+                <td>
+                    <div class="btn-group">
+                        <a ey-start-task="/contactGroups/{{contactGroup.Identifier}}/editMember/{{contact.Identifier}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                        <a class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" ey-start-task="/contactGroups/{{contactGroup.Identifier}}/removeMember/{{contact.Identifier}}"><span class="glyphicon glyphicon-remove"></span> Remove</a></li>
+                        </ul>
+                    </div>
+                </td>
+                <td>{{contact.FirstName}}</td>
+                <td>{{contact.LastName}}</td>
+                <td>
+                    <span ng-repeat="contactEmailAddress in contact.EmailAddresses | filter : { IsPrimary: true }">
+                        {{contactEmailAddress.EmailAddress}} <span ng-show="contactEmailAddress.NickName">({{contactEmailAddress.NickName}})</span>
+                    </span>
+                </td>
+                <td>
+                    <span ng-repeat="contactPhoneNumber in contact.PhoneNumbers | filter : { IsPrimary: true }">
+                        {{contactPhoneNumber.PhoneNumber}} <span ng-show="contactPhoneNumber.NickName">({{contactPhoneNumber.NickName}})</span>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,9 @@
+﻿<div ng-repeat="alert in alerts" class="alert alert-{{alert.type}}">{{alert.text}}</div>
+<h1>Contacts</h1>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a ey-start-task="/create" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-plus"></span> Add a New Contact</a>
+        &nbsp;
+    </div>
+    <ey-contact-list contacts="contacts"></ey-contact-list>
+</div>
