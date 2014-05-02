@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Web.Models
+namespace EthanYoung.ContactRepository.Web.Models
 {
     public class ContactPhoneNumberModel
     {

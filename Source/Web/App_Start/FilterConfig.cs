@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Web
+namespace EthanYoung.ContactRepository.Web
 {
     public class FilterConfig
     {

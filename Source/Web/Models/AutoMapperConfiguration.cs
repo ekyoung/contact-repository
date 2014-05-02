@@ -1,10 +1,9 @@
 ﻿using System.Linq;
 using AutoMapper;
-using EthanYoung.ContactRepository;
 using EthanYoung.ContactRepository.ContactGroups;
 using EthanYoung.ContactRepository.Contacts;
 
-namespace Web.Models
+namespace EthanYoung.ContactRepository.Web.Models
 {
     public class AutoMapperConfiguration
     {

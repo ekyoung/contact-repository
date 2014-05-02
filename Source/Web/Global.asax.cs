@@ -2,9 +2,9 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Web.Models;
+using EthanYoung.ContactRepository.Web.Models;
 
-namespace Web
+namespace EthanYoung.ContactRepository.Web
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801

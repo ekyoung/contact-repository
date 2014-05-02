@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace Web
+namespace EthanYoung.ContactRepository.Web
 {
     public class BundleConfig
     {
