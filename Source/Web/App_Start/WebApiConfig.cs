@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 
-namespace Web
+namespace EthanYoung.ContactRepository.Web
 {
     public static class WebApiConfig
     {

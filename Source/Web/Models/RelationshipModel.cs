@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-
-namespace Web.Models
+namespace EthanYoung.ContactRepository.Web.Models
 {
     [DataContract]
     public class RelationshipModel

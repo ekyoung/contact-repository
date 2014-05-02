@@ -4,8 +4,8 @@ using System.Linq;
 using AutoMapper;
 using EthanYoung.ContactRepository.ContactGroups;
 using EthanYoung.ContactRepository.Contacts;
+using EthanYoung.ContactRepository.Web.Models;
 using NUnit.Framework;
-using Web.Models;
 
 namespace EthanYoung.ContactRepository.Tests.UnitTests
 {
