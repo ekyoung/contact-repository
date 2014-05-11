@@ -10,51 +10,51 @@
 contactsApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.
         when('/contacts', {
-            templateUrl: '/Content/Contacts/ListContactsView.html',
+            templateUrl: 'Content/Contacts/ListContactsView.html',
             controller: 'listContactsController'
         }).
         when('/create', {
-            templateUrl: '/Content/Contacts/CreateContactView.html',
+            templateUrl: 'Content/Contacts/CreateContactView.html',
             controller: 'createContactController'
         }).
         when('/edit/:contactIdentifier', {
-            templateUrl: '/Content/Contacts/EditContactView.html',
+            templateUrl: 'Content/Contacts/EditContactView.html',
             controller: 'editContactController'
         }).
         when('/delete/:contactIdentifier', {
-            templateUrl: '/Content/Contacts/DeleteContactView.html',
+            templateUrl: 'Content/Contacts/DeleteContactView.html',
             controller: 'deleteContactController'
         }).
         when('/contactGroups', {
-            templateUrl: '/Content/ContactGroups/ListContactGroupsView.html',
+            templateUrl: 'Content/ContactGroups/ListContactGroupsView.html',
             controller: 'listContactGroupsController'
         }).
         when('/contactGroups/create', {
-            templateUrl: '/Content/ContactGroups/CreateContactGroupView.html',
+            templateUrl: 'Content/ContactGroups/CreateContactGroupView.html',
             controller: 'createContactGroupController'
         }).
         when('/contactGroups/:contactGroupIdentifier', {
-            templateUrl: '/Content/ContactGroups/ContactGroupOverview.html',
+            templateUrl: 'Content/ContactGroups/ContactGroupOverview.html',
             controller: 'contactGroupOverviewController'
         }).
         when('/contactGroups/:contactGroupIdentifier/rename', {
-            templateUrl: '/Content/ContactGroups/RenameContactGroupView.html',
+            templateUrl: 'Content/ContactGroups/RenameContactGroupView.html',
             controller: 'renameContactGroupController'
         }).
         when('/contactGroups/:contactGroupIdentifier/delete', {
-            templateUrl: '/Content/ContactGroups/DeleteContactGroupView.html',
+            templateUrl: 'Content/ContactGroups/DeleteContactGroupView.html',
             controller: 'deleteContactGroupController'
         }).
         when('/contactGroups/:contactGroupIdentifier/addMember', {
-            templateUrl: '/Content/ContactGroups/AddContactGroupMemberView.html',
+            templateUrl: 'Content/ContactGroups/AddContactGroupMemberView.html',
             controller: 'addContactGroupMemberController'
         }).
         when('/contactGroups/:contactGroupIdentifier/editMember/:contactIdentifier', {
-            templateUrl: '/Content/ContactGroups/EditContactGroupMemberView.html',
+            templateUrl: 'Content/ContactGroups/EditContactGroupMemberView.html',
             controller: 'editContactGroupMemberController'
         }).
         when('/contactGroups/:contactGroupIdentifier/removeMember/:contactIdentifier', {
-            templateUrl: '/Content/ContactGroups/RemoveContactGroupMemberView.html',
+            templateUrl: 'Content/ContactGroups/RemoveContactGroupMemberView.html',
             controller: 'removeContactGroupMemberController'
         }).
         otherwise({
@@ -126,7 +126,7 @@ contactsApp.controller('deleteContactController', ['$scope', '$routeParams', 'ta
 
 contactsApp.directive('eyEditContact', function () {
     return {
-        templateUrl: '/Content/Contacts/EditContact.html',
+        templateUrl: 'Content/Contacts/EditContact.html',
         restrict: 'E',
         scope: { contact: '=' },
     };
@@ -134,7 +134,7 @@ contactsApp.directive('eyEditContact', function () {
 
 contactsApp.directive('eyContactList', function () {
     return {
-        templateUrl: '/Content/Contacts/ContactList.html',
+        templateUrl: 'Content/Contacts/ContactList.html',
         restrict: 'E',
         scope: { contacts: '=' },
     };
@@ -286,7 +286,7 @@ contactsApp.controller('removeContactGroupMemberController', ['$scope', '$routeP
 
 contactsApp.directive('eyEditContactGroupMemberRelationships', function () {
     return {
-        templateUrl: '/Content/ContactGroups/EditContactGroupMemberRelationships.html',
+        templateUrl: 'Content/ContactGroups/EditContactGroupMemberRelationships.html',
         restrict: 'E',
         scope: { contactGroupMember: '=' },
     };
